@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: vestory-postgres
+    environment:
+      POSTGRES_DB: vestory
+      POSTGRES_USER: vestory
+      POSTGRES_PASSWORD: vestory
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: vestory
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vestory
+    username: vestory
+    password: vestory
+
+  jpa:
+    hibernate:
+      ddl-auto: update

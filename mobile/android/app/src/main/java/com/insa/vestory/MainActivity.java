@@ -1,4 +1,4 @@
-package com.vestory.mobile;
+package com.insa.vestory;
 
 import io.flutter.embedding.android.FlutterActivity;
 
