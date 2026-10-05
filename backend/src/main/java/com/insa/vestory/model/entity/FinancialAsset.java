@@ -26,6 +26,12 @@ public class FinancialAsset {
    @Column(nullable = false, length = 50)
    private String symbol;
 
+   @Column(name = "mic_code", length = 10)
+   private String micCode;
+
+   @Column(name = "display_name", nullable = false, length = 100)
+   private String displayName;
+
    @Column(nullable = false, length = 255)
    private String name;
 
