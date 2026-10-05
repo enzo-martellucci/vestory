@@ -1,14 +1,16 @@
 CREATE TABLE app_user
 (
     id         UUID PRIMARY KEY     DEFAULT gen_random_uuid(),
-    username   VARCHAR(20) NOT NULL,
+    username   VARCHAR(20)  NOT NULL,
     email      VARCHAR(255) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+    created_at TIMESTAMPTZ  NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ  NOT NULL DEFAULT now(),
 
-CREATE UNIQUE INDEX ux_app_user_username ON app_user (lower(username));
-CREATE UNIQUE INDEX ux_app_user_email ON app_user (lower(email));
+    CONSTRAINT ux_app_user_username UNIQUE (username),
+    CONSTRAINT ux_app_user_email UNIQUE (email),
+    CONSTRAINT ck_app_user_username_normalized CHECK (username = lower(username)),
+    CONSTRAINT ck_app_user_email_normalized CHECK (email = lower(email))
+);
 
 CREATE TYPE auth_provider AS ENUM ('LOCAL', 'GOOGLE');
 
