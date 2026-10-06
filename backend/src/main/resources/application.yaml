@@ -3,14 +3,14 @@ spring:
     name: vestory
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/vestory
+    url: jdbc:postgresql://localhost:5432/vestory
     username: vestory
     password: vestory
 
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
 
 vestory:
   jwt:
