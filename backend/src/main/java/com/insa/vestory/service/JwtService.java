@@ -1,6 +1,7 @@
-package com.insa.vestory.security;
+package com.insa.vestory.service;
 
 import com.insa.vestory.entity.User;
+import com.insa.vestory.security.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;

@@ -2,15 +2,16 @@ package com.insa.vestory.service;
 
 import com.insa.vestory.dto.AuthResponse;
 import com.insa.vestory.dto.LoginRequest;
+import com.insa.vestory.dto.RefreshTokenRequest;
 import com.insa.vestory.dto.RegisterRequest;
 import com.insa.vestory.entity.AuthProvider;
 import com.insa.vestory.entity.Identity;
 import com.insa.vestory.entity.User;
 import com.insa.vestory.exception.DuplicateResourceException;
 import com.insa.vestory.exception.InvalidCredentialsException;
+import com.insa.vestory.exception.InvalidRefreshTokenException;
 import com.insa.vestory.repository.IdentityRepository;
 import com.insa.vestory.repository.UserRepository;
-import com.insa.vestory.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,5 +67,16 @@ public class AuthService {
 
         User user = identity.getUser();
         return new AuthResponse(jwtService.generateAccessToken(user), refreshTokenService.create(user));
+    }
+
+    @Transactional(noRollbackFor = InvalidRefreshTokenException.class)
+    public AuthResponse refresh(RefreshTokenRequest request) {
+        User user = refreshTokenService.consume(request.refreshToken());
+        return new AuthResponse(jwtService.generateAccessToken(user), refreshTokenService.create(user));
+    }
+
+    @Transactional
+    public void logout(RefreshTokenRequest request) {
+        refreshTokenService.revoke(request.refreshToken());
     }
 }

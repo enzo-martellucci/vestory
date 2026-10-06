@@ -2,6 +2,7 @@ package com.insa.vestory.service;
 
 import com.insa.vestory.entity.RefreshToken;
 import com.insa.vestory.entity.User;
+import com.insa.vestory.exception.InvalidRefreshTokenException;
 import com.insa.vestory.repository.RefreshTokenRepository;
 import com.insa.vestory.security.JwtProperties;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,29 @@ public class RefreshTokenService {
         refreshTokenRepository.save(refreshToken);
 
         return token;
+    }
+
+    public User consume(String token) {
+        RefreshToken refreshToken = refreshTokenRepository.findByTokenHash(hash(token))
+                .orElseThrow(InvalidRefreshTokenException::new);
+
+        Instant now = Instant.now();
+
+        if (refreshToken.isRevoked()) {
+            refreshTokenRepository.revokeAllActiveByUser(refreshToken.getUser(), now);
+            throw new InvalidRefreshTokenException();
+        }
+        if (refreshToken.isExpired(now))
+            throw new InvalidRefreshTokenException();
+
+        refreshToken.setRevokedAt(now);
+        return refreshToken.getUser();
+    }
+
+    public void revoke(String token) {
+        refreshTokenRepository.findByTokenHash(hash(token))
+                .filter(refreshToken -> !refreshToken.isRevoked())
+                .ifPresent(refreshToken -> refreshToken.setRevokedAt(Instant.now()));
     }
 
     private String hash(String token) {
