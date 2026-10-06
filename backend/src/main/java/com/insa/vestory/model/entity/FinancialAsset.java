@@ -29,11 +29,17 @@ public class FinancialAsset {
    @Column(name = "mic_code", length = 10)
    private String micCode;
 
-   @Column(name = "display_name", nullable = false, length = 100)
-   private String displayName;
+   @Column(name = "brand_name", length = 150)
+   private String brandName;
 
    @Column(nullable = false, length = 255)
    private String name;
+
+   @Column(length = 150)
+   private String industry;
+
+   @Column(length = 500)
+   private String website;
 
    // Enum stockée en texte dans la base (ex: "STOCK", "CRYPTO")
    @Enumerated(EnumType.STRING)
