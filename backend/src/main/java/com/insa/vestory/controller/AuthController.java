@@ -1,7 +1,8 @@
 package com.insa.vestory.controller;
 
+import com.insa.vestory.dto.AuthResponse;
+import com.insa.vestory.dto.LoginRequest;
 import com.insa.vestory.dto.RegisterRequest;
-import com.insa.vestory.dto.RegisterResponse;
 import com.insa.vestory.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,12 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public RegisterResponse register(@Valid @RequestBody RegisterRequest request) {
+    public AuthResponse register(@Valid @RequestBody RegisterRequest request) {
         return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public AuthResponse login(@Valid @RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 }

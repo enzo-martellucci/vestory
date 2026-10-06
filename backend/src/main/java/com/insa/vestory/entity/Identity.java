@@ -38,7 +38,6 @@ public class Identity {
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
-    @CreationTimestamp
     @Column(nullable = false)
     private Instant lastLoginAt;
 }
