@@ -3,7 +3,7 @@ spring:
     name: vestory
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/vestory
+    url: jdbc:postgresql://localhost:5433/vestory
     username: vestory
     password: vestory
 
@@ -26,3 +26,4 @@ twelve-data:
 fmp:
   api-key: ${FMP_DATA_API_KEY}
   base-url: https://financialmodelingprep.com/stable
+

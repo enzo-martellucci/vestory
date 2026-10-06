@@ -1,14 +1,14 @@
-package com.insa.vestory.service;
+package com.insa.vestory.service.asset;
 
 import com.insa.vestory.client.FmpClient;
 import com.insa.vestory.client.WikimediaClient;
 
-import com.insa.vestory.dto.FinancialAssetImportRow;
-import com.insa.vestory.dto.fmp.FmpCommodityDto;
-import com.insa.vestory.dto.fmp.FmpCompanyProfileDto;
-import com.insa.vestory.dto.fmp.FmpCryptoDto;
-import com.insa.vestory.dto.fmp.FmpForexDto;
-import com.insa.vestory.dto.wikimedia.WikimediaSummaryDto;
+import com.insa.vestory.dto.asset.FinancialAssetImportRow;
+import com.insa.vestory.dto.asset.fmp.FmpCommodityDto;
+import com.insa.vestory.dto.card.FmpCompanyProfileDto;
+import com.insa.vestory.dto.asset.fmp.FmpCryptoDto;
+import com.insa.vestory.dto.asset.fmp.FmpForexDto;
+import com.insa.vestory.dto.asset.wikimedia.WikimediaSummaryDto;
 
 import com.insa.vestory.model.entity.FinancialAsset;
 import com.insa.vestory.model.enums.AssetType;

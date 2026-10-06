@@ -1,14 +1,14 @@
 package com.insa.vestory.client;
 
 import com.insa.vestory.config.FmpProperties;
-import com.insa.vestory.dto.fmp.FmpCommodityDto;
-import com.insa.vestory.dto.fmp.FmpCompanyProfileDto;
-import com.insa.vestory.dto.fmp.FmpCryptoDto;
-import com.insa.vestory.dto.fmp.FmpForexDto;
+import com.insa.vestory.dto.asset.fmp.FmpCommodityDto;
+import com.insa.vestory.dto.asset.fmp.FmpCryptoDto;
+import com.insa.vestory.dto.asset.fmp.FmpForexDto;
+import com.insa.vestory.dto.card.FmpCompanyProfileDto;
+import com.insa.vestory.dto.card.FmpQuoteDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import tools.jackson.databind.JsonNode;
 import java.util.List;
 
 @Component
@@ -98,4 +98,48 @@ public class FmpClient {
                         new ParameterizedTypeReference<List<FmpCryptoDto>>() {}
                 );
     }
+
+    private String toFmpQuoteSymbol(String symbol) {
+
+        if (symbol == null) {
+            return null;
+        }
+        return symbol.replace("/", "").toUpperCase();
+    }
+
+    public FmpQuoteDto getQuote(String vestorySymbol) {
+
+        String fmpSymbol = toFmpQuoteSymbol(vestorySymbol);
+
+        List<FmpQuoteDto> response =
+                restClient.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/quote")
+                                .queryParam(
+                                        "symbol",
+                                        fmpSymbol
+                                )
+                                .queryParam(
+                                        "apikey",
+                                        properties.getApiKey()
+                                )
+                                .build())
+                        .retrieve()
+                        .body(
+                                new ParameterizedTypeReference<
+                                        List<FmpQuoteDto>
+                                        >() {}
+                        );
+
+        if (response == null || response.isEmpty()) {
+
+            throw new IllegalStateException(
+                    "No quote returned by FMP for "
+                            + vestorySymbol
+            );
+        }
+
+        return response.getFirst();
+    }
+
 }

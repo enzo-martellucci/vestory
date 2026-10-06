@@ -2,7 +2,7 @@ package com.insa.vestory.controller;
 
 import com.insa.vestory.model.entity.FinancialAsset;
 import com.insa.vestory.repository.FinancialAssetRepository;
-import com.insa.vestory.service.FinancialAssetImportService;
+import com.insa.vestory.service.asset.FinancialAssetImportService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

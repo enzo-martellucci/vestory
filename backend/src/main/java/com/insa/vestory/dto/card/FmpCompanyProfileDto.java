@@ -1,4 +1,6 @@
-package com.insa.vestory.dto.fmp;
+package com.insa.vestory.dto.card;
+
+import java.math.BigDecimal;
 
 public record FmpCompanyProfileDto(
 
@@ -29,7 +31,10 @@ public record FmpCompanyProfileDto(
         boolean isEtf,
         boolean isActivelyTrading,
         boolean isAdr,
-        boolean isFund
+        boolean isFund,
+
+        BigDecimal marketCap,
+        BigDecimal volume
 
 ) {
 }

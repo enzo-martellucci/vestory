@@ -1,4 +1,4 @@
-package com.insa.vestory.dto.wikimedia;
+package com.insa.vestory.dto.asset.wikimedia;
 
 public record WikimediaSummaryDto(String title, String description, String extract, Thumbnail thumbnail) {
 
