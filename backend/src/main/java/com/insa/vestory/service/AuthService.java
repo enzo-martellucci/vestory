@@ -27,6 +27,7 @@ public class AuthService {
     private final IdentityRepository identityRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -50,7 +51,7 @@ public class AuthService {
         identity.setLastLoginAt(Instant.now());
         identityRepository.save(identity);
 
-        return new AuthResponse(jwtService.generateAccessToken(user));
+        return new AuthResponse(jwtService.generateAccessToken(user), refreshTokenService.create(user));
     }
 
     @Transactional
@@ -63,6 +64,7 @@ public class AuthService {
 
         identity.setLastLoginAt(Instant.now());
 
-        return new AuthResponse(jwtService.generateAccessToken(identity.getUser()));
+        User user = identity.getUser();
+        return new AuthResponse(jwtService.generateAccessToken(user), refreshTokenService.create(user));
     }
 }
