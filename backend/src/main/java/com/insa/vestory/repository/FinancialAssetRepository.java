@@ -8,7 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FinancialAssetRepository extends JpaRepository<FinancialAsset, UUID> {
-
-    Optional<FinancialAsset> findBySymbolAndAssetType(String symbol, AssetType assetType);
     boolean existsBySymbolAndAssetType(String symbol, AssetType assetType);
 }

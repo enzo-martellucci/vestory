@@ -1,6 +1,6 @@
 package com.insa.vestory.client;
 
-import com.insa.vestory.dto.wikimedia.WikimediaSummaryDto;
+import com.insa.vestory.dto.asset.wikimedia.WikimediaSummaryDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
