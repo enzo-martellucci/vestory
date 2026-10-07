@@ -1,4 +1,6 @@
 package com.insa.vestory.model.entity;
+
+import com.insa.vestory.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +10,13 @@ import java.util.UUID;
 
 @Entity
 @Table(
-        name = "user_cards",
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {"user_id", "asset_card_id"}
-        )
+    name = "user_cards",
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {"user_id", "asset_card_id"}
+    )
 )
-@Getter @Setter
+@Getter
+@Setter
 public class UserCard {
 
     @Id
