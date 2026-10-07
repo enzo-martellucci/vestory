@@ -1,56 +1,43 @@
 package com.insa.vestory.controller;
 
-import com.insa.vestory.model.entity.FinancialAsset;
-import com.insa.vestory.repository.FinancialAssetRepository;
-import com.insa.vestory.service.asset.FinancialAssetImportService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.insa.vestory.dto.asset.FinancialAssetCountDto;
+import com.insa.vestory.dto.asset.FinancialAssetDeleteResult;
+import com.insa.vestory.dto.asset.FinancialAssetImportResult;
+import com.insa.vestory.dto.asset.FinancialAssetResponseDto;
+import com.insa.vestory.service.asset.FinancialAssetService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/financial-assets")
+@RequiredArgsConstructor
 public class FinancialAssetController {
 
-    private final FinancialAssetRepository financialAssetRepository;
-    private final FinancialAssetImportService importService;
-
-    public FinancialAssetController(
-            FinancialAssetRepository financialAssetRepository,
-            FinancialAssetImportService importService
-    ) {
-        this.financialAssetRepository = financialAssetRepository;
-        this.importService = importService;
-    }
+    private final FinancialAssetService financialAssetService;
 
     @GetMapping
-    public List<FinancialAsset> getAll() {
-        return financialAssetRepository.findAll();
+    public List<FinancialAssetResponseDto> getAll() {
+        return financialAssetService.getAll();
     }
 
     @GetMapping("/count")
-    public Map<String, Long> count() {
-        return Map.of("count", financialAssetRepository.count());
+    public FinancialAssetCountDto count() {
+        return financialAssetService.count();
     }
 
     @PostMapping("/import")
-    public ResponseEntity<Map<String, Object>> importFinancialAssets() throws Exception {
-        long before = financialAssetRepository.count();
-        importService.importAll();
-        long after = financialAssetRepository.count();
-
-        return ResponseEntity.ok(Map.of("before", before, "after", after, "imported", after - before)
-        );
+    public FinancialAssetImportResult importFinancialAssets() {
+        return financialAssetService.importAll();
     }
 
     @DeleteMapping
-    public ResponseEntity<Map<String, Long>> deleteAll() {
-        long count = financialAssetRepository.count();
-        financialAssetRepository.deleteAllInBatch();
-
-        return ResponseEntity.ok(
-                Map.of("deleted", count, "remaining", financialAssetRepository.count())
-        );
+    public FinancialAssetDeleteResult deleteAll() {
+        return financialAssetService.deleteAll();
     }
 }

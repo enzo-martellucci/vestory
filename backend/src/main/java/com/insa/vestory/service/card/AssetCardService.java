@@ -1,78 +1,28 @@
 package com.insa.vestory.service.card;
+
 import com.insa.vestory.dto.card.AssetCardResponseDto;
-import com.insa.vestory.model.entity.AssetCard;
-import com.insa.vestory.model.entity.FinancialAsset;
+import com.insa.vestory.mapper.AssetCardMapper;
 import com.insa.vestory.repository.AssetCardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-// lit les cartes déjà créées
 @Service
+@RequiredArgsConstructor
 public class AssetCardService {
 
     private final AssetCardRepository assetCardRepository;
+    private final AssetCardMapper assetCardMapper;
 
-    public AssetCardService(AssetCardRepository assetCardRepository) {
-        this.assetCardRepository = assetCardRepository;
-    }
-
+    @Transactional(readOnly = true)
     public List<AssetCardResponseDto> getAllCards() {
-
-        return assetCardRepository.findAll().stream().map(card -> {
-
-                    FinancialAsset asset = card.getFinancialAsset();
-
-                    return new AssetCardResponseDto(
-                            card.getId(),
-                            card.getCollectionNumber(),
-                            card.getRarity(),
-                            card.getRarityScore(),
-                            card.isEnabled(),
-
-                            asset.getId(),
-                            asset.getSymbol(),
-                            asset.getName(),
-                            asset.getAssetType(),
-                            asset.getLogoUrl(),
-                            asset.getDescription()
-                    );
-                })
-                .toList();
+        return assetCardMapper.toResponses(assetCardRepository.findAllByOrderByCollectionNumberAsc());
     }
 
+    @Transactional(readOnly = true)
     public List<AssetCardResponseDto> getCardsRanking() {
-
-        return assetCardRepository
-                .findAll()
-                .stream()
-                .sorted(
-                        java.util.Comparator
-                                .comparingDouble(
-                                        AssetCard::getRarityScore
-                                )
-                                .reversed()
-                )
-                .map(card -> {
-
-                    FinancialAsset asset =
-                            card.getFinancialAsset();
-
-                    return new AssetCardResponseDto(
-                            card.getId(),
-                            card.getCollectionNumber(),
-                            card.getRarity(),
-                            card.getRarityScore(),
-                            card.isEnabled(),
-
-                            asset.getId(),
-                            asset.getSymbol(),
-                            asset.getName(),
-                            asset.getAssetType(),
-                            asset.getLogoUrl(),
-                            asset.getDescription()
-                    );
-                })
-                .toList();
+        return assetCardMapper.toResponses(assetCardRepository.findAllByOrderByRarityScoreDesc());
     }
 }

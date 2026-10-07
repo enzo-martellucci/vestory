@@ -1,48 +1,26 @@
 package com.insa.vestory.controller;
 
 import com.insa.vestory.dto.card.AssetCardResponseDto;
-import com.insa.vestory.dto.asset.CardGenerationResult;
+import com.insa.vestory.dto.card.CardGenerationResult;
 import com.insa.vestory.dto.card.CardRarityUpdateResult;
-import com.insa.vestory.service.card.AssetCardGenerationService;
 import com.insa.vestory.service.card.AssetCardService;
-import com.insa.vestory.service.card.CardRarityUpdateService;
-
-import org.springframework.web.bind.annotation.*;
+import com.insa.vestory.service.card.CardSyncService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/cards")
+@RequiredArgsConstructor
 public class AssetCardController {
 
-    private final AssetCardGenerationService assetCardGenerationService;
     private final AssetCardService assetCardService;
-    private final CardRarityUpdateService cardRarityUpdateService;
+    private final CardSyncService cardSyncService;
 
-    public AssetCardController(
-            AssetCardGenerationService assetCardGenerationService,
-            AssetCardService assetCardService,
-            CardRarityUpdateService cardRarityUpdateService
-    ) {
-
-        this.assetCardGenerationService = assetCardGenerationService;
-        this.assetCardService = assetCardService;
-        this.cardRarityUpdateService = cardRarityUpdateService;
-    }
-
-    /* Crée les AssetCard manquantes. */
-    @PostMapping("/sync")
-    public CardGenerationResult syncCards() {
-        return assetCardGenerationService.syncCards();
-    }
-
-    /* Recalcule uniquement les raretés. */
-    @PostMapping("/rarities/sync")
-    public CardRarityUpdateResult syncRarities() {
-        return cardRarityUpdateService.syncRarities();
-    }
-
-    /* Liste les cartes. */
     @GetMapping
     public List<AssetCardResponseDto> getAllCards() {
         return assetCardService.getAllCards();
@@ -51,5 +29,15 @@ public class AssetCardController {
     @GetMapping("/ranking")
     public List<AssetCardResponseDto> getCardsRanking() {
         return assetCardService.getCardsRanking();
+    }
+
+    @PostMapping("/sync")
+    public CardGenerationResult syncCards() {
+        return cardSyncService.syncCards();
+    }
+
+    @PostMapping("/rarities/sync")
+    public CardRarityUpdateResult syncRarities() {
+        return cardSyncService.syncRarities();
     }
 }
