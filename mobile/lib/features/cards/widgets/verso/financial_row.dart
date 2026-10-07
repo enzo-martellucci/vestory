@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class FinancialRow extends StatelessWidget {
   final String label;
   final double? value;
@@ -15,31 +17,24 @@ class FinancialRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-      const EdgeInsets.symmetric(
-        vertical: 1.5,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 1.5),
       child: Row(
         children: [
           Text(
             label,
             style: const TextStyle(
-              color: Color(0xFF777777),
+              color: AppColors.textSecondary,
               fontSize: 6,
-              fontWeight:
-              FontWeight.w500,
+              fontWeight: FontWeight.w500,
             ),
           ),
-
           const Spacer(),
-
           Text(
-            _displayValue(),
+            formatValue(value, compact: compactNumber),
             style: const TextStyle(
-              color: Color(0xFF282828),
+              color: AppColors.textStrong,
               fontSize: 6,
-              fontWeight:
-              FontWeight.w700,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
@@ -47,25 +42,16 @@ class FinancialRow extends StatelessWidget {
     );
   }
 
-  String _displayValue() {
-    if (value == null) {
-      return '—';
+  /// Fonction pure, testable sans widget.
+  static String formatValue(double? value, {bool compact = false}) {
+    if (value == null) return '—';
+
+    if (compact) {
+      if (value >= 1e9) return '${(value / 1e9).toStringAsFixed(1)} Md';
+      if (value >= 1e6) return '${(value / 1e6).toStringAsFixed(1)} M';
+      if (value >= 1e3) return '${(value / 1e3).toStringAsFixed(1)} k';
     }
 
-    if (compactNumber) {
-      if (value! >= 1000000000) {
-        return '${(value! / 1000000000).toStringAsFixed(1)} Md';
-      }
-
-      if (value! >= 1000000) {
-        return '${(value! / 1000000).toStringAsFixed(1)} M';
-      }
-
-      if (value! >= 1000) {
-        return '${(value! / 1000).toStringAsFixed(1)} k';
-      }
-    }
-
-    return value!.toStringAsFixed(2);
+    return value.toStringAsFixed(2);
   }
 }

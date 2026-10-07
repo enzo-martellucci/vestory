@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
 import '../../../market/models/financial_quote.dart';
 
 class FinancialCardHeader extends StatelessWidget {
@@ -14,12 +15,7 @@ class FinancialCardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final positive =
-        (quote.changePercent ?? 0) >= 0;
-
-    final changeColor = positive
-        ? const Color(0xFF159B61)
-        : const Color(0xFFD94B4B);
+    final changePercent = quote.changePercent;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,15 +25,13 @@ class FinancialCardHeader extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
-            color: Color(0xFF181818),
+            color: AppColors.textPrimary,
             fontSize: 8,
             height: 1.08,
             fontWeight: FontWeight.w800,
           ),
         ),
-
         const SizedBox(height: 10),
-
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -45,22 +39,18 @@ class FinancialCardHeader extends StatelessWidget {
               child: Text(
                 _formattedPrice(),
                 style: const TextStyle(
-                  color: Color(0xFF181818),
+                  color: AppColors.textPrimary,
                   fontSize: 12,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
               ),
             ),
-
-            if (quote.changePercent != null)
+            if (changePercent != null)
               Text(
-                '${positive ? '+' : ''}'
-                    '${quote.change?.toStringAsFixed(2) ?? '—'} '
-                    '(${positive ? '+' : ''}'
-                    '${quote.changePercent!.toStringAsFixed(2)}%)',
+                _formattedChange(changePercent),
                 style: TextStyle(
-                  color: changeColor,
+                  color: AppColors.trend(quote.isPositive),
                   fontSize: 7,
                   fontWeight: FontWeight.w700,
                 ),
@@ -72,14 +62,14 @@ class FinancialCardHeader extends StatelessWidget {
   }
 
   String _formattedPrice() {
-    final price =
-    quote.price.toStringAsFixed(2);
+    final price = quote.price.toStringAsFixed(2);
+    final currency = quote.currency;
+    return (currency == null || currency.isEmpty) ? price : '$price $currency';
+  }
 
-    if (quote.currency == null ||
-        quote.currency!.isEmpty) {
-      return price;
-    }
-
-    return '$price ${quote.currency}';
+  String _formattedChange(double changePercent) {
+    final sign = quote.isPositive ? '+' : '';
+    final change = quote.change?.toStringAsFixed(2) ?? '—';
+    return '$sign$change ($sign${changePercent.toStringAsFixed(2)}%)';
   }
 }

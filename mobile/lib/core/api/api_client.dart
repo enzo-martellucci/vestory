@@ -1,43 +1,54 @@
 import 'package:dio/dio.dart';
 
-import '../../features/cards/models/asset_card_model.dart';
-import '../../features/market/models/financial_quote.dart';
-import '../../features/market/models/financial_history.dart';
+import 'api_exception.dart';
 
+/// Client HTTP générique.
+///
+/// Il ne connaît AUCUN modèle métier : le parsing JSON est fait par
+/// les repositories de chaque feature. `core` ne dépend donc jamais
+/// de `features`.
 class ApiClient {
-  static const String baseUrl = String.fromEnvironment('API_BASE_URL', defaultValue: 'http://10.0.2.2:8080',);
-
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ),
+  static const String defaultBaseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://10.0.2.2:8080',
   );
 
-  Future<List<AssetCardModel>> getCards() async {
-    final response = await _dio.get('/api/cards');
+  final Dio _dio;
 
-    final data = response.data as List<dynamic>;
+  ApiClient({String baseUrl = defaultBaseUrl, Dio? dio})
+      : _dio = dio ??
+            Dio(
+              BaseOptions(
+                baseUrl: baseUrl,
+                connectTimeout: const Duration(seconds: 10),
+                receiveTimeout: const Duration(seconds: 10),
+              ),
+            );
 
-    return data.map((json) => AssetCardModel.fromJson(json as Map<String, dynamic>,),).toList();
+  /// GET qui renvoie un objet JSON.
+  Future<Map<String, dynamic>> getJson(String path) async {
+    final data = await _get(path);
+    if (data is! Map<String, dynamic>) {
+      throw const ApiException('Invalid response format (object expected).');
+    }
+    return data;
   }
 
-  Future<FinancialQuote> getQuote(String financialAssetId,) async {
-    final response = await _dio.get('/api/market/assets/''$financialAssetId/quote',);
-    return FinancialQuote.fromJson(response.data as Map<String, dynamic>,);
+  /// GET qui renvoie une liste JSON.
+  Future<List<dynamic>> getJsonList(String path) async {
+    final data = await _get(path);
+    if (data is! List<dynamic>) {
+      throw const ApiException('Invalid response format (list expected).');
+    }
+    return data;
   }
 
-  Future<FinancialHistory> getHistory(
-      String financialAssetId,
-      ) async {
-    final response = await _dio.get(
-      '/api/market/assets/'
-          '$financialAssetId/history',
-    );
-
-    return FinancialHistory.fromJson(
-      response.data as Map<String, dynamic>,
-    );
+  Future<dynamic> _get(String path) async {
+    try {
+      final response = await _dio.get<dynamic>(path);
+      return response.data;
+    } on DioException catch (e) {
+      throw ApiException.fromDio(e);
+    }
   }
 }

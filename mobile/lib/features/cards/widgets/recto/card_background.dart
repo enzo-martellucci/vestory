@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class CardBackground extends StatelessWidget {
   final String? imageUrl;
   final Color rarityColor;
@@ -12,7 +14,8 @@ class CardBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl == null || imageUrl!.isEmpty) {
+    final url = imageUrl;
+    if (url == null || url.isEmpty) {
       return _fallback();
     }
 
@@ -20,30 +23,20 @@ class CardBackground extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Image.network(
-          imageUrl!,
+          url,
           fit: BoxFit.cover,
-
-          errorBuilder: (context, error, stackTrace,) {
-            return _fallback();
-          },
+          errorBuilder: (context, error, stackTrace) => _fallback(),
         ),
-
         // Harmonise les images trop fortes.
-        Container(
+        DecoratedBox(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.white.withValues(
-                  alpha: 0.05,
-                ),
-
+                Colors.white.withValues(alpha: 0.05),
                 Colors.transparent,
-
-                Colors.black.withValues(
-                  alpha: 0.06,
-                ),
+                Colors.black.withValues(alpha: 0.06),
               ],
             ),
           ),
@@ -53,29 +46,22 @@ class CardBackground extends StatelessWidget {
   }
 
   Widget _fallback() {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-
           colors: [
-            const Color(0xFFF5F5F2),
-
-            rarityColor.withValues(
-              alpha: 0.12,
-            ),
+            AppColors.cardFallbackSurface,
+            rarityColor.withValues(alpha: 0.12),
           ],
         ),
       ),
-
       child: Center(
         child: Icon(
           Icons.show_chart_rounded,
           size: 44,
-          color: rarityColor.withValues(
-            alpha: 0.55,
-          ),
+          color: rarityColor.withValues(alpha: 0.55),
         ),
       ),
     );

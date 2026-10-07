@@ -1,7 +1,9 @@
+import 'card_rarity.dart';
+
 class AssetCardModel {
   final String id;
   final int collectionNumber;
-  final String rarity;
+  final CardRarity rarity;
   final double rarityScore;
   final bool enabled;
 
@@ -22,21 +24,18 @@ class AssetCardModel {
     required this.symbol,
     required this.name,
     required this.assetType,
-    required this.logoUrl,
-    required this.description,
+    this.logoUrl,
+    this.description,
   });
 
-  factory AssetCardModel.fromJson(Map<String, dynamic> json,) {
+  factory AssetCardModel.fromJson(Map<String, dynamic> json) {
     return AssetCardModel(
       id: json['id'] as String,
-      collectionNumber:
-      (json['collectionNumber'] as num).toInt(),
-      rarity: json['rarity'] as String,
-      rarityScore:
-      (json['rarityScore'] as num).toDouble(),
+      collectionNumber: (json['collectionNumber'] as num).toInt(),
+      rarity: CardRarity.fromApi(json['rarity'] as String?),
+      rarityScore: (json['rarityScore'] as num).toDouble(),
       enabled: json['enabled'] as bool,
-      financialAssetId:
-      json['financialAssetId'] as String,
+      financialAssetId: json['financialAssetId'] as String,
       symbol: json['symbol'] as String,
       name: json['name'] as String,
       assetType: json['assetType'] as String,

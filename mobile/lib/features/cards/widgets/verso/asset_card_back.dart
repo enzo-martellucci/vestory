@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/state/async_value.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../market/models/financial_history.dart';
 import '../../../market/models/financial_quote.dart';
 import '../../models/asset_card_model.dart';
-
+import '../card_frame.dart';
 import 'financial_card_header.dart';
 import 'financial_chart_preview.dart';
 import 'financial_error_state.dart';
@@ -13,148 +15,85 @@ import 'market_status.dart';
 class AssetCardBack extends StatelessWidget {
   final AssetCardModel card;
 
-  final FinancialQuote? quote;
-  final bool loading;
-  final Object? error;
-
-  final FinancialHistory? history;
-  final bool historyLoading;
-  final Object? historyError;
+  /// `null` = pas encore demandé (affiché comme un chargement).
+  final AsyncValue<FinancialQuote>? quote;
+  final AsyncValue<FinancialHistory>? history;
 
   const AssetCardBack({
     super.key,
     required this.card,
-
     required this.quote,
-    required this.loading,
-    required this.error,
-
     required this.history,
-    required this.historyLoading,
-    required this.historyError,
   });
-
-  Color get rarityColor {
-    switch (card.rarity) {
-      case 'LEGENDARY':
-        return const Color(0xFFD8A73D);
-
-      case 'EPIC':
-        return const Color(0xFF8B5CF6);
-
-      case 'RARE':
-        return const Color(0xFF4C7DFF);
-
-      default:
-        return const Color(0xFF69C6A4);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(2),
-
-      decoration: BoxDecoration(
-        color: rarityColor,
-        borderRadius: BorderRadius.circular(30),
-
-        boxShadow: [
-          BoxShadow(
-            color: rarityColor.withValues(
-              alpha: 0.28,
-            ),
-            blurRadius: 22,
-          ),
-        ],
-      ),
-
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
-
-        child: Container(
-          color: const Color(0xFFF8F8F6),
-
-          padding: const EdgeInsets.fromLTRB(
-            14,
-            14,
-            14,
-            12,
-          ),
-
-          child: _content(),
-        ),
-      ),
+    return CardFrame(
+      rarity: card.rarity,
+      padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+      child: _content(),
     );
   }
 
   Widget _content() {
-    // On bloque le verso uniquement
-    // pendant le chargement de la QUOTE.
-    if (loading) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: rarityColor,
-          strokeWidth: 2,
+    final color = card.rarity.color;
+
+    // Seule la COTATION conditionne l'affichage du verso ;
+    // l'historique a son propre état dans la zone du graphique.
+    return switch (quote) {
+      null || AsyncLoading() => Center(
+          child: CircularProgressIndicator(color: color, strokeWidth: 2),
         ),
-      );
-    }
+      AsyncError() => FinancialErrorState(name: card.name, color: color),
+      AsyncData(value: final q) => _QuoteContent(
+          name: card.name,
+          quote: q,
+          history: history,
+          rarityColor: color,
+        ),
+    };
+  }
+}
 
-    // Seule une erreur de QUOTE
-    // rend les données financières indisponibles.
-    if (error != null || quote == null) {
-      return FinancialErrorState(
-        name: card.name,
-        color: rarityColor,
-      );
-    }
+class _QuoteContent extends StatelessWidget {
+  final String name;
+  final FinancialQuote quote;
+  final AsyncValue<FinancialHistory>? history;
+  final Color rarityColor;
 
-    final q = quote!;
+  const _QuoteContent({
+    required this.name,
+    required this.quote,
+    required this.history,
+    required this.rarityColor,
+  });
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FinancialCardHeader(
-          name: card.name,
-          quote: q,
-        ),
-
+        FinancialCardHeader(name: name, quote: quote),
         const SizedBox(height: 10),
-
         Expanded(
           flex: 4,
           child: FinancialChartPreview(
-            points: history?.points ?? const [],
-            loading: historyLoading,
-            error: historyError,
+            history: history,
             rarityColor: rarityColor,
           ),
         ),
-
         const SizedBox(height: 8),
-
         Expanded(
           flex: 6,
           child: Column(
             children: [
-              FinancialStats(
-                quote: q,
-              ),
-
+              FinancialStats(quote: quote),
               const Spacer(),
-
-              Container(
-                height: 1,
-                color: const Color(
-                  0xFFDADAD7,
-                ),
-              ),
-
+              Container(height: 1, color: AppColors.divider),
               const SizedBox(height: 7),
-
               MarketStatus(
-                marketOpen: q.marketOpen,
-                exchange: q.exchange,
+                marketOpen: quote.marketOpen,
+                exchange: quote.exchange,
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
 import '../../models/asset_card_model.dart';
 import 'card_footer.dart';
 
@@ -13,68 +14,39 @@ class CardInfoSection extends StatelessWidget {
     required this.totalCards,
   });
 
-  String get description {
+  String get _description {
     final value = card.description?.trim();
-
-    if (value == null || value.isEmpty) {
-      return 'No description available.';
-    }
-
-    return value;
+    return (value == null || value.isEmpty)
+        ? 'No description available.'
+        : value;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-
-      color: const Color(0xFFF8F8F6),
-
-      padding: const EdgeInsets.fromLTRB(
-        15,
-        14,
-        15,
-        11,
-      ),
-
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 14, 15, 11),
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
-
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // TITRE
-
           Text(
             card.name,
-
             maxLines: 2,
-
-            overflow:
-            TextOverflow.ellipsis,
-
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              color: Color(0xFF181818),
-
+              color: AppColors.textPrimary,
               fontSize: 11,
-
               height: 1.15,
-
-              fontWeight:
-              FontWeight.w800,
+              fontWeight: FontWeight.w800,
             ),
           ),
-
           const SizedBox(height: 8),
-
-          // DESCRIPTION
-
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Text(
-                description,
+                _description,
                 style: const TextStyle(
-                  color: Color(0xFF777777),
+                  color: AppColors.textSecondary,
                   fontSize: 7,
                   height: 1.4,
                   fontWeight: FontWeight.w400,
@@ -82,32 +54,15 @@ class CardInfoSection extends StatelessWidget {
               ),
             ),
           ),
-          // SÉPARATION
-
           Container(
             height: 1,
-
-            margin: const EdgeInsets.only(
-              top: 8,
-              bottom: 2,
-            ),
-
-            color: const Color(
-              0xFFDADAD7,
-            ),
+            margin: const EdgeInsets.only(top: 8, bottom: 2),
+            color: AppColors.divider,
           ),
-
-          // FOOTER
-
           CardFooter(
-            assetType:
-            card.assetType,
-
-            collectionNumber:
-            card.collectionNumber,
-
-            totalCards:
-            totalCards,
+            assetType: card.assetType,
+            collectionNumber: card.collectionNumber,
+            totalCards: totalCards,
           ),
         ],
       ),

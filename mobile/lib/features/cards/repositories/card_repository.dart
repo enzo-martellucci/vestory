@@ -1,14 +1,20 @@
 import '../../../core/api/api_client.dart';
 import '../models/asset_card_model.dart';
 
-class CardRepository {
-  final ApiClient apiClient;
+abstract interface class CardRepository {
+  Future<List<AssetCardModel>> getCards();
+}
 
-  CardRepository({
-    required this.apiClient,
-  });
+class ApiCardRepository implements CardRepository {
+  final ApiClient _api;
 
-  Future<List<AssetCardModel>> getCards() {
-    return apiClient.getCards();
+  const ApiCardRepository(this._api);
+
+  @override
+  Future<List<AssetCardModel>> getCards() async {
+    final data = await _api.getJsonList('/api/cards');
+    return data
+        .map((json) => AssetCardModel.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 }

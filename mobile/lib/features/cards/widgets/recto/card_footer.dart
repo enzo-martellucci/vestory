@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class CardFooter extends StatelessWidget {
   final String assetType;
   final int collectionNumber;
@@ -18,21 +20,17 @@ class CardFooter extends StatelessWidget {
       children: [
         Text(
           assetType,
-
           style: const TextStyle(
-            color: Color(0xFF252525),
+            color: AppColors.textBody,
             fontSize: 6,
             fontWeight: FontWeight.w500,
           ),
         ),
-
         const Spacer(),
-
         Text(
           '$collectionNumber/$totalCards',
-
           style: const TextStyle(
-            color: Color(0xFF252525),
+            color: AppColors.textBody,
             fontSize: 6,
             fontWeight: FontWeight.w800,
           ),

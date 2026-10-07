@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class FinancialErrorState
-    extends StatelessWidget {
+import '../../../../core/theme/app_colors.dart';
+
+class FinancialErrorState extends StatelessWidget {
   final String name;
   final Color color;
 
@@ -14,36 +15,24 @@ class FinancialErrorState
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment:
-      MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.show_chart_rounded,
-          color: color,
-          size: 30,
-        ),
-
+        Icon(Icons.show_chart_rounded, color: color, size: 30),
         const SizedBox(height: 10),
-
         Text(
           name,
           textAlign: TextAlign.center,
           style: const TextStyle(
-            color: Color(0xFF181818),
+            color: AppColors.textPrimary,
             fontSize: 12,
             fontWeight: FontWeight.w800,
           ),
         ),
-
         const SizedBox(height: 8),
-
         const Text(
-          'Market data unavailable.',
+          'Market data unavailable.\nFlip again to retry.',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(0xFF777777),
-            fontSize: 7,
-          ),
+          style: TextStyle(color: AppColors.textSecondary, fontSize: 7),
         ),
       ],
     );
