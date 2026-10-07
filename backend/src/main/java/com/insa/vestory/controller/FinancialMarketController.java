@@ -1,5 +1,6 @@
 package com.insa.vestory.controller;
 
+import com.insa.vestory.dto.quote.FinancialHistoryDto;
 import com.insa.vestory.dto.quote.FinancialQuoteDto;
 import com.insa.vestory.service.quote.FinancialMarketService;
 
@@ -30,5 +31,12 @@ public class FinancialMarketController {
                 .getQuote(
                         financialAssetId
                 );
+    }
+
+    @GetMapping("/assets/{financialAssetId}/history")
+    public FinancialHistoryDto getHistory(
+            @PathVariable UUID financialAssetId
+    ) {
+        return financialMarketService.getHistory(financialAssetId);
     }
 }

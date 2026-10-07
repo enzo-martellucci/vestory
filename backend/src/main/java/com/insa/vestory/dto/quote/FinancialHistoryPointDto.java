@@ -1,4 +1,11 @@
 package com.insa.vestory.dto.quote;
 
-public class FinancialHistoryPointDto {
+import java.time.Instant;
+
+public record FinancialHistoryPointDto(
+
+        Instant timestamp,
+        Double price
+
+) {
 }

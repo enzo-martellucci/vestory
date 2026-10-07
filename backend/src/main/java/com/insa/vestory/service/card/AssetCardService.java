@@ -1,5 +1,5 @@
 package com.insa.vestory.service.card;
-import com.insa.vestory.dto.asset.AssetCardResponseDto;
+import com.insa.vestory.dto.card.AssetCardResponseDto;
 import com.insa.vestory.model.entity.AssetCard;
 import com.insa.vestory.model.entity.FinancialAsset;
 import com.insa.vestory.repository.AssetCardRepository;
@@ -34,7 +34,8 @@ public class AssetCardService {
                             asset.getSymbol(),
                             asset.getName(),
                             asset.getAssetType(),
-                            asset.getLogoUrl()
+                            asset.getLogoUrl(),
+                            asset.getDescription()
                     );
                 })
                 .toList();
@@ -68,7 +69,8 @@ public class AssetCardService {
                             asset.getSymbol(),
                             asset.getName(),
                             asset.getAssetType(),
-                            asset.getLogoUrl()
+                            asset.getLogoUrl(),
+                            asset.getDescription()
                     );
                 })
                 .toList();

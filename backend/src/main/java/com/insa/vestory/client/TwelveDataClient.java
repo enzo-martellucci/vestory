@@ -4,6 +4,7 @@ import com.insa.vestory.config.TwelveDataProperties;
 import com.insa.vestory.dto.card.TwelveDataForexPairDto;
 import com.insa.vestory.dto.card.TwelveDataForexPairsResponse;
 import com.insa.vestory.dto.quote.TwelveDataQuoteDto;
+import com.insa.vestory.dto.quote.TwelveDataTimeSeriesDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -100,6 +101,56 @@ public class TwelveDataClient {
                 .retrieve()
                 .body(
                         TwelveDataQuoteDto.class
+                );
+    }
+
+    public TwelveDataTimeSeriesDto getTimeSeries(
+            String symbol,
+            String micCode
+    ) {
+
+        return restClient
+                .get()
+                .uri(uriBuilder -> {
+
+                    var builder =
+                            uriBuilder
+                                    .path("/time_series")
+                                    .queryParam(
+                                            "symbol",
+                                            symbol
+                                    )
+                                    .queryParam(
+                                            "interval",
+                                            "1h"
+                                    )
+                                    .queryParam(
+                                            "outputsize",
+                                            24
+                                    )
+                                    .queryParam(
+                                            "timezone",
+                                            "UTC"
+                                    )
+                                    .queryParam(
+                                            "apikey",
+                                            properties.getApiKey()
+                                    );
+
+                    if (micCode != null
+                            && !micCode.isBlank()) {
+
+                        builder.queryParam(
+                                "mic_code",
+                                micCode
+                        );
+                    }
+
+                    return builder.build();
+                })
+                .retrieve()
+                .body(
+                        TwelveDataTimeSeriesDto.class
                 );
     }
 }

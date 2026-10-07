@@ -2,7 +2,6 @@ package com.insa.vestory.dto.quote;
 
 import com.insa.vestory.model.enums.AssetType;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -14,17 +13,20 @@ public record FinancialQuoteDto(
         String name,
         AssetType assetType,
 
-        BigDecimal price,
+        String currency,
+        String exchange,
 
-        BigDecimal open,
-        BigDecimal high,
-        BigDecimal low,
-        BigDecimal previousClose,
+        Double price,
 
-        BigDecimal change,
-        BigDecimal changePercent,
+        Double open,
+        Double high,
+        Double low,
+        Double previousClose,
 
-        BigDecimal volume,
+        Double change,
+        Double changePercent,
+
+        Double volume,
 
         boolean marketOpen,
 

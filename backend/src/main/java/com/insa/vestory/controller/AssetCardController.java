@@ -1,6 +1,6 @@
 package com.insa.vestory.controller;
 
-import com.insa.vestory.dto.asset.AssetCardResponseDto;
+import com.insa.vestory.dto.card.AssetCardResponseDto;
 import com.insa.vestory.dto.asset.CardGenerationResult;
 import com.insa.vestory.dto.card.CardRarityUpdateResult;
 import com.insa.vestory.service.card.AssetCardGenerationService;

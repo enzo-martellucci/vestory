@@ -1,4 +1,4 @@
-package com.insa.vestory.dto.asset;
+package com.insa.vestory.dto.card;
 
 import com.insa.vestory.model.enums.AssetType;
 import com.insa.vestory.model.enums.CardRarity;
@@ -17,7 +17,8 @@ public record AssetCardResponseDto(
         String symbol,
         String name,
         AssetType assetType,
-        String logoUrl
+        String logoUrl,
+        String description
 
 ) {
 }
