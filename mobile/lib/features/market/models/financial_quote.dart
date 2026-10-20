@@ -19,6 +19,8 @@ class FinancialQuote {
   final bool marketOpen;
   final DateTime? timestamp;
   final String provider;
+  final String? trackedBy;
+  final DateTime? fetchedAt;
 
   const FinancialQuote({
     required this.financialAssetId,
@@ -38,12 +40,13 @@ class FinancialQuote {
     this.marketOpen = false,
     this.timestamp,
     this.provider = '',
+    this.trackedBy,
+    this.fetchedAt,
   });
 
   bool get isPositive => (changePercent ?? 0) >= 0;
 
-  factory FinancialQuote.fromJson(Map<String, dynamic> json) {
-    final price = _toDouble(json['price']);
+  factory FinancialQuote.fromJson(Map<String, dynamic> json, {DateTime? fetchedAt}) {    final price = _toDouble(json['price']);
     if (price == null) {
       // Une cotation sans prix est inexploitable : mieux vaut une erreur
       // explicite qu'un « 0.00 » trompeur affiché à l'utilisateur.
@@ -70,6 +73,8 @@ class FinancialQuote {
       marketOpen: json['marketOpen'] as bool? ?? false,
       timestamp: rawTimestamp == null ? null : DateTime.tryParse(rawTimestamp),
       provider: json['provider'] as String? ?? '',
+      trackedBy: json['trackedBy'] as String?,
+      fetchedAt: fetchedAt,
     );
   }
 

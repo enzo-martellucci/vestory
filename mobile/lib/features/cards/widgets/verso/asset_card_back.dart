@@ -11,6 +11,7 @@ import 'financial_chart_preview.dart';
 import 'financial_error_state.dart';
 import 'financial_stats.dart';
 import 'market_status.dart';
+import 'data_freshness.dart';
 
 class AssetCardBack extends StatelessWidget {
   final AssetCardModel card;
@@ -44,7 +45,11 @@ class AssetCardBack extends StatelessWidget {
       null || AsyncLoading() => Center(
           child: CircularProgressIndicator(color: color, strokeWidth: 2),
         ),
-      AsyncError() => FinancialErrorState(name: card.name, color: color),
+      AsyncError(:final message) => FinancialErrorState(
+          name: card.name,
+          color: color,
+          message: message,
+        ),
       AsyncData(value: final q) => _QuoteContent(
           name: card.name,
           quote: q,
@@ -95,6 +100,8 @@ class _QuoteContent extends StatelessWidget {
                 marketOpen: quote.marketOpen,
                 exchange: quote.exchange,
               ),
+              const SizedBox(height: 4),
+              DataFreshness(fetchedAt: quote.fetchedAt),
             ],
           ),
         ),

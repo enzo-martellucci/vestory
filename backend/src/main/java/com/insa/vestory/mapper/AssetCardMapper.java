@@ -14,6 +14,8 @@ public interface AssetCardMapper {
     @Mapping(target = "symbol", source = "financialAsset.symbol")
     @Mapping(target = "name", source = "financialAsset.name")
     @Mapping(target = "assetType", source = "financialAsset.assetType")
+    @Mapping(target = "country", source = "financialAsset.country")
+    @Mapping(target = "sector", source = "financialAsset.sector")
     @Mapping(target = "logoUrl", source = "financialAsset.logoUrl")
     @Mapping(target = "description", source = "financialAsset.description")
     AssetCardResponseDto toResponse(AssetCard card);

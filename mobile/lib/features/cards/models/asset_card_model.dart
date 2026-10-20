@@ -11,6 +11,8 @@ class AssetCardModel {
   final String symbol;
   final String name;
   final String assetType;
+  final String? country;
+  final String? sector;
   final String? logoUrl;
   final String? description;
 
@@ -24,6 +26,8 @@ class AssetCardModel {
     required this.symbol,
     required this.name,
     required this.assetType,
+    this.country,
+    this.sector,
     this.logoUrl,
     this.description,
   });
@@ -39,6 +43,8 @@ class AssetCardModel {
       symbol: json['symbol'] as String,
       name: json['name'] as String,
       assetType: json['assetType'] as String,
+      country: json['country'] as String?,
+      sector: json['sector'] as String?,
       logoUrl: json['logoUrl'] as String?,
       description: json['description'] as String?,
     );

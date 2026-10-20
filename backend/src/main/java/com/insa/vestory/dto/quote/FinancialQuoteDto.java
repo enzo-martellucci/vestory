@@ -32,7 +32,9 @@ public record FinancialQuoteDto(
 
         Instant timestamp,
 
-        String provider
+        String provider,
+
+        String trackedBy
 
 ) {
-}
+}

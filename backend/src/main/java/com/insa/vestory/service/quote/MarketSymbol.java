@@ -2,31 +2,34 @@ package com.insa.vestory.service.quote;
 
 import com.insa.vestory.model.entity.FinancialAsset;
 import com.insa.vestory.model.enums.AssetType;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
-record MarketSymbol(String symbol, String micCode) {
+record MarketSymbol(String symbol, String micCode, String trackedBy) {
 
-    private static final Map<String, String> COMMODITY_SYMBOLS = Map.of(
-            "GCUSD", "XAU/USD",
-            "SIUSD", "XAG/USD",
-            "PLUSD", "XPT/USD",
-            "PAUSD", "XPD/USD",
-            "CLUSD", "WTI/USD",
-            "BZUSD", "XBR/USD",
-            "HGUSD", "HG1"
+    private static final Map<String, MarketSymbol> COMMODITIES = Map.of(
+            "GCUSD", new MarketSymbol("XAU/USD", null, null),
+            "SIUSD", new MarketSymbol("XAG/USD", null, null),
+            "PLUSD", etf("PPLT"),
+            "PAUSD", etf("PALL"),
+            "CLUSD", etf("USO"),
+            "BZUSD", etf("BNO"),
+            "HGUSD", etf("CPER"),
+            "NGUSD", etf("UNG")
     );
 
     static MarketSymbol of(FinancialAsset asset) {
         if (asset.getAssetType() != AssetType.COMMODITY)
-            return new MarketSymbol(asset.getSymbol(), asset.getMicCode());
+            return new MarketSymbol(asset.getSymbol(), asset.getMicCode(), null);
 
-        String symbol = COMMODITY_SYMBOLS.get(asset.getSymbol().toUpperCase());
-        if (symbol == null)
-            throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, "Commodity symbol is not mapped yet: " + asset.getSymbol());
+        return COMMODITIES.getOrDefault(asset.getSymbol().toUpperCase(), new MarketSymbol(asset.getSymbol(), null, null));
+    }
 
-        return new MarketSymbol(symbol, null);
+    String fmpSymbol(FinancialAsset asset) {
+        return trackedBy != null ? trackedBy : asset.getSymbol();
+    }
+
+    private static MarketSymbol etf(String symbol) {
+        return new MarketSymbol(symbol, "ARCX", symbol);
     }
 }

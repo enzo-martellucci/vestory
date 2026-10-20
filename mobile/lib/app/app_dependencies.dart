@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-
+import '../core/cache/json_cache.dart';
+import '../core/database/app_database.dart';
 import '../core/api/api_client.dart';
 import '../features/cards/repositories/card_repository.dart';
 import '../features/market/repositories/market_repository.dart';
@@ -19,9 +20,13 @@ class AppDependencies {
 
   factory AppDependencies.production() {
     final apiClient = ApiClient();
+    final database = AppDatabase();
     return AppDependencies(
       cardRepository: ApiCardRepository(apiClient),
-      marketRepository: CachedMarketRepository(ApiMarketRepository(apiClient)),
+      marketRepository: OfflineFirstMarketRepository(
+        apiClient,
+        DriftJsonCache(database),
+      ),
     );
   }
 }

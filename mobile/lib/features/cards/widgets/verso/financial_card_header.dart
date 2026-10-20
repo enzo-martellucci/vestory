@@ -16,6 +16,7 @@ class FinancialCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final changePercent = quote.changePercent;
+    final trackedBy = quote.trackedBy;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,6 +32,17 @@ class FinancialCardHeader extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
+        if (trackedBy != null) ...[
+          const SizedBox(height: 3),
+          Text(
+            'Price via the $trackedBy ETF',
+            style: const TextStyle(
+              color: AppColors.textMuted,
+              fontSize: 6,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
         const SizedBox(height: 10),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,

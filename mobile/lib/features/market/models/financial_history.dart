@@ -17,24 +17,28 @@ class FinancialHistory {
   final String symbol;
   final String? currency;
   final List<FinancialHistoryPoint> points;
+  final DateTime? fetchedAt;
 
   const FinancialHistory({
     required this.financialAssetId,
     required this.symbol,
     required this.points,
     this.currency,
+    this.fetchedAt,
   });
 
-  factory FinancialHistory.fromJson(Map<String, dynamic> json) {
+  factory FinancialHistory.fromJson(Map<String, dynamic> json, {DateTime? fetchedAt}) {
     final rawPoints = json['points'] as List<dynamic>? ?? const [];
 
     return FinancialHistory(
       financialAssetId: json['financialAssetId'] as String,
       symbol: json['symbol'] as String,
       currency: json['currency'] as String?,
+      fetchedAt: fetchedAt,
       points: rawPoints
           .map((p) => FinancialHistoryPoint.fromJson(p as Map<String, dynamic>))
           .toList(),
     );
   }
 }
+

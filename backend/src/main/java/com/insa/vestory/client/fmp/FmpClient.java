@@ -4,12 +4,14 @@ import com.insa.vestory.client.RestClients;
 import com.insa.vestory.client.fmp.dto.FmpCommodityDto;
 import com.insa.vestory.client.fmp.dto.FmpCompanyProfileDto;
 import com.insa.vestory.client.fmp.dto.FmpCryptoDto;
+import com.insa.vestory.client.fmp.dto.FmpDailyPriceDto;
 import com.insa.vestory.client.fmp.dto.FmpForexDto;
 import com.insa.vestory.client.fmp.dto.FmpQuoteDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -34,8 +36,7 @@ public class FmpClient {
     }
 
     public FmpQuoteDto getQuote(String symbol) {
-        String fmpSymbol = symbol.replace("/", "").toUpperCase();
-        List<FmpQuoteDto> response = getList("/quote", fmpSymbol, new ParameterizedTypeReference<List<FmpQuoteDto>>() {
+        List<FmpQuoteDto> response = getList("/quote", toFmpSymbol(symbol), new ParameterizedTypeReference<List<FmpQuoteDto>>() {
         });
 
         if (response.isEmpty())
@@ -57,6 +58,25 @@ public class FmpClient {
     public List<FmpCryptoDto> getCryptoList() {
         return getList("/cryptocurrency-list", null, new ParameterizedTypeReference<List<FmpCryptoDto>>() {
         });
+    }
+
+    public List<FmpDailyPriceDto> getDailyPrices(String symbol, LocalDate from) {
+        List<FmpDailyPriceDto> response = restClient.get()
+                .uri(uri -> uri
+                        .path("/historical-price-eod/light")
+                        .queryParam("symbol", toFmpSymbol(symbol))
+                        .queryParam("from", from)
+                        .queryParam("apikey", properties.getApiKey())
+                        .build())
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<FmpDailyPriceDto>>() {
+                });
+
+        return response == null ? List.of() : response;
+    }
+
+    private String toFmpSymbol(String symbol) {
+        return symbol.replace("/", "").trim().toUpperCase();
     }
 
     private <T> List<T> getList(String path, String symbol, ParameterizedTypeReference<List<T>> responseType) {

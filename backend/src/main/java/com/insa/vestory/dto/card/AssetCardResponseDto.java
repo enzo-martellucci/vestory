@@ -15,6 +15,8 @@ public record AssetCardResponseDto(
         String symbol,
         String name,
         AssetType assetType,
+        String country,
+        String sector,
         String logoUrl,
         String description
 ) {

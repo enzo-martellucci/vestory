@@ -11,15 +11,21 @@ class ApiException implements Exception {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        return const ApiException('The server took too long to respond.');
+        return ApiException(
+          'The server at ${e.requestOptions.baseUrl} took too long to respond.',
+        );
       case DioExceptionType.connectionError:
-        return const ApiException('Unable to reach the server.');
+        return ApiException(
+          'Unable to reach the server at ${e.requestOptions.baseUrl} (${e.error ?? e.message}).',
+        );
       case DioExceptionType.badResponse:
         final code = e.response?.statusCode;
+        final body = e.response?.data;
+        final detail = body is Map<String, dynamic> ? body['detail'] as String? : null;
         if (code == 404) {
-          return ApiException('Resource not found.', statusCode: code);
+          return ApiException(detail ?? 'Resource not found.', statusCode: code);
         }
-        return ApiException('Server error ($code).', statusCode: code);
+        return ApiException(detail ?? 'Server error ($code).', statusCode: code);
       case DioExceptionType.cancel:
         return const ApiException('Request cancelled.');
       default:

@@ -5,11 +5,13 @@ import '../../../../core/theme/app_colors.dart';
 class FinancialErrorState extends StatelessWidget {
   final String name;
   final Color color;
+  final String? message;
 
   const FinancialErrorState({
     super.key,
     required this.name,
     required this.color,
+    this.message,
   });
 
   @override
@@ -34,6 +36,16 @@ class FinancialErrorState extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(color: AppColors.textSecondary, fontSize: 7),
         ),
+        if (message != null) ...[
+          const SizedBox(height: 6),
+          Text(
+            message!,
+            textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: AppColors.textMuted, fontSize: 6),
+          ),
+        ],
       ],
     );
   }
