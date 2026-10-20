@@ -1,30 +1,107 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile/app/app_dependencies.dart';
+import 'package:mobile/app/vestory_app.dart';
+import 'package:mobile/core/api/api_exception.dart';
+import 'package:mobile/features/cards/models/asset_card_model.dart';
+import 'package:mobile/features/cards/models/card_rarity.dart';
+import 'package:mobile/features/cards/repositories/card_repository.dart';
+import 'package:mobile/features/market/models/financial_history.dart';
+import 'package:mobile/features/market/models/financial_quote.dart';
+import 'package:mobile/features/market/repositories/market_repository.dart';
 
-import 'package:mobile/main.dart';
+const _apple = AssetCardModel(
+  id: 'card-1',
+  collectionNumber: 1,
+  rarity: CardRarity.legendary,
+  rarityScore: 0.9,
+  enabled: true,
+  financialAssetId: 'asset-1',
+  symbol: 'AAPL',
+  name: 'Apple Inc.',
+  assetType: 'STOCK',
+);
+
+class _FakeCardRepository implements CardRepository {
+  List<AssetCardModel> cards;
+  Object? error;
+
+  _FakeCardRepository({this.cards = const [], this.error});
+
+  @override
+  Future<List<AssetCardModel>> getCards() async {
+    final e = error;
+    if (e != null) throw e;
+    return cards;
+  }
+}
+
+class _FakeMarketRepository implements MarketRepository {
+  @override
+  Future<FinancialQuote> getQuote(String id) async => FinancialQuote(
+        financialAssetId: id,
+        symbol: 'AAPL',
+        name: 'Apple Inc.',
+        assetType: 'STOCK',
+        price: 123.45,
+        currency: 'USD',
+        changePercent: 1.2,
+        change: 1.5,
+      );
+
+  @override
+  Future<FinancialHistory> getHistory(String id) async =>
+      FinancialHistory(financialAssetId: id, symbol: 'AAPL', points: const []);
+}
+
+Widget _app(CardRepository cards) => VestoryApp(
+      dependencies: AppDependencies(
+        cardRepository: cards,
+        marketRepository: _FakeMarketRepository(),
+      ),
+    );
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const Vestory());
+  testWidgets('affiche les cartes renvoyées par le repository', (tester) async {
+    await tester.pumpWidget(_app(_FakeCardRepository(cards: [_apple])));
+    await tester.pumpAndSettle();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Apple Inc.'), findsOneWidget);
+    expect(find.text('1/1'), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('retourner la carte charge la cotation', (tester) async {
+    await tester.pumpWidget(_app(_FakeCardRepository(cards: [_apple])));
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Apple Inc.'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('123.45 USD'), findsOneWidget);
+  });
+
+  testWidgets('affiche une erreur puis permet de réessayer', (tester) async {
+    final repo = _FakeCardRepository(
+      error: const ApiException('Unable to reach the server.'),
+    );
+    await tester.pumpWidget(_app(repo));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Unable to reach the server.'), findsOneWidget);
+
+    repo
+      ..error = null
+      ..cards = [_apple];
+    await tester.tap(find.text('Retry'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Apple Inc.'), findsOneWidget);
+  });
+
+  testWidgets('liste vide', (tester) async {
+    await tester.pumpWidget(_app(_FakeCardRepository()));
+    await tester.pumpAndSettle();
+
+    expect(find.text('No cards available.'), findsOneWidget);
   });
 }

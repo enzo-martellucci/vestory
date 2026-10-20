@@ -1,30 +1,32 @@
 package com.insa.vestory.service.asset;
 
-import com.insa.vestory.client.FmpClient;
-import com.insa.vestory.client.WikimediaClient;
-
+import com.insa.vestory.client.fmp.FmpClient;
+import com.insa.vestory.client.fmp.dto.FmpCommodityDto;
+import com.insa.vestory.client.fmp.dto.FmpCompanyProfileDto;
+import com.insa.vestory.client.fmp.dto.FmpCryptoDto;
+import com.insa.vestory.client.fmp.dto.FmpForexDto;
+import com.insa.vestory.client.wikimedia.WikimediaClient;
+import com.insa.vestory.client.wikimedia.dto.WikimediaSummaryDto;
 import com.insa.vestory.dto.asset.FinancialAssetImportRow;
-import com.insa.vestory.dto.asset.fmp.FmpCommodityDto;
-import com.insa.vestory.dto.card.FmpCompanyProfileDto;
-import com.insa.vestory.dto.asset.fmp.FmpCryptoDto;
-import com.insa.vestory.dto.asset.fmp.FmpForexDto;
-import com.insa.vestory.dto.asset.wikimedia.WikimediaSummaryDto;
-
 import com.insa.vestory.model.entity.FinancialAsset;
 import com.insa.vestory.model.enums.AssetType;
 import com.insa.vestory.repository.FinancialAssetRepository;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class FinancialAssetImportService {
 
@@ -38,7 +40,7 @@ public class FinancialAssetImportService {
         this.financialAssetRepository = financialAssetRepository;
     }
 
-    public void importAll() throws Exception {
+    public void importAll() {
 
         List<FinancialAssetImportRow> rows = readCsv();
         List<FinancialAssetImportRow> missingRows =
@@ -52,7 +54,8 @@ public class FinancialAssetImportService {
                         )
                         .toList();
 
-        if (missingRows.isEmpty()) {System.out.println("Nothing to import");
+        if (missingRows.isEmpty()) {
+            log.info("Nothing to import");
             return;
         }
 
@@ -71,10 +74,9 @@ public class FinancialAssetImportService {
         for (FinancialAssetImportRow row : missingRows) {
             try {
                 importAsset(row, cryptoBySymbol, forexBySymbol, commodityBySymbol);
-                System.out.println("Imported: " + row.symbol());
-
-            } catch (Exception e) {
-                System.err.println("Import failed for: " + row.symbol() + " → " + e.getMessage());
+                log.info("Imported {}", row.symbol());
+            } catch (RuntimeException exception) {
+                log.warn("Import failed for {}: {}", row.symbol(), exception.getMessage());
             }
         }
     }
@@ -83,8 +85,8 @@ public class FinancialAssetImportService {
         return rows.stream().anyMatch(row -> row.type() == type);
     }
 
-    private List<FinancialAssetImportRow> readCsv() throws Exception {
-        List<FinancialAssetImportRow> rows = new java.util.ArrayList<>();
+    private List<FinancialAssetImportRow> readCsv() {
+        List<FinancialAssetImportRow> rows = new ArrayList<>();
 
         ClassPathResource resource = new ClassPathResource("import/financial-assets.csv");
 
@@ -92,13 +94,11 @@ public class FinancialAssetImportService {
             reader.readLine();
             String line;
 
-            while ((line = reader.readLine()) != null) {
-
-                if (line.isBlank()) {
-                    continue;
-                }
-                rows.add(parseRow(line));
-            }
+            while ((line = reader.readLine()) != null)
+                if (!line.isBlank())
+                    rows.add(parseRow(line));
+        } catch (IOException exception) {
+            throw new UncheckedIOException("Unable to read financial assets CSV", exception);
         }
         return rows;
     }
@@ -113,24 +113,13 @@ public class FinancialAssetImportService {
         AssetType type = AssetType.valueOf(columns[1].trim());
 
         String micCode = columns[2].trim();
-
-        if (micCode.isEmpty()) {
-            micCode = null;
-        }
-
-        return new FinancialAssetImportRow(symbol, type, micCode);
+        return new FinancialAssetImportRow(symbol, type, micCode.isEmpty() ? null : micCode);
     }
 
     private void importAsset(FinancialAssetImportRow row, Map<String, FmpCryptoDto> cryptoBySymbol, Map<String, FmpForexDto> forexBySymbol, Map<String, FmpCommodityDto> commodityBySymbol) {
 
-        if (financialAssetRepository
-                .existsBySymbolAndAssetType(
-                        row.symbol(),
-                        row.type()
-                )) {
-
+        if (financialAssetRepository.existsBySymbolAndAssetType(row.symbol(), row.type()))
             return;
-        }
 
         FinancialAsset asset =
                 switch (row.type()) {
@@ -139,13 +128,9 @@ public class FinancialAssetImportService {
                     case CRYPTO -> importCrypto(row, cryptoBySymbol);
                     case FOREX -> importForex(row, forexBySymbol);
                     case COMMODITY -> importCommodity(row, commodityBySymbol);
-
-                    default -> null;
                 };
 
-        if (asset != null) {
-            financialAssetRepository.save(asset);
-        }
+        financialAssetRepository.save(asset);
     }
 
     private FinancialAsset importProfileAsset(FinancialAssetImportRow row, AssetType assetType, String fmpSymbol) {
@@ -174,9 +159,8 @@ public class FinancialAssetImportService {
         String fmpSymbol = row.symbol().replace("/", "").toUpperCase();
         FmpForexDto forex = forexBySymbol.get(fmpSymbol);
 
-        if (forex == null) {
+        if (forex == null)
             throw new IllegalStateException("Forex not found in FMP: " + fmpSymbol);
-        }
 
         FinancialAsset asset = new FinancialAsset();
         asset.setSymbol(row.symbol());
@@ -187,12 +171,9 @@ public class FinancialAssetImportService {
         asset.setExchange("FOREX");
         asset.setDescription(buildForexDescription(forex));
 
-        // On utilise l'image Wikimedia
         WikimediaSummaryDto wiki = wikimediaClient.search(forex.fromName());
-
-        if (wiki != null) {
+        if (wiki != null)
             asset.setLogoUrl(wiki.imageUrl());
-        }
         asset.setEnabled(true);
 
         return asset;
@@ -202,9 +183,8 @@ public class FinancialAssetImportService {
 
         FmpCommodityDto commodity = commodityBySymbol.get(row.symbol().toUpperCase());
 
-        if (commodity == null) {
+        if (commodity == null)
             throw new IllegalStateException("Commodity not found in FMP: " + row.symbol());
-        }
 
         FinancialAsset asset = new FinancialAsset();
         asset.setSymbol(commodity.symbol());
@@ -214,7 +194,6 @@ public class FinancialAssetImportService {
         asset.setCurrency(commodity.currency());
         String searchTerm = cleanCommodityName(commodity.name());
         WikimediaSummaryDto wiki = wikimediaClient.search(searchTerm);
-        // On utilise l'image Wikimedia et la description si disponible
         if (wiki != null) {
             asset.setDescription(wiki.extract());
             asset.setLogoUrl(wiki.imageUrl());
@@ -224,7 +203,8 @@ public class FinancialAssetImportService {
     }
 
     private Map<String, FmpForexDto> toForexMap(List<FmpForexDto> list) {
-        if (list == null) {return Map.of();}
+        if (list == null)
+            return Map.of();
 
         return list.stream()
                 .collect(Collectors.toMap(FmpForexDto::symbol,
@@ -233,9 +213,8 @@ public class FinancialAssetImportService {
 
     private Map<String, FmpCommodityDto> toCommodityMap(List<FmpCommodityDto> list) {
 
-        if (list == null) {
+        if (list == null)
             return Map.of();
-        }
 
         return list.stream().collect(Collectors.toMap(FmpCommodityDto::symbol,
                         Function.identity(), (first, second) -> first)
@@ -244,9 +223,8 @@ public class FinancialAssetImportService {
 
     private String cleanCommodityName(String name) {
 
-        if (name == null) {
+        if (name == null)
             return null;
-        }
         return name.replace("Micro ", "").replace(" Futures", "").trim();
     }
 
@@ -268,7 +246,8 @@ public class FinancialAssetImportService {
 
     private Map<String, FmpCryptoDto> toCryptoMap(List<FmpCryptoDto> list) {
 
-        if (list == null) {return Map.of();}
+        if (list == null)
+            return Map.of();
 
         return list.stream().collect(Collectors.toMap(FmpCryptoDto::symbol,
                                 Function.identity(), (first, second) -> first));
@@ -280,11 +259,8 @@ public class FinancialAssetImportService {
 
         FmpCryptoDto crypto = cryptoBySymbol.get(fmpSymbol);
 
-        if (crypto == null) {
-            throw new IllegalStateException(
-                    "Crypto not found in FMP: " + fmpSymbol
-            );
-        }
+        if (crypto == null)
+            throw new IllegalStateException("Crypto not found in FMP: " + fmpSymbol);
 
         FinancialAsset asset = new FinancialAsset();
 
@@ -312,9 +288,8 @@ public class FinancialAssetImportService {
 
     private String cleanCryptoName(String name) {
 
-        if (name == null) {
+        if (name == null)
             return null;
-        }
         return name.replaceAll("(?i)\\s+USD$", "").trim();
     }
 }
