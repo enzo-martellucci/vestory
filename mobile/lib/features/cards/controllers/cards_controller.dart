@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../core/state/async_value.dart';
 import '../models/asset_card_model.dart';
+import '../models/card_query.dart';
 import '../repositories/card_repository.dart';
 
 class CardsController extends ChangeNotifier {
@@ -12,7 +13,16 @@ class CardsController extends ChangeNotifier {
   AsyncValue<List<AssetCardModel>> _state = const AsyncLoading();
   AsyncValue<List<AssetCardModel>> get state => _state;
 
+  String _search = '';
+  String get search => _search;
+
+  CardSort _sort = CardSort.collectionNumber;
+  CardSort get sort => _sort;
+
   bool _disposed = false;
+
+  List<AssetCardModel> get visibleCards =>
+      applyCardQuery(_state.valueOrNull ?? const [], search: _search, sort: _sort);
 
   Future<void> load() async {
     _setState(const AsyncLoading());
@@ -28,10 +38,25 @@ class CardsController extends ChangeNotifier {
     return null;
   }
 
+  void setSearch(String value) {
+    if (value == _search) return;
+    _search = value;
+    _notify();
+  }
+
+  void setSort(CardSort value) {
+    if (value == _sort) return;
+    _sort = value;
+    _notify();
+  }
+
   void _setState(AsyncValue<List<AssetCardModel>> value) {
-    if (_disposed) return;
     _state = value;
-    notifyListeners();
+    _notify();
+  }
+
+  void _notify() {
+    if (!_disposed) notifyListeners();
   }
 
   @override
