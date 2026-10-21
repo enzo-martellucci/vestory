@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
@@ -70,7 +71,10 @@ class _HomeContent extends StatelessWidget {
         DailyPackCard(profile: profile),
         if (profile.unopenedPacks.isNotEmpty) ...[
           const SizedBox(height: 16),
-          UnopenedPacksCard(packs: profile.unopenedPacks, onOpen: null),
+          UnopenedPacksCard(
+            packs: profile.unopenedPacks,
+            onOpen: () => context.push('/packs/open', extra: profile.unopenedPacks),
+          ),
         ],
         const SizedBox(height: 24),
         Text(

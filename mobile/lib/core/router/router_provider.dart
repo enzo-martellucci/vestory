@@ -8,6 +8,8 @@ import 'package:mobile/features/auth/presentation/register_screen.dart';
 import 'package:mobile/features/auth/presentation/splash_screen.dart';
 import 'package:mobile/features/cards/presentation/cards_screen.dart';
 import 'package:mobile/features/home/presentation/home_screen.dart';
+import 'package:mobile/features/player/data/models/user_pack.dart';
+import 'package:mobile/features/player/presentation/pack_opening/pack_opening_screen.dart';
 import 'package:mobile/features/shop/presentation/shop_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -43,6 +45,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(routes: [GoRoute(path: '/cards', builder: (context, state) => const CardsScreen())]),
           StatefulShellBranch(routes: [GoRoute(path: '/shop', builder: (context, state) => const ShopScreen())]),
         ],
+      ),
+      GoRoute(
+        path: '/packs/open',
+        builder: (context, state) => PackOpeningScreen(packs: state.extra as List<UserPack>),
       ),
     ],
   );
