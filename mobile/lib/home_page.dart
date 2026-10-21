@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/features/auth/presentation/auth_notifier.dart';
@@ -35,18 +34,9 @@ class HomePage extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                spacing: 12,
-                children: [
-                  OutlinedButton(
-                    onPressed: () => context.push('/cards'),
-                    child: const Text('Cards'),
-                  ),
-                  FilledButton(
-                    onPressed: () => ref.read(authProvider.notifier).logout(),
-                    child: const Text('Log out'),
-                  ),
-                ],
+              child: FilledButton(
+                onPressed: () => ref.read(authProvider.notifier).logout(),
+                child: const Text('Log out'),
               ),
             ),
           ],
