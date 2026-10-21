@@ -16,6 +16,4 @@ PlayerProfile _$PlayerProfileFromJson(Map<String, dynamic> json) =>
       nextDailyPackAt: json['nextDailyPackAt'] == null
           ? null
           : DateTime.parse(json['nextDailyPackAt'] as String),
-      packsUntilGuaranteedLegendary:
-          (json['packsUntilGuaranteedLegendary'] as num).toInt(),
     );

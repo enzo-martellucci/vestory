@@ -66,8 +66,7 @@ public class PlayerService {
                 profile.getGems(),
                 unopenedPacks,
                 dailyPackAvailable,
-                dailyPackAvailable ? null : nextDailyPackAt(),
-                PackDrawer.LEGENDARY_PITY - profile.getPacksSinceLegendary()
+                dailyPackAvailable ? null : nextDailyPackAt()
         );
     }
 
@@ -112,11 +111,10 @@ public class PlayerService {
         if (pack.getOpenedAt() != null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Pack already opened");
 
-        PackDraw draw = packDrawer.draw(pack.getType(), profile.getPacksSinceLegendary(), enabledCardsByRarity());
+        PackDraw draw = packDrawer.draw(pack.getType(), enabledCardsByRarity());
         AssetCard card = draw.card();
         Instant now = clock.instant();
 
-        profile.setPacksSinceLegendary(PackDrawer.nextPityCounter(profile.getPacksSinceLegendary(), draw.rarity()));
         pack.setOpenedAt(now);
         pack.setCard(card);
 
@@ -156,7 +154,6 @@ public class PlayerService {
         PlayerProfile profile = new PlayerProfile();
         profile.setUser(user);
         profile.setGems(STARTING_GEMS);
-        profile.setPacksSinceLegendary(0);
         playerProfileRepository.save(profile);
 
         WELCOME_PACKS.forEach(type -> addPack(user, type, PackSource.WELCOME));

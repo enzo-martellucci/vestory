@@ -7,7 +7,6 @@ public record PlayerProfileDto(
         int gems,
         List<UserPackDto> unopenedPacks,
         boolean dailyPackAvailable,
-        Instant nextDailyPackAt,
-        int packsUntilGuaranteedLegendary
+        Instant nextDailyPackAt
 ) {
 }

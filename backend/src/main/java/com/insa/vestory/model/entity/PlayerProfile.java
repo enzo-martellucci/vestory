@@ -28,9 +28,6 @@ public class PlayerProfile {
     private Instant lastDailyPackAt;
 
     @Column(nullable = false)
-    private int packsSinceLegendary;
-
-    @Column(nullable = false)
     private Instant createdAt;
 
     @PrePersist

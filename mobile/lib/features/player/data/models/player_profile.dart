@@ -9,14 +9,12 @@ class PlayerProfile {
   final List<UserPack> unopenedPacks;
   final bool dailyPackAvailable;
   final DateTime? nextDailyPackAt;
-  final int packsUntilGuaranteedLegendary;
 
   const PlayerProfile({
     required this.gems,
     required this.unopenedPacks,
     required this.dailyPackAvailable,
     this.nextDailyPackAt,
-    required this.packsUntilGuaranteedLegendary,
   });
 
   factory PlayerProfile.fromJson(Map<String, dynamic> json) => _$PlayerProfileFromJson(json);

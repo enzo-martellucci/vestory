@@ -13,8 +13,6 @@ import java.util.random.RandomGenerator;
 @Component
 public class PackDrawer {
 
-    public static final int LEGENDARY_PITY = 30;
-
     private final RandomGenerator random;
 
     public PackDrawer() {
@@ -25,15 +23,10 @@ public class PackDrawer {
         this.random = random;
     }
 
-    public PackDraw draw(PackType type, int packsSinceLegendary, Map<CardRarity, List<AssetCard>> cardsByRarity) {
-        CardRarity rolled = packsSinceLegendary + 1 >= LEGENDARY_PITY ? CardRarity.LEGENDARY : rollRarity(type);
-        CardRarity rarity = closestAvailableRarity(rolled, cardsByRarity);
+    public PackDraw draw(PackType type, Map<CardRarity, List<AssetCard>> cardsByRarity) {
+        CardRarity rarity = closestAvailableRarity(rollRarity(type), cardsByRarity);
         List<AssetCard> pool = cardsByRarity.get(rarity);
         return new PackDraw(pool.get(random.nextInt(pool.size())), rarity);
-    }
-
-    public static int nextPityCounter(int packsSinceLegendary, CardRarity drawn) {
-        return drawn == CardRarity.LEGENDARY ? 0 : packsSinceLegendary + 1;
     }
 
     private CardRarity rollRarity(PackType type) {

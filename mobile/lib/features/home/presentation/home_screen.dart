@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
-import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/error_view.dart';
 import 'package:mobile/features/auth/presentation/auth_notifier.dart';
 import 'package:mobile/features/home/presentation/widgets/daily_pack_card.dart';
@@ -62,8 +61,6 @@ class _HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final packsUntilLegendary = profile.packsUntilGuaranteedLegendary;
-
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
@@ -76,12 +73,6 @@ class _HomeContent extends StatelessWidget {
             onOpen: () => context.push('/packs/open', extra: profile.unopenedPacks),
           ),
         ],
-        const SizedBox(height: 24),
-        Text(
-          'Legendary guaranteed in $packsUntilLegendary ${packsUntilLegendary == 1 ? 'pack' : 'packs'}',
-          textAlign: .center,
-          style: const TextStyle(color: AppColors.muted),
-        ),
       ],
     );
   }
