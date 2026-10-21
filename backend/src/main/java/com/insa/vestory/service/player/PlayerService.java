@@ -118,7 +118,7 @@ public class PlayerService {
         if (pack.getOpenedAt() != null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Pack already opened");
 
-        PackDraw draw = packDrawer.draw(pack.getType(), enabledCardsByRarity());
+        PackDraw draw = packDrawer.draw(pack.getType(), pack.getSource(), enabledCardsByRarity());
         AssetCard card = draw.card();
         Instant now = clock.instant();
 

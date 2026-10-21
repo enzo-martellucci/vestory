@@ -4,5 +4,9 @@ public enum PackSource {
     WELCOME,
     DAILY,
     SHOP,
-    QUIZ
+    QUIZ;
+
+    public boolean isFree() {
+        return this != SHOP;
+    }
 }

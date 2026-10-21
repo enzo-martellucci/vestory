@@ -42,7 +42,7 @@ class ShopScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
               ],
               const Text(
-                'Duplicates give gems: Common 15 · Rare 40 · Epic 120 · Legendary 400',
+                'Duplicates give gems: Common 2 · Rare 10 · Epic 50 · Legendary 100',
                 textAlign: .center,
                 style: TextStyle(color: AppColors.muted, fontSize: 13),
               ),

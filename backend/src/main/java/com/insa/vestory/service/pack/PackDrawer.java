@@ -2,6 +2,7 @@ package com.insa.vestory.service.pack;
 
 import com.insa.vestory.model.entity.AssetCard;
 import com.insa.vestory.model.enums.CardRarity;
+import com.insa.vestory.model.enums.PackSource;
 import com.insa.vestory.model.enums.PackType;
 import org.springframework.stereotype.Component;
 
@@ -23,19 +24,19 @@ public class PackDrawer {
         this.random = random;
     }
 
-    public PackDraw draw(PackType type, Map<CardRarity, List<AssetCard>> cardsByRarity) {
-        CardRarity rarity = closestAvailableRarity(rollRarity(type), cardsByRarity);
+    public PackDraw draw(PackType type, PackSource source, Map<CardRarity, List<AssetCard>> cardsByRarity) {
+        CardRarity rarity = closestAvailableRarity(rollRarity(type, source), cardsByRarity);
         List<AssetCard> pool = cardsByRarity.get(rarity);
         return new PackDraw(pool.get(random.nextInt(pool.size())), rarity);
     }
 
-    private CardRarity rollRarity(PackType type) {
+    private CardRarity rollRarity(PackType type, PackSource source) {
         double roll = random.nextDouble();
         double cumulative = 0;
         CardRarity last = null;
 
         for (CardRarity rarity : CardRarity.values()) {
-            double odds = type.oddsOf(rarity);
+            double odds = type.oddsOf(rarity, source);
             if (odds <= 0)
                 continue;
             cumulative += odds;
