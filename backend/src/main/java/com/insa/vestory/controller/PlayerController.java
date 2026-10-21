@@ -1,5 +1,6 @@
 package com.insa.vestory.controller;
 
+import com.insa.vestory.dto.player.AddGemsRequest;
 import com.insa.vestory.dto.player.BuyPackRequest;
 import com.insa.vestory.dto.player.OwnedCardDto;
 import com.insa.vestory.dto.player.PackOpeningResultDto;
@@ -26,6 +27,11 @@ public class PlayerController {
     @GetMapping("/profile")
     public PlayerProfileDto getProfile(@AuthenticationPrincipal Jwt jwt) {
         return playerService.getProfile(userId(jwt));
+    }
+
+    @PostMapping("/gems")
+    public PlayerProfileDto addGems(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody AddGemsRequest request) {
+        return playerService.addGems(userId(jwt), request.amount());
     }
 
     @GetMapping("/cards")

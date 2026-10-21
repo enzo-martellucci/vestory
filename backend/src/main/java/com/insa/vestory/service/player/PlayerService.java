@@ -54,6 +54,13 @@ public class PlayerService {
     private final Clock clock;
 
     @Transactional
+    public PlayerProfileDto addGems(UUID userId, int amount) {
+        PlayerProfile profile = getOrCreateProfile(userId);
+        profile.setGems(profile.getGems() + amount);
+        return getProfile(userId);
+    }
+
+    @Transactional
     public PlayerProfileDto getProfile(UUID userId) {
         PlayerProfile profile = getOrCreateProfile(userId);
         List<UserPackDto> unopenedPacks = userPackRepository.findAllByUserIdAndOpenedAtIsNullOrderByObtainedAtAsc(userId)
