@@ -7,8 +7,8 @@ import 'package:mobile/features/auth/presentation/login_screen.dart';
 import 'package:mobile/features/auth/presentation/register_screen.dart';
 import 'package:mobile/features/auth/presentation/splash_screen.dart';
 import 'package:mobile/features/cards/presentation/cards_screen.dart';
+import 'package:mobile/features/home/presentation/home_screen.dart';
 import 'package:mobile/features/shop/presentation/shop_screen.dart';
-import 'package:mobile/home_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ValueNotifier<AsyncValue<bool>>(const AsyncLoading());
@@ -39,7 +39,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => AppShell(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(routes: [GoRoute(path: '/home', builder: (context, state) => const HomePage())]),
+          StatefulShellBranch(routes: [GoRoute(path: '/home', builder: (context, state) => const HomeScreen())]),
           StatefulShellBranch(routes: [GoRoute(path: '/cards', builder: (context, state) => const CardsScreen())]),
           StatefulShellBranch(routes: [GoRoute(path: '/shop', builder: (context, state) => const ShopScreen())]),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
+import 'package:mobile/core/widgets/error_view.dart';
 import 'package:mobile/features/cards/data/models/asset_card_model.dart';
 import 'package:mobile/features/cards/presentation/card_query.dart';
 import 'package:mobile/features/cards/presentation/cards_provider.dart';
@@ -37,8 +38,8 @@ class CardsScreen extends ConsumerWidget {
             child: ref.watch(visibleCardsProvider).when(
               skipError: true,
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) => _ErrorView(
-                message: apiErrorMessage(error),
+              error: (error, stackTrace) => ErrorView(
+                message: 'Unable to load cards.\n${apiErrorMessage(error)}',
                 onRetry: () => ref.invalidate(cardsProvider),
               ),
               data: (cards) => totalCards == 0
@@ -89,34 +90,6 @@ class _CardsGrid extends StatelessWidget {
         key: ValueKey(cards[index].id),
         card: cards[index],
         totalCards: totalCards,
-      ),
-    );
-  }
-}
-
-class _ErrorView extends StatelessWidget {
-  final String message;
-  final VoidCallback onRetry;
-
-  const _ErrorView({required this.message, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: .min,
-          spacing: 16,
-          children: [
-            Text('Unable to load cards.\n$message', textAlign: .center),
-            FilledButton.icon(
-              onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
-            ),
-          ],
-        ),
       ),
     );
   }
