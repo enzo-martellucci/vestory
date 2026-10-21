@@ -1,6 +1,6 @@
 package com.insa.vestory.controller;
 
-import com.insa.vestory.dto.UserResponse;
+import com.insa.vestory.dto.user.UserResponse;
 import com.insa.vestory.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
-/// Image réseau circulaire avec repli sur une icône.
-///
-/// Non utilisée pour l'instant (le recto utilise `CardBackground`) :
-/// à garder pour les futurs écrans (liste, détail) ou à supprimer.
 class AppNetworkImage extends StatelessWidget {
   final String? url;
   final double size;

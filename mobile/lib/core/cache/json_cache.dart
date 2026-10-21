@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-import '../database/app_database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/core/database/app_database.dart';
+
+final jsonCacheProvider = Provider<JsonCache>((ref) => JsonCache(ref.watch(appDatabaseProvider)));
 
 class CachedJson {
   final Map<String, dynamic> json;
@@ -9,34 +12,22 @@ class CachedJson {
   const CachedJson(this.json, this.fetchedAt);
 }
 
-abstract interface class JsonCache {
-  Future<CachedJson?> read(String key);
+class JsonCache {
+  final AppDatabase database;
 
-  Future<void> write(String key, Map<String, dynamic> json, DateTime fetchedAt);
-}
+  JsonCache(this.database);
 
-class DriftJsonCache implements JsonCache {
-  final AppDatabase _database;
-
-  const DriftJsonCache(this._database);
-
-  @override
   Future<CachedJson?> read(String key) async {
-    final query = _database.select(_database.cacheEntries)
-      ..where((entry) => entry.cacheKey.equals(key));
+    final query = database.select(database.cacheEntries)..where((entry) => entry.cacheKey.equals(key));
     final row = await query.getSingleOrNull();
-    if (row == null) return null;
+    if (row == null)
+      return null;
     return CachedJson(jsonDecode(row.payload) as Map<String, dynamic>, row.fetchedAt);
   }
 
-  @override
   Future<void> write(String key, Map<String, dynamic> json, DateTime fetchedAt) {
-    return _database.into(_database.cacheEntries).insertOnConflictUpdate(
-      CacheEntriesCompanion.insert(
-        cacheKey: key,
-        payload: jsonEncode(json),
-        fetchedAt: fetchedAt,
-      ),
-    );
+    return database
+        .into(database.cacheEntries)
+        .insertOnConflictUpdate(CacheEntriesCompanion.insert(cacheKey: key, payload: jsonEncode(json), fetchedAt: fetchedAt));
   }
 }

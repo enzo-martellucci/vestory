@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
-// gere l'animation de la carte qui se retourne
 class FlipCard extends StatefulWidget {
   final Widget front;
   final Widget back;
