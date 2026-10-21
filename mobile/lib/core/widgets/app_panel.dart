@@ -1,10 +1,10 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
-class HomePanel extends StatelessWidget {
+class AppPanel extends StatelessWidget {
   final Widget child;
 
-  const HomePanel({super.key, required this.child});
+  const AppPanel({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

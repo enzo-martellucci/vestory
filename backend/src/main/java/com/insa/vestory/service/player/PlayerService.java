@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 public class PlayerService {
 
     private static final ZoneId GAME_ZONE = ZoneId.of("Europe/Paris");
+    private static final int STARTING_GEMS = 200;
     private static final List<PackType> WELCOME_PACKS = List.of(PackType.STANDARD, PackType.STANDARD, PackType.PREMIUM);
 
     private final PlayerProfileRepository playerProfileRepository;
@@ -154,7 +155,7 @@ public class PlayerService {
 
         PlayerProfile profile = new PlayerProfile();
         profile.setUser(user);
-        profile.setGems(0);
+        profile.setGems(STARTING_GEMS);
         profile.setPacksSinceLegendary(0);
         playerProfileRepository.save(profile);
 

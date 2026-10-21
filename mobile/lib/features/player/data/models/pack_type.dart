@@ -24,5 +24,7 @@ enum PackType {
 
   const PackType(this.price, this.odds);
 
+  String get label => '${name[0].toUpperCase()}${name.substring(1)}';
+
   double oddsOf(CardRarity rarity) => odds[rarity] ?? 0;
 }

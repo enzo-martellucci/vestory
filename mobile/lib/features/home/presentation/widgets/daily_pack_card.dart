@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/home/presentation/widgets/home_panel.dart';
+import 'package:mobile/core/widgets/app_panel.dart';
 import 'package:mobile/features/player/data/models/pack_type.dart';
 import 'package:mobile/features/player/data/models/player_profile.dart';
 import 'package:mobile/features/player/data/player_repository.dart';
@@ -76,7 +76,7 @@ class _DailyPackCardState extends ConsumerState<DailyPackCard> {
   Widget build(BuildContext context) {
     final available = widget.profile.dailyPackAvailable;
 
-    return HomePanel(
+    return AppPanel(
       child: Column(
         spacing: 16,
         children: [

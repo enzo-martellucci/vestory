@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/home/presentation/widgets/home_panel.dart';
+import 'package:mobile/core/widgets/app_panel.dart';
 import 'package:mobile/features/player/data/models/user_pack.dart';
 import 'package:mobile/features/player/presentation/widgets/pack_visual.dart';
 
@@ -19,7 +19,7 @@ class UnopenedPacksCard extends StatelessWidget {
     final visiblePacks = packs.take(_maxVisiblePacks).toList();
     final count = packs.length;
 
-    return HomePanel(
+    return AppPanel(
       child: Column(
         spacing: 16,
         children: [
