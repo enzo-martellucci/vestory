@@ -1,0 +1,49 @@
+import 'package:material_ui/material_ui.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/cards/data/models/card_rarity.dart';
+
+class CardFrame extends StatelessWidget {
+  final CardRarity rarity;
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+
+  const CardFrame({
+    super.key,
+    required this.rarity,
+    required this.child,
+    this.padding,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = rarity.color;
+
+    return Container(
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          const BoxShadow(
+            color: AppColors.shadow,
+            blurRadius: 14,
+            offset: Offset(0, 8),
+          ),
+          BoxShadow(
+            color: color.withValues(alpha: 0.30),
+            blurRadius: 22,
+            spreadRadius: 0.5,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        child: Container(
+          color: AppColors.cardSurface,
+          padding: padding,
+          child: child,
+        ),
+      ),
+    );
+  }
+}
