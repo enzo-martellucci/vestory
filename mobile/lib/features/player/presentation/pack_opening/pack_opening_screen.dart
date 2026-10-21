@@ -8,9 +8,12 @@ import 'package:mobile/features/player/data/models/pack_opening_result.dart';
 import 'package:mobile/features/player/data/models/user_pack.dart';
 import 'package:mobile/features/player/data/player_repository.dart';
 import 'package:mobile/features/player/presentation/pack_opening/opening_phase.dart';
+import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/card_reveal.dart';
+import 'package:mobile/features/player/presentation/pack_opening/widgets/legendary_effects.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/opening_pack.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/opening_summary.dart';
+import 'package:mobile/features/player/presentation/pack_opening/widgets/particle_burst.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
 
 class PackOpeningScreen extends ConsumerStatefulWidget {
@@ -29,7 +32,12 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
 
   UserPack get _pack => widget.packs[_index];
 
+  PackOpeningResult? get _result => _results.length > _index ? _results[_index] : null;
+
   bool get _isLastPack => _index == widget.packs.length - 1;
+
+  bool get _isLegendaryMoment =>
+      (_result?.card.rarity.isLegendary ?? false) && _phase != OpeningPhase.ready && _phase != OpeningPhase.summary;
 
   Future<void> _open() async {
     if (_phase != OpeningPhase.ready)
@@ -46,8 +54,15 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
         return;
       setState(() {
         _results.add(result);
-        _phase = OpeningPhase.burst;
+        _phase = OpeningPhase.charging;
       });
+
+      final rarity = result.card.rarity;
+      await Future<void>.delayed(rarity.chargeDuration);
+      if (!mounted)
+        return;
+      setState(() => _phase = OpeningPhase.burst);
+      rarity.haptic();
     } catch (error) {
       if (!mounted)
         return;
@@ -72,12 +87,13 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
     return PopScope(
       canPop: !_phase.isAnimating,
       child: Scaffold(
-        body: DecoratedBox(
-          decoration: const BoxDecoration(
+        body: AnimatedContainer(
+          duration: const Duration(milliseconds: 600),
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [AppColors.indigo, AppColors.ink],
+              colors: _isLegendaryMoment ? const [Color(0xFF1A1405), Colors.black] : const [AppColors.indigo, AppColors.ink],
             ),
           ),
           child: SafeArea(
@@ -87,7 +103,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
                   label: _phase == OpeningPhase.summary ? null : 'Pack ${_index + 1} / ${widget.packs.length}',
                   onClose: _phase.isAnimating ? null : () => context.pop(),
                 ),
-                Expanded(child: _buildStage(totalCards)),
+                Expanded(child: _buildEffects(_buildStage(totalCards))),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(32, 0, 32, 24),
                   child: SizedBox(height: 54, child: _buildAction()),
@@ -100,14 +116,48 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
     );
   }
 
+  Widget _buildEffects(Widget stage) {
+    final result = _result;
+    final showBurst = result != null && _phase.index >= OpeningPhase.burst.index && _phase != OpeningPhase.summary;
+    final showRays = _isLegendaryMoment && (_phase == OpeningPhase.reveal || _phase == OpeningPhase.revealed);
+
+    return Stack(
+      alignment: .center,
+      children: [
+        if (showRays)
+          const IgnorePointer(child: LegendaryRays()),
+        stage,
+        if (showBurst)
+          Positioned.fill(
+            child: IgnorePointer(
+              child: ParticleBurst(
+                key: ValueKey(_index),
+                color: result.card.rarity.color,
+                count: result.card.rarity.particleCount,
+              ),
+            ),
+          ),
+        if (_isLegendaryMoment && _phase == OpeningPhase.revealed)
+          const Positioned.fill(child: IgnorePointer(child: SparkleRain())),
+      ],
+    );
+  }
+
+  void _onRevealed() {
+    setState(() => _phase = OpeningPhase.revealed);
+    if (_isLegendaryMoment)
+      _result!.card.rarity.haptic();
+  }
+
   Widget _buildStage(int totalCards) => switch (_phase) {
-    OpeningPhase.ready || OpeningPhase.shaking || OpeningPhase.burst => GestureDetector(
+    OpeningPhase.ready || OpeningPhase.shaking || OpeningPhase.charging || OpeningPhase.burst => GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: _open,
       child: Center(
         child: OpeningPack(
           key: ValueKey(_index),
           type: _pack.type,
+          rarity: _result?.card.rarity,
           phase: _phase,
           onBurstComplete: () => setState(() => _phase = OpeningPhase.reveal),
         ),
@@ -117,11 +167,13 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
       mainAxisAlignment: .center,
       spacing: 24,
       children: [
+        if (_isLegendaryMoment)
+          SizedBox(height: 48, child: _phase == OpeningPhase.revealed ? const _LegendaryBanner() : null),
         CardReveal(
           key: ValueKey(_index),
           card: _results.last.card,
           totalCards: totalCards,
-          onRevealed: () => setState(() => _phase = OpeningPhase.revealed),
+          onRevealed: _onRevealed,
         ),
         Opacity(
           opacity: _phase == OpeningPhase.revealed ? 1 : 0,
@@ -180,6 +232,30 @@ class _TopBar extends StatelessWidget {
           ),
           const SizedBox(width: 48),
         ],
+      ),
+    );
+  }
+}
+
+class _LegendaryBanner extends StatelessWidget {
+  const _LegendaryBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 900),
+      curve: Curves.elasticOut,
+      builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+      child: const Text(
+        'LEGENDARY!',
+        style: TextStyle(
+          color: AppColors.legendary,
+          fontSize: 36,
+          fontWeight: .w900,
+          letterSpacing: 3,
+          shadows: [Shadow(color: AppColors.legendaryTint, blurRadius: 18)],
+        ),
       ),
     );
   }
