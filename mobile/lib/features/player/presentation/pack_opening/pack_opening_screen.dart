@@ -14,6 +14,7 @@ import 'package:mobile/features/player/presentation/pack_opening/widgets/legenda
 import 'package:mobile/features/player/presentation/pack_opening/widgets/opening_pack.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/opening_summary.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/particle_burst.dart';
+import 'package:mobile/features/player/presentation/pack_opening/widgets/walkout_sequence.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
 
 class PackOpeningScreen extends ConsumerStatefulWidget {
@@ -38,6 +39,14 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
 
   bool get _isLegendaryMoment =>
       (_result?.card.rarity.isLegendary ?? false) && _phase != OpeningPhase.ready && _phase != OpeningPhase.summary;
+
+  List<Color> get _backgroundColors {
+    final rarity = _result?.card.rarity;
+    final rarityRevealed = _phase.index >= OpeningPhase.walkout.index && _phase != OpeningPhase.summary;
+    if (rarity != null && (_isLegendaryMoment || rarityRevealed))
+      return rarity.backgroundColors;
+    return const [AppColors.indigo, AppColors.ink];
+  }
 
   Future<void> _open() async {
     if (_phase != OpeningPhase.ready)
@@ -93,7 +102,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: _isLegendaryMoment ? const [Color(0xFF1A1405), Colors.black] : const [AppColors.indigo, AppColors.ink],
+              colors: _backgroundColors,
             ),
           ),
           child: SafeArea(
@@ -119,7 +128,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
   Widget _buildEffects(Widget stage) {
     final result = _result;
     final showBurst = result != null && _phase.index >= OpeningPhase.burst.index && _phase != OpeningPhase.summary;
-    final showRays = _isLegendaryMoment && (_phase == OpeningPhase.reveal || _phase == OpeningPhase.revealed);
+    final showRays = _isLegendaryMoment && _phase.index >= OpeningPhase.walkout.index;
 
     return Stack(
       alignment: .center,
@@ -159,9 +168,14 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
           type: _pack.type,
           rarity: _result?.card.rarity,
           phase: _phase,
-          onBurstComplete: () => setState(() => _phase = OpeningPhase.reveal),
+          onBurstComplete: () => setState(() => _phase = OpeningPhase.walkout),
         ),
       ),
+    ),
+    OpeningPhase.walkout => WalkoutSequence(
+      key: ValueKey(_index),
+      card: _results.last.card,
+      onComplete: () => setState(() => _phase = OpeningPhase.reveal),
     ),
     OpeningPhase.reveal || OpeningPhase.revealed => Column(
       mainAxisAlignment: .center,
@@ -188,9 +202,9 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
     final style = FilledButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppColors.indigo);
 
     return switch (_phase) {
-      OpeningPhase.ready => Center(
+      OpeningPhase.ready || OpeningPhase.walkout => Center(
         child: Text(
-          'Tap the pack to open it',
+          _phase == OpeningPhase.ready ? 'Tap the pack to open it' : 'Tap to skip',
           style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontWeight: .w600),
         ),
       ),
