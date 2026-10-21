@@ -3,9 +3,9 @@ spring:
     name: vestory
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/vestory
-    username: vestory
-    password: vestory
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/vestory}
+    username: ${DB_USERNAME:vestory}
+    password: ${DB_PASSWORD:vestory}
 
   jpa:
     open-in-view: false
