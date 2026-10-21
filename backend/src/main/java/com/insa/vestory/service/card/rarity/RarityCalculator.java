@@ -1,17 +1,12 @@
 package com.insa.vestory.service.card.rarity;
 
-import com.insa.vestory.model.entity.FinancialAsset;
-import com.insa.vestory.model.enums.AssetType;
-import com.insa.vestory.model.enums.CardRarity;
+import com.insa.vestory.constant.AssetType;
+import com.insa.vestory.constant.CardRarity;
+import com.insa.vestory.entity.Asset;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,27 +22,27 @@ public class RarityCalculator {
 
     private static final double COMMODITY_FALLBACK_SCORE = 50.0;
 
-    public Map<UUID, Double> computeScores(List<FinancialAsset> assets, Map<UUID, RarityMarketData> marketData) {
+    public Map<UUID, Double> computeScores(List<Asset> assets, Map<UUID, RarityMarketData> marketData) {
         Map<UUID, Double> scores = new HashMap<>();
 
         assets.stream()
-                .collect(Collectors.groupingBy(FinancialAsset::getAssetType))
-                .forEach((type, group) -> {
-                    if (type == AssetType.FOREX)
-                        group.forEach(asset -> scores.put(asset.getId(), forexScore(marketData.get(asset.getId()))));
-                    else
-                        scores.putAll(computeMarketScores(type, group, marketData));
-                });
+            .collect(Collectors.groupingBy(Asset::getAssetType))
+            .forEach((type, group) -> {
+                if (type == AssetType.FOREX)
+                    group.forEach(asset -> scores.put(asset.getId(), forexScore(marketData.get(asset.getId()))));
+                else
+                    scores.putAll(computeMarketScores(type, group, marketData));
+            });
 
         return scores;
     }
 
-    public Map<UUID, CardRarity> assignRarities(List<FinancialAsset> assets, Map<UUID, Double> scores) {
-        List<FinancialAsset> ranked = assets.stream()
-                .sorted(Comparator.comparingDouble((FinancialAsset asset) -> scores.getOrDefault(asset.getId(), 0.0))
-                        .reversed()
-                        .thenComparing(FinancialAsset::getSymbol))
-                .toList();
+    public Map<UUID, CardRarity> assignRarities(List<Asset> assets, Map<UUID, Double> scores) {
+        List<Asset> ranked = assets.stream()
+            .sorted(Comparator.comparingDouble((Asset asset) -> scores.getOrDefault(asset.getId(), 0.0))
+                .reversed()
+                .thenComparing(Asset::getSymbol))
+            .toList();
 
         int total = ranked.size();
         int legendaryLimit = (int) Math.round(total * LEGENDARY_SHARE);
@@ -61,16 +56,16 @@ public class RarityCalculator {
         return rarities;
     }
 
-    private Map<UUID, Double> computeMarketScores(AssetType type, List<FinancialAsset> group, Map<UUID, RarityMarketData> marketData) {
+    private Map<UUID, Double> computeMarketScores(AssetType type, List<Asset> group, Map<UUID, RarityMarketData> marketData) {
         List<RarityMarketData> available = group.stream()
-                .map(asset -> marketData.get(asset.getId()))
-                .filter(Objects::nonNull)
-                .toList();
+            .map(asset -> marketData.get(asset.getId()))
+            .filter(Objects::nonNull)
+            .toList();
         List<BigDecimal> marketCaps = positiveValues(available, RarityMarketData::marketCap);
         List<BigDecimal> volumes = positiveValues(available, RarityMarketData::volume);
 
         Map<UUID, Double> scores = new HashMap<>();
-        for (FinancialAsset asset : group) {
+        for (Asset asset : group) {
             RarityMarketData data = marketData.get(asset.getId());
             scores.put(asset.getId(), data == null ? fallbackScore(type) : round(marketScore(type, data, marketCaps, volumes)));
         }
@@ -117,9 +112,9 @@ public class RarityCalculator {
 
     private List<BigDecimal> positiveValues(List<RarityMarketData> data, Function<RarityMarketData, BigDecimal> extractor) {
         return data.stream()
-                .map(extractor)
-                .filter(this::isPositive)
-                .toList();
+            .map(extractor)
+            .filter(this::isPositive)
+            .toList();
     }
 
     private double percentile(BigDecimal value, List<BigDecimal> values) {
@@ -129,8 +124,8 @@ public class RarityCalculator {
             return 100;
 
         long below = values.stream()
-                .filter(other -> other.compareTo(value) < 0)
-                .count();
+            .filter(other -> other.compareTo(value) < 0)
+            .count();
 
         return (double) below / (values.size() - 1) * 100.0;
     }

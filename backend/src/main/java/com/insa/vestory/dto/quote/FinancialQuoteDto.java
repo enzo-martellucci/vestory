@@ -1,40 +1,40 @@
 package com.insa.vestory.dto.quote;
 
-import com.insa.vestory.model.enums.AssetType;
+import com.insa.vestory.constant.AssetType;
 
 import java.time.Instant;
 import java.util.UUID;
 
 public record FinancialQuoteDto(
 
-        UUID financialAssetId,
+    UUID financialAssetId,
 
-        String symbol,
-        String name,
-        AssetType assetType,
+    String symbol,
+    String name,
+    AssetType assetType,
 
-        String currency,
-        String exchange,
+    String currency,
+    String exchange,
 
-        Double price,
+    Double price,
 
-        Double open,
-        Double high,
-        Double low,
-        Double previousClose,
+    Double open,
+    Double high,
+    Double low,
+    Double previousClose,
 
-        Double change,
-        Double changePercent,
+    Double change,
+    Double changePercent,
 
-        Double volume,
+    Double volume,
 
-        boolean marketOpen,
+    boolean marketOpen,
 
-        Instant timestamp,
+    Instant timestamp,
 
-        String provider,
+    String provider,
 
-        String trackedBy
+    String trackedBy
 
 ) {
-}
+}

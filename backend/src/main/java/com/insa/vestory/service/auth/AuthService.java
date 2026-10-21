@@ -1,4 +1,4 @@
-package com.insa.vestory.service;
+package com.insa.vestory.service.auth;
 
 import com.insa.vestory.dto.auth.AuthResponse;
 import com.insa.vestory.dto.auth.LoginRequest;

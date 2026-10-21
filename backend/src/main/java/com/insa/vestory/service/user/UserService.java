@@ -1,4 +1,4 @@
-package com.insa.vestory.service;
+package com.insa.vestory.service.user;
 
 import com.insa.vestory.dto.user.UserResponse;
 import com.insa.vestory.exception.ResourceNotFoundException;

@@ -6,19 +6,15 @@ import com.insa.vestory.client.fmp.dto.FmpCompanyProfileDto;
 import com.insa.vestory.client.fmp.dto.FmpQuoteDto;
 import com.insa.vestory.client.twelvedata.TwelveDataClient;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataForexPairDto;
-import com.insa.vestory.model.entity.FinancialAsset;
-import com.insa.vestory.model.enums.AssetType;
+import com.insa.vestory.constant.AssetType;
+import com.insa.vestory.entity.Asset;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -30,15 +26,15 @@ public class RarityMarketDataLoader {
     private final FmpClient fmpClient;
     private final TwelveDataClient twelveDataClient;
 
-    public Result load(List<FinancialAsset> assets) {
+    public Result load(List<Asset> assets) {
         Map<UUID, RarityMarketData> data = new HashMap<>();
         List<String> unavailableSymbols = new ArrayList<>();
         Map<String, TwelveDataForexPairDto> forexPairs = hasForex(assets) ? loadForexPairs() : Map.of();
 
-        for (FinancialAsset asset : assets) {
+        for (Asset asset : assets) {
             RarityMarketData assetData = asset.getAssetType() == AssetType.FOREX
-                    ? loadForex(asset, forexPairs)
-                    : loadFromFmp(asset);
+                ? loadForex(asset, forexPairs)
+                : loadFromFmp(asset);
 
             if (assetData == null)
                 unavailableSymbols.add(asset.getSymbol() + (asset.getAssetType() == AssetType.FOREX ? " [Twelve Data]" : " [FMP]"));
@@ -49,12 +45,12 @@ public class RarityMarketDataLoader {
         return new Result(data, unavailableSymbols.stream().distinct().sorted().toList());
     }
 
-    private RarityMarketData loadForex(FinancialAsset asset, Map<String, TwelveDataForexPairDto> forexPairs) {
+    private RarityMarketData loadForex(Asset asset, Map<String, TwelveDataForexPairDto> forexPairs) {
         TwelveDataForexPairDto pair = forexPairs.get(normalizeForex(asset.getSymbol()));
         return pair == null ? null : RarityMarketData.ofForex(pair.currencyGroup());
     }
 
-    private RarityMarketData loadFromFmp(FinancialAsset asset) {
+    private RarityMarketData loadFromFmp(Asset asset) {
         String symbol = asset.getSymbol().replace("/", "").trim().toUpperCase();
 
         try {
@@ -84,15 +80,15 @@ public class RarityMarketDataLoader {
     private Map<String, TwelveDataForexPairDto> loadForexPairs() {
         try {
             return twelveDataClient.getForexPairs().stream()
-                    .filter(pair -> pair.symbol() != null)
-                    .collect(Collectors.toMap(pair -> normalizeForex(pair.symbol()), Function.identity(), (first, second) -> first));
+                .filter(pair -> pair.symbol() != null)
+                .collect(Collectors.toMap(pair -> normalizeForex(pair.symbol()), Function.identity(), (first, second) -> first));
         } catch (RuntimeException exception) {
             log.warn("Twelve Data forex pairs unavailable: {}", exception.getMessage());
             return Map.of();
         }
     }
 
-    private boolean hasForex(List<FinancialAsset> assets) {
+    private boolean hasForex(List<Asset> assets) {
         return assets.stream().anyMatch(asset -> asset.getAssetType() == AssetType.FOREX);
     }
 
