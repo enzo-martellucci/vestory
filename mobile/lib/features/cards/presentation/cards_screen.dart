@@ -16,7 +16,7 @@ class CardsScreen extends ConsumerWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Vestory')),
+      appBar: AppBar(title: const Text('Collection')),
       body: ref.watch(cardsProvider).when(
         skipError: true,
         loading: () => const Center(child: CircularProgressIndicator()),

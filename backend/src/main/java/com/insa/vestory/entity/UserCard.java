@@ -1,6 +1,5 @@
-package com.insa.vestory.model.entity;
+package com.insa.vestory.entity;
 
-import com.insa.vestory.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,7 @@ public class UserCard {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "asset_card_id", nullable = false)
-    private AssetCard card;
+    private Card card;
 
     private int quantity;
 

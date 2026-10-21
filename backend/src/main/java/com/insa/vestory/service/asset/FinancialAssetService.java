@@ -1,11 +1,11 @@
 package com.insa.vestory.service.asset;
 
-import com.insa.vestory.dto.asset.FinancialAssetCountDto;
-import com.insa.vestory.dto.asset.FinancialAssetDeleteResult;
-import com.insa.vestory.dto.asset.FinancialAssetImportResult;
-import com.insa.vestory.dto.asset.FinancialAssetResponseDto;
-import com.insa.vestory.mapper.FinancialAssetMapper;
-import com.insa.vestory.repository.FinancialAssetRepository;
+import com.insa.vestory.dto.asset.AssetCountDto;
+import com.insa.vestory.dto.asset.AssetDeleteResult;
+import com.insa.vestory.dto.asset.AssetImportResult;
+import com.insa.vestory.dto.asset.AssetResponseDto;
+import com.insa.vestory.mapper.AssetMapper;
+import com.insa.vestory.repository.AssetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,30 +16,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FinancialAssetService {
 
-    private final FinancialAssetRepository financialAssetRepository;
+    private final AssetRepository assetRepository;
     private final FinancialAssetImportService financialAssetImportService;
-    private final FinancialAssetMapper financialAssetMapper;
+    private final AssetMapper assetMapper;
 
     @Transactional(readOnly = true)
-    public List<FinancialAssetResponseDto> getAll() {
-        return financialAssetMapper.toResponses(financialAssetRepository.findAllByOrderBySymbolAsc());
+    public List<AssetResponseDto> getAll() {
+        return assetMapper.toResponses(assetRepository.findAllByOrderBySymbolAsc());
     }
 
-    public FinancialAssetCountDto count() {
-        return new FinancialAssetCountDto(financialAssetRepository.count());
+    public AssetCountDto count() {
+        return new AssetCountDto(assetRepository.count());
     }
 
-    public FinancialAssetImportResult importAll() {
-        long before = financialAssetRepository.count();
+    public AssetImportResult importAll() {
+        long before = assetRepository.count();
         financialAssetImportService.importAll();
-        long after = financialAssetRepository.count();
-        return new FinancialAssetImportResult(before, after, after - before);
+        long after = assetRepository.count();
+        return new AssetImportResult(before, after, after - before);
     }
 
     @Transactional
-    public FinancialAssetDeleteResult deleteAll() {
-        long count = financialAssetRepository.count();
-        financialAssetRepository.deleteAllInBatch();
-        return new FinancialAssetDeleteResult(count, financialAssetRepository.count());
+    public AssetDeleteResult deleteAll() {
+        long count = assetRepository.count();
+        assetRepository.deleteAllInBatch();
+        return new AssetDeleteResult(count, assetRepository.count());
     }
 }

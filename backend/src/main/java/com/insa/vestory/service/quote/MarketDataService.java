@@ -12,9 +12,9 @@ import com.insa.vestory.config.CacheConfiguration;
 import com.insa.vestory.dto.quote.FinancialHistoryDto;
 import com.insa.vestory.dto.quote.FinancialHistoryPointDto;
 import com.insa.vestory.dto.quote.FinancialQuoteDto;
+import com.insa.vestory.entity.Asset;
 import com.insa.vestory.exception.ResourceNotFoundException;
-import com.insa.vestory.model.entity.FinancialAsset;
-import com.insa.vestory.repository.FinancialAssetRepository;
+import com.insa.vestory.repository.AssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -43,13 +43,13 @@ public class MarketDataService {
     private static final DateTimeFormatter HISTORY_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final int FMP_HISTORY_DAYS = 30;
 
-    private final FinancialAssetRepository financialAssetRepository;
+    private final AssetRepository assetRepository;
     private final TwelveDataClient twelveDataClient;
     private final FmpClient fmpClient;
 
     @Cacheable(cacheNames = CacheConfiguration.QUOTES, key = "#financialAssetId")
     public FinancialQuoteDto getQuote(UUID financialAssetId) {
-        FinancialAsset asset = findAsset(financialAssetId);
+        Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
 
         try {
@@ -63,7 +63,7 @@ public class MarketDataService {
 
     @Cacheable(cacheNames = CacheConfiguration.HISTORY, key = "#financialAssetId")
     public FinancialHistoryDto getHistory(UUID financialAssetId) {
-        FinancialAsset asset = findAsset(financialAssetId);
+        Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
 
         try {
@@ -75,70 +75,70 @@ public class MarketDataService {
         return historyFromFmp(asset, marketSymbol);
     }
 
-    private FinancialQuoteDto quoteFromTwelveData(FinancialAsset asset, MarketSymbol marketSymbol) {
+    private FinancialQuoteDto quoteFromTwelveData(Asset asset, MarketSymbol marketSymbol) {
         TwelveDataQuoteDto quote = twelveDataClient.getQuote(marketSymbol.symbol(), marketSymbol.micCode());
         Double price = toDouble(quote.close());
         if (price == null)
             throw new MarketDataUnavailableException("No price returned by Twelve Data for " + asset.getSymbol());
 
         return new FinancialQuoteDto(
-                asset.getId(),
-                asset.getSymbol(),
-                asset.getName(),
-                asset.getAssetType(),
-                asset.getCurrency(),
-                asset.getExchange(),
-                price,
-                toDouble(quote.open()),
-                toDouble(quote.high()),
-                toDouble(quote.low()),
-                toDouble(quote.previousClose()),
-                toDouble(quote.change()),
-                toDouble(quote.percentChange()),
-                toDouble(quote.volume()),
-                Boolean.TRUE.equals(quote.marketOpen()),
-                quote.timestamp() == null ? null : Instant.ofEpochSecond(quote.timestamp()),
-                TWELVE_DATA,
-                marketSymbol.trackedBy()
+            asset.getId(),
+            asset.getSymbol(),
+            asset.getName(),
+            asset.getAssetType(),
+            asset.getCurrency(),
+            asset.getExchange(),
+            price,
+            toDouble(quote.open()),
+            toDouble(quote.high()),
+            toDouble(quote.low()),
+            toDouble(quote.previousClose()),
+            toDouble(quote.change()),
+            toDouble(quote.percentChange()),
+            toDouble(quote.volume()),
+            Boolean.TRUE.equals(quote.marketOpen()),
+            quote.timestamp() == null ? null : Instant.ofEpochSecond(quote.timestamp()),
+            TWELVE_DATA,
+            marketSymbol.trackedBy()
         );
     }
 
-    private FinancialQuoteDto quoteFromFmp(FinancialAsset asset, MarketSymbol marketSymbol) {
+    private FinancialQuoteDto quoteFromFmp(Asset asset, MarketSymbol marketSymbol) {
         FmpQuoteDto quote = callFmp(asset, () -> fmpClient.getQuote(marketSymbol.fmpSymbol(asset)));
         if (quote.price() == null)
             throw new MarketDataUnavailableException("No price available for " + asset.getSymbol());
 
         return new FinancialQuoteDto(
-                asset.getId(),
-                asset.getSymbol(),
-                asset.getName(),
-                asset.getAssetType(),
-                asset.getCurrency(),
-                asset.getExchange(),
-                quote.price().doubleValue(),
-                toDouble(quote.open()),
-                toDouble(quote.dayHigh()),
-                toDouble(quote.dayLow()),
-                toDouble(quote.previousClose()),
-                toDouble(quote.change()),
-                toDouble(quote.changePercentage()),
-                toDouble(quote.volume()),
-                false,
-                quote.timestamp() == null ? null : Instant.ofEpochSecond(quote.timestamp()),
-                FMP,
-                marketSymbol.trackedBy()
+            asset.getId(),
+            asset.getSymbol(),
+            asset.getName(),
+            asset.getAssetType(),
+            asset.getCurrency(),
+            asset.getExchange(),
+            quote.price().doubleValue(),
+            toDouble(quote.open()),
+            toDouble(quote.dayHigh()),
+            toDouble(quote.dayLow()),
+            toDouble(quote.previousClose()),
+            toDouble(quote.change()),
+            toDouble(quote.changePercentage()),
+            toDouble(quote.volume()),
+            false,
+            quote.timestamp() == null ? null : Instant.ofEpochSecond(quote.timestamp()),
+            FMP,
+            marketSymbol.trackedBy()
         );
     }
 
-    private FinancialHistoryDto historyFromTwelveData(FinancialAsset asset, MarketSymbol marketSymbol) {
+    private FinancialHistoryDto historyFromTwelveData(Asset asset, MarketSymbol marketSymbol) {
         TwelveDataTimeSeriesDto timeSeries = twelveDataClient.getTimeSeries(marketSymbol.symbol(), marketSymbol.micCode());
         List<TwelveDataTimeSeriesValueDto> values = timeSeries.values() == null ? List.of() : timeSeries.values();
 
         List<FinancialHistoryPointDto> points = values.stream()
-                .map(value -> toPoint(parseTwelveDataTimestamp(value.datetime()), toDouble(value.close())))
-                .filter(Objects::nonNull)
-                .sorted(Comparator.comparing(FinancialHistoryPointDto::timestamp))
-                .toList();
+            .map(value -> toPoint(parseTwelveDataTimestamp(value.datetime()), toDouble(value.close())))
+            .filter(Objects::nonNull)
+            .sorted(Comparator.comparing(FinancialHistoryPointDto::timestamp))
+            .toList();
 
         if (points.isEmpty())
             throw new MarketDataUnavailableException("No history returned by Twelve Data for " + asset.getSymbol());
@@ -146,15 +146,15 @@ public class MarketDataService {
         return new FinancialHistoryDto(asset.getId(), asset.getSymbol(), asset.getCurrency(), points);
     }
 
-    private FinancialHistoryDto historyFromFmp(FinancialAsset asset, MarketSymbol marketSymbol) {
+    private FinancialHistoryDto historyFromFmp(Asset asset, MarketSymbol marketSymbol) {
         LocalDate from = LocalDate.now(ZoneOffset.UTC).minusDays(FMP_HISTORY_DAYS);
         List<FmpDailyPriceDto> prices = callFmp(asset, () -> fmpClient.getDailyPrices(marketSymbol.fmpSymbol(asset), from));
 
         List<FinancialHistoryPointDto> points = prices.stream()
-                .map(price -> toPoint(parseFmpDate(price.date()), toDouble(price.price())))
-                .filter(Objects::nonNull)
-                .sorted(Comparator.comparing(FinancialHistoryPointDto::timestamp))
-                .toList();
+            .map(price -> toPoint(parseFmpDate(price.date()), toDouble(price.price())))
+            .filter(Objects::nonNull)
+            .sorted(Comparator.comparing(FinancialHistoryPointDto::timestamp))
+            .toList();
 
         if (points.isEmpty())
             throw new MarketDataUnavailableException("No history available for " + asset.getSymbol());
@@ -162,7 +162,7 @@ public class MarketDataService {
         return new FinancialHistoryDto(asset.getId(), asset.getSymbol(), asset.getCurrency(), points);
     }
 
-    private <T> T callFmp(FinancialAsset asset, Supplier<T> call) {
+    private <T> T callFmp(Asset asset, Supplier<T> call) {
         try {
             return call.get();
         } catch (RuntimeException exception) {
@@ -171,9 +171,9 @@ public class MarketDataService {
         }
     }
 
-    private FinancialAsset findAsset(UUID financialAssetId) {
-        return financialAssetRepository.findById(financialAssetId)
-                .orElseThrow(() -> new ResourceNotFoundException("Financial asset not found"));
+    private Asset findAsset(UUID financialAssetId) {
+        return assetRepository.findById(financialAssetId)
+            .orElseThrow(() -> new ResourceNotFoundException("Financial asset not found"));
     }
 
     private FinancialHistoryPointDto toPoint(Instant timestamp, Double price) {
