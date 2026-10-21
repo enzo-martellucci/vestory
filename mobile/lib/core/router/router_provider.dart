@@ -5,6 +5,7 @@ import 'package:mobile/features/auth/presentation/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/login_screen.dart';
 import 'package:mobile/features/auth/presentation/register_screen.dart';
 import 'package:mobile/features/auth/presentation/splash_screen.dart';
+import 'package:mobile/features/cards/presentation/cards_screen.dart';
 import 'package:mobile/home_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -34,6 +35,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(path: '/register', builder: (context, state) => const RegisterScreen()),
       GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+      GoRoute(path: '/cards', builder: (context, state) => const CardsScreen()),
     ],
   );
 });

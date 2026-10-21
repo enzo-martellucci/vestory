@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/network/api_exception.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/google_sign_in_button.dart';
@@ -45,10 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final request = LoginRequest(identifier: _identifierController.text.trim(), password: _passwordController.text);
       await ref.read(authProvider.notifier).login(request);
     } on ApiException catch (exception) {
-      setState(() => _errorMessage = switch (exception) {
-        NetworkException() => 'No internet connection',
-        ResponseException(:final error) => error.detail ?? 'Something went wrong',
-      });
+      setState(() => _errorMessage = apiErrorMessage(exception));
     } finally {
       if (mounted)
         setState(() => _isLoading = false);
