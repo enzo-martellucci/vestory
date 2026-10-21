@@ -1,9 +1,9 @@
 package com.insa.vestory.controller;
 
-import com.insa.vestory.dto.AuthResponse;
-import com.insa.vestory.dto.LoginRequest;
-import com.insa.vestory.dto.RefreshTokenRequest;
-import com.insa.vestory.dto.RegisterRequest;
+import com.insa.vestory.dto.auth.AuthResponse;
+import com.insa.vestory.dto.auth.LoginRequest;
+import com.insa.vestory.dto.auth.RefreshTokenRequest;
+import com.insa.vestory.dto.auth.RegisterRequest;
 import com.insa.vestory.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

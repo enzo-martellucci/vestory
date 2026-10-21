@@ -1,9 +1,9 @@
 package com.insa.vestory.service;
 
-import com.insa.vestory.dto.AuthResponse;
-import com.insa.vestory.dto.LoginRequest;
-import com.insa.vestory.dto.RefreshTokenRequest;
-import com.insa.vestory.dto.RegisterRequest;
+import com.insa.vestory.dto.auth.AuthResponse;
+import com.insa.vestory.dto.auth.LoginRequest;
+import com.insa.vestory.dto.auth.RefreshTokenRequest;
+import com.insa.vestory.dto.auth.RegisterRequest;
 import com.insa.vestory.entity.AuthProvider;
 import com.insa.vestory.entity.Identity;
 import com.insa.vestory.entity.User;
@@ -60,8 +60,8 @@ public class AuthService {
         String identifier = request.identifier().toLowerCase(Locale.ROOT);
 
         Identity identity = identityRepository.findByProviderAndIdentifier(AuthProvider.LOCAL, identifier)
-                .filter(found -> passwordEncoder.matches(request.password(), found.getPasswordHash()))
-                .orElseThrow(InvalidCredentialsException::new);
+            .filter(found -> passwordEncoder.matches(request.password(), found.getPasswordHash()))
+            .orElseThrow(InvalidCredentialsException::new);
 
         identity.setLastLoginAt(Instant.now());
 

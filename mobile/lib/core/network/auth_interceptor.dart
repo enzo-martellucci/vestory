@@ -25,7 +25,9 @@ class AuthInterceptor extends QueuedInterceptor {
     if (err.response?.statusCode != 401 || options.path.startsWith('/api/auth/'))
       return handler.next(err);
 
-    final accessToken = await _refreshedAccessToken(options) ?? await _refresh();
+    var accessToken = await tokenStorage.readAccessToken();
+    if (options.headers['Authorization'] == 'Bearer $accessToken')
+      accessToken = await _refresh();
     if (accessToken == null)
       return handler.next(err);
 
@@ -35,13 +37,6 @@ class AuthInterceptor extends QueuedInterceptor {
     } on DioException catch (retryException) {
       handler.next(retryException);
     }
-  }
-
-  Future<String?> _refreshedAccessToken(RequestOptions options) async {
-    final storedAccessToken = await tokenStorage.readAccessToken();
-    if (storedAccessToken == null || options.headers['Authorization'] == 'Bearer $storedAccessToken')
-      return null;
-    return storedAccessToken;
   }
 
   Future<String?> _refresh() async {
