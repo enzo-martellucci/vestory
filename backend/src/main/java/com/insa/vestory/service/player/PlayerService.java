@@ -1,20 +1,20 @@
 package com.insa.vestory.service.player;
 
+import com.insa.vestory.constant.CardRarity;
+import com.insa.vestory.constant.PackSource;
+import com.insa.vestory.constant.PackType;
 import com.insa.vestory.dto.player.OwnedCardDto;
 import com.insa.vestory.dto.player.PackOpeningResultDto;
 import com.insa.vestory.dto.player.PlayerProfileDto;
 import com.insa.vestory.dto.player.UserPackDto;
+import com.insa.vestory.entity.Card;
+import com.insa.vestory.entity.PlayerProfile;
 import com.insa.vestory.entity.User;
+import com.insa.vestory.entity.UserCard;
+import com.insa.vestory.entity.UserPack;
 import com.insa.vestory.exception.ResourceNotFoundException;
-import com.insa.vestory.mapper.AssetCardMapper;
-import com.insa.vestory.model.entity.AssetCard;
-import com.insa.vestory.model.entity.PlayerProfile;
-import com.insa.vestory.model.entity.UserCard;
-import com.insa.vestory.model.entity.UserPack;
-import com.insa.vestory.model.enums.CardRarity;
-import com.insa.vestory.model.enums.PackSource;
-import com.insa.vestory.model.enums.PackType;
-import com.insa.vestory.repository.AssetCardRepository;
+import com.insa.vestory.mapper.CardMapper;
+import com.insa.vestory.repository.CardRepository;
 import com.insa.vestory.repository.PlayerProfileRepository;
 import com.insa.vestory.repository.UserCardRepository;
 import com.insa.vestory.repository.UserPackRepository;
@@ -47,10 +47,10 @@ public class PlayerService {
     private final PlayerProfileRepository playerProfileRepository;
     private final UserPackRepository userPackRepository;
     private final UserCardRepository userCardRepository;
-    private final AssetCardRepository assetCardRepository;
+    private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final PackDrawer packDrawer;
-    private final AssetCardMapper assetCardMapper;
+    private final CardMapper cardMapper;
     private final Clock clock;
 
     @Transactional
@@ -82,7 +82,7 @@ public class PlayerService {
         return userCardRepository.findAllByUserIdOrderByCardCollectionNumberAsc(userId)
                 .stream()
                 .map(owned -> new OwnedCardDto(
-                        assetCardMapper.toResponse(owned.getCard()),
+                        cardMapper.toResponse(owned.getCard()),
                         owned.isFavorite(),
                         owned.getFirstObtainedAt(),
                         owned.getLastObtainedAt()
@@ -119,7 +119,7 @@ public class PlayerService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Pack already opened");
 
         PackDraw draw = packDrawer.draw(pack.getType(), pack.getSource(), enabledCardsByRarity());
-        AssetCard card = draw.card();
+        Card card = draw.card();
         Instant now = clock.instant();
 
         pack.setOpenedAt(now);
@@ -143,7 +143,7 @@ public class PlayerService {
         return new PackOpeningResultDto(
                 pack.getId(),
                 pack.getType(),
-                assetCardMapper.toResponse(card),
+                cardMapper.toResponse(card),
                 newCard,
                 gemsEarned,
                 profile.getGems()
@@ -176,11 +176,11 @@ public class PlayerService {
         return userPackRepository.save(pack);
     }
 
-    private Map<CardRarity, List<AssetCard>> enabledCardsByRarity() {
-        return assetCardRepository.findAll()
+    private Map<CardRarity, List<Card>> enabledCardsByRarity() {
+        return cardRepository.findAll()
                 .stream()
-                .filter(AssetCard::isEnabled)
-                .collect(Collectors.groupingBy(AssetCard::getRarity));
+                .filter(Card::isEnabled)
+                .collect(Collectors.groupingBy(Card::getRarity));
     }
 
     private boolean isDailyPackAvailable(PlayerProfile profile) {

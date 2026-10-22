@@ -1,6 +1,6 @@
 package com.insa.vestory.repository;
 
-import com.insa.vestory.model.entity.UserPack;
+import com.insa.vestory.entity.UserPack;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

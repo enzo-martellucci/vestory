@@ -1,14 +1,14 @@
 package com.insa.vestory.service.card;
 
 import com.insa.vestory.client.MarketDataUnavailableException;
+import com.insa.vestory.constant.CardRarity;
 import com.insa.vestory.dto.card.CardGenerationResult;
 import com.insa.vestory.dto.card.CardRarityUpdateResult;
 import com.insa.vestory.dto.card.RarityDistribution;
-import com.insa.vestory.model.entity.AssetCard;
-import com.insa.vestory.model.entity.FinancialAsset;
-import com.insa.vestory.model.enums.CardRarity;
-import com.insa.vestory.repository.AssetCardRepository;
-import com.insa.vestory.repository.FinancialAssetRepository;
+import com.insa.vestory.entity.Asset;
+import com.insa.vestory.entity.Card;
+import com.insa.vestory.repository.AssetRepository;
+import com.insa.vestory.repository.CardRepository;
 import com.insa.vestory.service.card.rarity.RarityCalculator;
 import com.insa.vestory.service.card.rarity.RarityMarketDataLoader;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,29 +28,29 @@ public class CardSyncService {
 
     private static final double MINIMUM_DATA_COVERAGE = 0.80;
 
-    private final FinancialAssetRepository financialAssetRepository;
-    private final AssetCardRepository assetCardRepository;
+    private final AssetRepository assetRepository;
+    private final CardRepository cardRepository;
     private final RarityMarketDataLoader rarityMarketDataLoader;
     private final RarityCalculator rarityCalculator;
 
     @Transactional
     public CardGenerationResult syncCards() {
-        List<FinancialAsset> assets = financialAssetRepository.findAllByEnabledTrueOrderBySymbolAsc();
+        List<Asset> assets = assetRepository.findAllByEnabledTrueOrderBySymbolAsc();
         if (assets.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "No enabled financial asset, run the import first");
 
-        List<AssetCard> existingCards = assetCardRepository.findAll();
-        Map<UUID, AssetCard> cardsByAssetId = existingCards.stream()
-                .collect(Collectors.toMap(card -> card.getFinancialAsset().getId(), Function.identity()));
-        Set<UUID> enabledAssetIds = assets.stream().map(FinancialAsset::getId).collect(Collectors.toSet());
+        List<Card> existingCards = cardRepository.findAll();
+        Map<UUID, Card> cardsByAssetId = existingCards.stream()
+            .collect(Collectors.toMap(card -> card.getAsset().getId(), Function.identity()));
+        Set<UUID> enabledAssetIds = assets.stream().map(Asset::getId).collect(Collectors.toSet());
 
-        int nextCollectionNumber = existingCards.stream().mapToInt(AssetCard::getCollectionNumber).max().orElse(0) + 1;
+        int nextCollectionNumber = existingCards.stream().mapToInt(Card::getCollectionNumber).max().orElse(0) + 1;
         int created = 0;
         int reactivated = 0;
         int disabled = 0;
 
-        for (FinancialAsset asset : assets) {
-            AssetCard card = cardsByAssetId.get(asset.getId());
+        for (Asset asset : assets) {
+            Card card = cardsByAssetId.get(asset.getId());
             if (card == null) {
                 cardsByAssetId.put(asset.getId(), newCard(asset, nextCollectionNumber++));
                 created++;
@@ -64,24 +60,24 @@ public class CardSyncService {
             }
         }
 
-        for (AssetCard card : existingCards)
-            if (card.isEnabled() && !enabledAssetIds.contains(card.getFinancialAsset().getId())) {
+        for (Card card : existingCards)
+            if (card.isEnabled() && !enabledAssetIds.contains(card.getAsset().getId())) {
                 card.setEnabled(false);
                 disabled++;
             }
 
-        List<AssetCard> savedCards = assetCardRepository.saveAll(cardsByAssetId.values());
-        List<AssetCard> enabledCards = savedCards.stream().filter(AssetCard::isEnabled).toList();
+        List<Card> savedCards = cardRepository.saveAll(cardsByAssetId.values());
+        List<Card> enabledCards = savedCards.stream().filter(Card::isEnabled).toList();
 
         return new CardGenerationResult(enabledCards.size(), created, reactivated, disabled, distribution(enabledCards));
     }
 
     public CardRarityUpdateResult syncRarities() {
-        List<AssetCard> cards = assetCardRepository.findAll();
+        List<Card> cards = cardRepository.findAll();
         if (cards.isEmpty())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "No card available, run the card sync first");
 
-        List<FinancialAsset> assets = cards.stream().map(AssetCard::getFinancialAsset).toList();
+        List<Asset> assets = cards.stream().map(Card::getAsset).toList();
         RarityMarketDataLoader.Result marketData = rarityMarketDataLoader.load(assets);
 
         int available = marketData.data().size();
@@ -92,25 +88,25 @@ public class CardSyncService {
         Map<UUID, Double> scores = rarityCalculator.computeScores(assets, marketData.data());
         Map<UUID, CardRarity> rarities = rarityCalculator.assignRarities(assets, scores);
 
-        for (AssetCard card : cards) {
-            UUID assetId = card.getFinancialAsset().getId();
+        for (Card card : cards) {
+            UUID assetId = card.getAsset().getId();
             card.setRarityScore(scores.getOrDefault(assetId, 0.0));
             card.setRarity(rarities.get(assetId));
         }
-        assetCardRepository.saveAll(cards);
+        cardRepository.saveAll(cards);
 
         return new CardRarityUpdateResult(
-                cards.size(),
-                available,
-                cards.size() - available,
-                marketData.unavailableSymbols(),
-                distribution(cards)
+            cards.size(),
+            available,
+            cards.size() - available,
+            marketData.unavailableSymbols(),
+            distribution(cards)
         );
     }
 
-    private AssetCard newCard(FinancialAsset asset, int collectionNumber) {
-        AssetCard card = new AssetCard();
-        card.setFinancialAsset(asset);
+    private Card newCard(Asset asset, int collectionNumber) {
+        Card card = new Card();
+        card.setAsset(asset);
         card.setCollectionNumber(collectionNumber);
         card.setRarity(CardRarity.COMMON);
         card.setRarityScore(0.0);
@@ -119,15 +115,15 @@ public class CardSyncService {
         return card;
     }
 
-    private RarityDistribution distribution(Collection<AssetCard> cards) {
+    private RarityDistribution distribution(Collection<Card> cards) {
         Map<CardRarity, Long> counts = cards.stream()
-                .collect(Collectors.groupingBy(AssetCard::getRarity, Collectors.counting()));
+            .collect(Collectors.groupingBy(Card::getRarity, Collectors.counting()));
 
         return new RarityDistribution(
-                counts.getOrDefault(CardRarity.COMMON, 0L),
-                counts.getOrDefault(CardRarity.RARE, 0L),
-                counts.getOrDefault(CardRarity.EPIC, 0L),
-                counts.getOrDefault(CardRarity.LEGENDARY, 0L)
+            counts.getOrDefault(CardRarity.COMMON, 0L),
+            counts.getOrDefault(CardRarity.RARE, 0L),
+            counts.getOrDefault(CardRarity.EPIC, 0L),
+            counts.getOrDefault(CardRarity.LEGENDARY, 0L)
         );
     }
 }

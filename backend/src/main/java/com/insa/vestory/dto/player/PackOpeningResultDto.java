@@ -1,14 +1,14 @@
 package com.insa.vestory.dto.player;
 
-import com.insa.vestory.dto.card.AssetCardResponseDto;
-import com.insa.vestory.model.enums.PackType;
+import com.insa.vestory.constant.PackType;
+import com.insa.vestory.dto.card.CardResponseDto;
 
 import java.util.UUID;
 
 public record PackOpeningResultDto(
         UUID packId,
         PackType packType,
-        AssetCardResponseDto card,
+        CardResponseDto card,
         boolean newCard,
         int gemsEarned,
         int totalGems

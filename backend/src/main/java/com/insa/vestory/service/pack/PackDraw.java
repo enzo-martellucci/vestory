@@ -1,7 +1,7 @@
 package com.insa.vestory.service.pack;
 
-import com.insa.vestory.model.entity.AssetCard;
-import com.insa.vestory.model.enums.CardRarity;
+import com.insa.vestory.constant.CardRarity;
+import com.insa.vestory.entity.Card;
 
-public record PackDraw(AssetCard card, CardRarity rarity) {
+public record PackDraw(Card card, CardRarity rarity) {
 }

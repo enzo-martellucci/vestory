@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/widgets/error_view.dart';
-import 'package:mobile/features/auth/presentation/auth_notifier.dart';
 import 'package:mobile/features/home/presentation/widgets/daily_pack_card.dart';
 import 'package:mobile/features/home/presentation/widgets/unopened_packs_card.dart';
 import 'package:mobile/features/player/data/models/player_profile.dart';
@@ -30,12 +29,7 @@ class HomeScreen extends ConsumerWidget {
         title: Text(username == null ? 'Vestory' : 'Hi, $username', style: const TextStyle(fontWeight: .w800)),
         actions: [
           if (gems != null)
-            GemsBadge(gems: gems),
-          IconButton(
-            tooltip: 'Log out',
-            icon: const Icon(Icons.logout),
-            onPressed: () => ref.read(authProvider.notifier).logout(),
-          ),
+            Padding(padding: const EdgeInsets.only(right: 16), child: GemsBadge(gems: gems)),
         ],
       ),
       body: profile.when(

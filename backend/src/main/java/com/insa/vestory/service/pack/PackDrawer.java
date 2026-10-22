@@ -1,9 +1,9 @@
 package com.insa.vestory.service.pack;
 
-import com.insa.vestory.model.entity.AssetCard;
-import com.insa.vestory.model.enums.CardRarity;
-import com.insa.vestory.model.enums.PackSource;
-import com.insa.vestory.model.enums.PackType;
+import com.insa.vestory.constant.CardRarity;
+import com.insa.vestory.constant.PackSource;
+import com.insa.vestory.constant.PackType;
+import com.insa.vestory.entity.Card;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
@@ -24,9 +24,9 @@ public class PackDrawer {
         this.random = random;
     }
 
-    public PackDraw draw(PackType type, PackSource source, Map<CardRarity, List<AssetCard>> cardsByRarity) {
+    public PackDraw draw(PackType type, PackSource source, Map<CardRarity, List<Card>> cardsByRarity) {
         CardRarity rarity = closestAvailableRarity(rollRarity(type, source), cardsByRarity);
-        List<AssetCard> pool = cardsByRarity.get(rarity);
+        List<Card> pool = cardsByRarity.get(rarity);
         return new PackDraw(pool.get(random.nextInt(pool.size())), rarity);
     }
 
@@ -48,7 +48,7 @@ public class PackDrawer {
         return last;
     }
 
-    private CardRarity closestAvailableRarity(CardRarity wanted, Map<CardRarity, List<AssetCard>> cardsByRarity) {
+    private CardRarity closestAvailableRarity(CardRarity wanted, Map<CardRarity, List<Card>> cardsByRarity) {
         CardRarity[] rarities = CardRarity.values();
 
         for (int distance = 0; distance < rarities.length; distance++) {
@@ -64,8 +64,8 @@ public class PackDrawer {
         throw new IllegalStateException("No card available to draw");
     }
 
-    private boolean hasCards(CardRarity rarity, Map<CardRarity, List<AssetCard>> cardsByRarity) {
-        List<AssetCard> cards = cardsByRarity.get(rarity);
+    private boolean hasCards(CardRarity rarity, Map<CardRarity, List<Card>> cardsByRarity) {
+        List<Card> cards = cardsByRarity.get(rarity);
         return cards != null && !cards.isEmpty();
     }
 }

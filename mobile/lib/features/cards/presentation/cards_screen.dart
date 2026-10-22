@@ -30,7 +30,7 @@ class CardsScreen extends ConsumerWidget {
     Future<void> refresh() => Future.wait([ref.refresh(cardsProvider.future), ref.refresh(collectionProvider.future)]);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Cards', style: TextStyle(fontWeight: .w800))),
+      appBar: AppBar(title: const Text('Collection', style: TextStyle(fontWeight: .w800))),
       body: Column(
         children: [
           Padding(

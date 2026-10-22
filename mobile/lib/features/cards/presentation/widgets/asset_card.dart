@@ -29,7 +29,7 @@ class _AssetCardState extends ConsumerState<AssetCard> {
       return;
     }
 
-    final assetId = widget.card.financialAssetId;
+    final assetId = widget.card.assetId;
     if (ref.read(quoteProvider(assetId)).hasError)
       ref.invalidate(quoteProvider(assetId));
     if (ref.read(historyProvider(assetId)).hasError)
@@ -38,7 +38,7 @@ class _AssetCardState extends ConsumerState<AssetCard> {
 
   @override
   Widget build(BuildContext context) {
-    final assetId = widget.card.financialAssetId;
+    final assetId = widget.card.assetId;
 
     return AspectRatio(
       aspectRatio: AssetCard.aspectRatio,

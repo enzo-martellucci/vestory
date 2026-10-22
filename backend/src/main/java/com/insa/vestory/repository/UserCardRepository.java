@@ -1,6 +1,6 @@
 package com.insa.vestory.repository;
 
-import com.insa.vestory.model.entity.UserCard;
+import com.insa.vestory.entity.UserCard;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,6 +12,6 @@ public interface UserCardRepository extends JpaRepository<UserCard, UUID> {
 
     Optional<UserCard> findByUserIdAndCardId(UUID userId, UUID cardId);
 
-    @EntityGraph(attributePaths = {"card", "card.financialAsset"})
+    @EntityGraph(attributePaths = {"card", "card.asset"})
     List<UserCard> findAllByUserIdOrderByCardCollectionNumberAsc(UUID userId);
 }

@@ -4,7 +4,7 @@ import com.insa.vestory.dto.auth.AuthResponse;
 import com.insa.vestory.dto.auth.LoginRequest;
 import com.insa.vestory.dto.auth.RefreshTokenRequest;
 import com.insa.vestory.dto.auth.RegisterRequest;
-import com.insa.vestory.service.AuthService;
+import com.insa.vestory.service.auth.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
