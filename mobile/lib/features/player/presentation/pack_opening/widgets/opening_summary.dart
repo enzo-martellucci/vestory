@@ -22,17 +22,27 @@ class OpeningSummary extends StatelessWidget {
           style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
         ),
         Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.all(16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: AssetCard.aspectRatio,
-            ),
-            itemCount: results.length,
-            itemBuilder: (context, index) => AssetCard(card: results[index].card, totalCards: totalCards),
-          ),
+          child: results.length == 1
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 300),
+                      child: AssetCard(card: results.single.card, totalCards: totalCards),
+                    ),
+                  ),
+                )
+              : GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: AssetCard.aspectRatio,
+                  ),
+                  itemCount: results.length,
+                  itemBuilder: (context, index) => AssetCard(card: results[index].card, totalCards: totalCards),
+                ),
         ),
       ],
     );
