@@ -3,7 +3,7 @@ package com.insa.vestory.controller;
 import com.insa.vestory.dto.card.CardGenerationResult;
 import com.insa.vestory.dto.card.CardRarityUpdateResult;
 import com.insa.vestory.dto.card.CardResponseDto;
-import com.insa.vestory.service.card.AssetCardService;
+import com.insa.vestory.service.card.CardService;
 import com.insa.vestory.service.card.CardSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +18,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardController {
 
-    private final AssetCardService assetCardService;
+    private final CardService cardService;
     private final CardSyncService cardSyncService;
 
     @GetMapping
     public List<CardResponseDto> getAllCards() {
-        return assetCardService.getAllCards();
+        return cardService.getAllCards();
     }
 
     @GetMapping("/ranking")
     public List<CardResponseDto> getCardsRanking() {
-        return assetCardService.getCardsRanking();
+        return cardService.getCardsRanking();
     }
 
     @PostMapping("/sync")
