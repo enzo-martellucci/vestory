@@ -10,12 +10,12 @@ import java.util.UUID;
 public interface CardRepository extends JpaRepository<Card, UUID> {
 
     @Override
-    @EntityGraph(attributePaths = "financialAsset")
+    @EntityGraph(attributePaths = "asset")
     List<Card> findAll();
 
-    @EntityGraph(attributePaths = "financialAsset")
+    @EntityGraph(attributePaths = "asset")
     List<Card> findAllByOrderByCollectionNumberAsc();
 
-    @EntityGraph(attributePaths = "financialAsset")
+    @EntityGraph(attributePaths = "asset")
     List<Card> findAllByOrderByRarityScoreDesc();
 }

@@ -1,0 +1,73 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:mobile/core/network/api_error_message.dart';
+import 'package:mobile/core/widgets/error_view.dart';
+import 'package:mobile/features/home/presentation/widgets/daily_pack_card.dart';
+import 'package:mobile/features/home/presentation/widgets/unopened_packs_card.dart';
+import 'package:mobile/features/player/data/models/player_profile.dart';
+import 'package:mobile/features/player/presentation/player_providers.dart';
+import 'package:mobile/features/player/presentation/widgets/gems_badge.dart';
+import 'package:mobile/features/user/presentation/current_user_provider.dart';
+
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(playerProfileProvider, (previous, next) {
+      if (next.hasError && next.hasValue)
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(apiErrorMessage(next.error!))));
+    });
+
+    final username = ref.watch(currentUserProvider).value?.username;
+    final profile = ref.watch(playerProfileProvider);
+    final gems = profile.value?.gems;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(username == null ? 'Vestory' : 'Hi, $username', style: const TextStyle(fontWeight: .w800)),
+        actions: [
+          if (gems != null)
+            Padding(padding: const EdgeInsets.only(right: 16), child: GemsBadge(gems: gems)),
+        ],
+      ),
+      body: profile.when(
+        skipError: true,
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => ErrorView(
+          message: apiErrorMessage(error),
+          onRetry: () => ref.invalidate(playerProfileProvider),
+        ),
+        data: (profile) => RefreshIndicator(
+          onRefresh: () => ref.refresh(playerProfileProvider.future),
+          child: _HomeContent(profile: profile),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeContent extends StatelessWidget {
+  final PlayerProfile profile;
+
+  const _HomeContent({required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16),
+      children: [
+        DailyPackCard(profile: profile),
+        if (profile.unopenedPacks.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          UnopenedPacksCard(
+            packs: profile.unopenedPacks,
+            onOpen: () => context.push('/packs/open', extra: profile.unopenedPacks),
+          ),
+        ],
+      ],
+    );
+  }
+}

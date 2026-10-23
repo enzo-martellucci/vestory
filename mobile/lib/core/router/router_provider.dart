@@ -8,8 +8,11 @@ import 'package:mobile/features/auth/presentation/login_screen.dart';
 import 'package:mobile/features/auth/presentation/register_screen.dart';
 import 'package:mobile/features/auth/presentation/splash_screen.dart';
 import 'package:mobile/features/cards/presentation/cards_screen.dart';
+import 'package:mobile/features/home/presentation/home_screen.dart';
+import 'package:mobile/features/player/data/models/user_pack.dart';
+import 'package:mobile/features/player/presentation/pack_opening/pack_opening_screen.dart';
 import 'package:mobile/features/profile/presentation/profile_screen.dart';
-import 'package:mobile/home_page.dart';
+import 'package:mobile/features/shop/presentation/shop_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ValueNotifier<AsyncValue<bool>>(const AsyncLoading());
@@ -40,12 +43,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => MainShell(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(routes: [GoRoute(path: '/home', builder: (context, state) => const HomePage())]),
+          StatefulShellBranch(routes: [GoRoute(path: '/home', builder: (context, state) => const HomeScreen())]),
           StatefulShellBranch(routes: [GoRoute(path: '/collection', builder: (context, state) => const CardsScreen())]),
-          StatefulShellBranch(routes: [GoRoute(path: '/shop', builder: (context, state) => const PlaceholderScreen(title: 'Shop'))]),
+          StatefulShellBranch(routes: [GoRoute(path: '/shop', builder: (context, state) => const ShopScreen())]),
           StatefulShellBranch(routes: [GoRoute(path: '/invest', builder: (context, state) => const PlaceholderScreen(title: 'Invest'))]),
           StatefulShellBranch(routes: [GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen())]),
         ],
+      ),
+      GoRoute(
+        path: '/packs/open',
+        builder: (context, state) => PackOpeningScreen(packs: state.extra as List<UserPack>),
       ),
     ],
   );

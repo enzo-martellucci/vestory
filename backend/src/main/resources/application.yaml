@@ -26,4 +26,3 @@ twelve-data:
 fmp:
   api-key: ${FMP_DATA_API_KEY}
   base-url: https://financialmodelingprep.com/stable
-
