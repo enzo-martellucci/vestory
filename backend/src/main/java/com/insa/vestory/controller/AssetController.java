@@ -1,12 +1,11 @@
 package com.insa.vestory.controller;
 
-import com.insa.vestory.dto.asset.AssetCountDto;
-import com.insa.vestory.dto.asset.AssetDeleteResult;
-import com.insa.vestory.dto.asset.AssetImportResult;
 import com.insa.vestory.dto.asset.AssetResponseDto;
-import com.insa.vestory.service.asset.FinancialAssetService;
+import com.insa.vestory.service.asset.AssetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -15,25 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AssetController {
 
-    private final FinancialAssetService financialAssetService;
+    private final AssetService assetService;
 
     @GetMapping
     public List<AssetResponseDto> getAll() {
-        return financialAssetService.getAll();
-    }
-
-    @GetMapping("/count")
-    public AssetCountDto count() {
-        return financialAssetService.count();
-    }
-
-    @PostMapping("/import")
-    public AssetImportResult importFinancialAssets() {
-        return financialAssetService.importAll();
-    }
-
-    @DeleteMapping
-    public AssetDeleteResult deleteAll() {
-        return financialAssetService.deleteAll();
+        return assetService.getAll();
     }
 }

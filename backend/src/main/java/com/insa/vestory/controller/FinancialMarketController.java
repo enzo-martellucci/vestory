@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/market")
 @RequiredArgsConstructor
@@ -18,13 +16,13 @@ public class FinancialMarketController {
 
     private final MarketDataService marketDataService;
 
-    @GetMapping("/assets/{financialAssetId}/quote")
-    public FinancialQuoteDto getQuote(@PathVariable UUID financialAssetId) {
-        return marketDataService.getQuote(financialAssetId);
+    @GetMapping("/assets/{id}/quote")
+    public FinancialQuoteDto getQuote(@PathVariable Long id) {
+        return marketDataService.getQuote(id);
     }
 
-    @GetMapping("/assets/{financialAssetId}/history")
-    public FinancialHistoryDto getHistory(@PathVariable UUID financialAssetId) {
-        return marketDataService.getHistory(financialAssetId);
+    @GetMapping("/assets/{id}/history")
+    public FinancialHistoryDto getHistory(@PathVariable Long id) {
+        return marketDataService.getHistory(id);
     }
 }

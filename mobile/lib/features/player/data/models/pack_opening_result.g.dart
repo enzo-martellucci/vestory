@@ -10,8 +10,8 @@ PackOpeningResult _$PackOpeningResultFromJson(Map<String, dynamic> json) =>
     PackOpeningResult(
       packId: json['packId'] as String,
       packType: $enumDecode(_$PackTypeEnumMap, json['packType']),
-      card: AssetCardModel.fromJson(json['card'] as Map<String, dynamic>),
-      newCard: json['newCard'] as bool,
+      asset: Asset.fromJson(json['asset'] as Map<String, dynamic>),
+      newAsset: json['newAsset'] as bool,
       gemsEarned: (json['gemsEarned'] as num).toInt(),
       totalGems: (json['totalGems'] as num).toInt(),
     );

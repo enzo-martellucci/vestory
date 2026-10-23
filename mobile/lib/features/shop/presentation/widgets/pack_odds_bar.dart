@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/cards/data/models/card_rarity.dart';
+import 'package:mobile/features/cards/data/models/rarity.dart';
 import 'package:mobile/features/player/data/models/pack_type.dart';
 
 class PackOddsBar extends StatelessWidget {
@@ -10,7 +10,7 @@ class PackOddsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rarities = CardRarity.values.where((rarity) => type.oddsOf(rarity) > 0).toList();
+    final rarities = Rarity.values.where((rarity) => type.oddsOf(rarity) > 0).toList();
 
     return Column(
       crossAxisAlignment: .start,
@@ -57,6 +57,6 @@ class PackOddsBar extends StatelessWidget {
     );
   }
 
-  static String _label(CardRarity rarity) =>
+  static String _label(Rarity rarity) =>
       '${rarity.apiValue[0]}${rarity.apiValue.substring(1).toLowerCase()}';
 }

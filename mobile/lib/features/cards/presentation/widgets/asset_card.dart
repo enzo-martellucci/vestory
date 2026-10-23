@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/widgets/flip_card.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/widgets/recto/asset_card_front.dart';
 import 'package:mobile/features/cards/presentation/widgets/verso/asset_card_back.dart';
 import 'package:mobile/features/market/presentation/market_providers.dart';
@@ -9,7 +9,7 @@ import 'package:mobile/features/market/presentation/market_providers.dart';
 class AssetCard extends ConsumerStatefulWidget {
   static const double aspectRatio = 0.72;
 
-  final AssetCardModel card;
+  final Asset card;
   final int totalCards;
 
   const AssetCard({super.key, required this.card, required this.totalCards});
@@ -29,7 +29,7 @@ class _AssetCardState extends ConsumerState<AssetCard> {
       return;
     }
 
-    final assetId = widget.card.assetId;
+    final assetId = widget.card.id;
     if (ref.read(quoteProvider(assetId)).hasError)
       ref.invalidate(quoteProvider(assetId));
     if (ref.read(historyProvider(assetId)).hasError)
@@ -38,7 +38,7 @@ class _AssetCardState extends ConsumerState<AssetCard> {
 
   @override
   Widget build(BuildContext context) {
-    final assetId = widget.card.assetId;
+    final assetId = widget.card.id;
 
     return AspectRatio(
       aspectRatio: AssetCard.aspectRatio,

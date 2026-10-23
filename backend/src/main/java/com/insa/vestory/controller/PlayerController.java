@@ -2,7 +2,7 @@ package com.insa.vestory.controller;
 
 import com.insa.vestory.dto.player.AddGemsRequest;
 import com.insa.vestory.dto.player.BuyPackRequest;
-import com.insa.vestory.dto.player.OwnedCardDto;
+import com.insa.vestory.dto.player.OwnedAssetDto;
 import com.insa.vestory.dto.player.PackOpeningResultDto;
 import com.insa.vestory.dto.player.PlayerProfileDto;
 import com.insa.vestory.dto.player.UserPackDto;
@@ -34,8 +34,8 @@ public class PlayerController {
         return playerService.addGems(userId(jwt), request.amount());
     }
 
-    @GetMapping("/cards")
-    public List<OwnedCardDto> getCollection(@AuthenticationPrincipal Jwt jwt) {
+    @GetMapping("/assets")
+    public List<OwnedAssetDto> getCollection(@AuthenticationPrincipal Jwt jwt) {
         return playerService.getCollection(userId(jwt));
     }
 

@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:mobile/features/cards/data/models/card_rarity.dart';
+import 'package:mobile/features/cards/data/models/rarity.dart';
 
 class RarityBadge extends StatelessWidget {
-  final CardRarity rarity;
+  final Rarity rarity;
 
   const RarityBadge({super.key, required this.rarity});
 

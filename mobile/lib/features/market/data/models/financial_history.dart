@@ -13,7 +13,7 @@ class FinancialHistoryPoint {
 }
 
 class FinancialHistory {
-  final String financialAssetId;
+  final int financialAssetId;
   final String symbol;
   final String? currency;
   final List<FinancialHistoryPoint> points;
@@ -31,7 +31,7 @@ class FinancialHistory {
     final rawPoints = json['points'] as List<dynamic>? ?? const [];
 
     return FinancialHistory(
-      financialAssetId: json['financialAssetId'] as String,
+      financialAssetId: json['financialAssetId'] as int,
       symbol: json['symbol'] as String,
       currency: json['currency'] as String?,
       fetchedAt: fetchedAt,

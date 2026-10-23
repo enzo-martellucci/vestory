@@ -1,0 +1,231 @@
+[
+  {
+    "symbol": "ALGO/USD",
+    "name": "Algorand",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Algorand is a proof-of-stake blockchain and cryptocurrency. Algorand's native cryptocurrency is called ALGO."
+  },
+  {
+    "symbol": "UNI/USD",
+    "name": "Uniswap",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Uniswap is a decentralized cryptocurrency exchange protocol built on the Ethereum blockchain. It enables the automated trading of digital assets through smart contracts, eliminating the need for intermediaries or centralized order books. Uniswap facilitates cryptocurrency tokens swaps using liquidity pools contributed by users.\nThe protocol, which runs on open-source software, was launched in 2018.  As of December 2024, Uniswap is estimated to be the largest decentralized exchange and the seventh-largest cryptocurrency exchange overall by daily trading volume."
+  },
+  {
+    "symbol": "ATOM/USD",
+    "name": "Cosmos",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency"
+  },
+  {
+    "symbol": "BTC/USD",
+    "name": "Bitcoin",
+    "rarity": "LEGENDARY",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Bitcoin (abbreviation: BTC; sign: ₿) is the first decentralized cryptocurrency. Based on a free-market ideology, bitcoin was invented in 2008 when an unknown person published a white paper under the pseudonym of Satoshi Nakamoto. Use of bitcoin as a currency began in 2009, with the release of its open-source implementation. From 2021 to 2025, El Salvador adopted it as legal tender currency before revoking it. As bitcoin is pseudonymous, its use by criminals has attracted the attention of regulators, leading to its ban by several countries.\nBitcoin works through the collaboration of computers, each of which acts as a node in the peer-to-peer bitcoin network. Each node maintains an independent copy of a public distributed ledger of transactions, called a blockchain, without central oversight. Transactions are validated through the use of cryptography, preventing one person from spending another person's bitcoin, as long as the owner of the bitcoin keeps certain sensitive data secret.\nConsensus between nodes about the content of the blockchain is achieved using a computationally intensive process based on proof of work, called mining, which is performed by purpose-built computers. Mining consumes large quantities of electricity and has been criticized for its environmental impact.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/960px-Bitcoin.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "ETH/USD",
+    "name": "Ethereum",
+    "rarity": "LEGENDARY",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Ethereum is a decentralized blockchain with smart contract functionality. Ether (abbreviation: ETH) is the native cryptocurrency of the platform. Among cryptocurrencies, ether is second only to bitcoin in market capitalization. It is open-source software.\nEthereum was conceived in 2013 by programmer Vitalik Buterin. Other founders include Gavin Wood, Charles Hoskinson, Anthony Di Iorio, and Joseph Lubin. In 2014, development work began and was crowdfunded, and the network went live on 30 July 2015. Ethereum allows anyone to deploy decentralized applications onto it, which anyone can then use. Decentralized finance (DeFi) applications provide financial instruments that do not directly rely on financial intermediaries like brokerages, exchanges, or banks. This facilitates borrowing against cryptocurrency holdings or lending them out for interest. Ethereum allows users to create fungible (e.g. ERC-20) and non-fungible tokens (NFTs) with a variety of properties, and to create smart contracts that can receive, hold and send those assets in accordance with the contract's immutable code and a transaction's input data.\nOn 15 September 2022, Ethereum transitioned its consensus mechanism from proof-of-work (PoW) to proof-of-stake (PoS) in an update known as \"The Merge\", which cut the blockchain's energy usage by over 99%.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Eth-diamond-%28color%29.svg/960px-Eth-diamond-%28color%29.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "BNB/USD",
+    "name": "BNB",
+    "rarity": "EPIC",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "BNB Smart Chain (formerly Binance Smart Chain) is a public blockchain platform that uses a proof-of-stake consensus mechanism and provides smart contract functionality. The platform's native cryptocurrency is BNB. The system is part of the broader Binance ecosystem founded in 2017 by Changpeng Zhao and Yi He.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/BNB%2C_native_cryptocurrency_for_the_Binance_Smart_Chain.svg/960px-BNB%2C_native_cryptocurrency_for_the_Binance_Smart_Chain.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "XRP/USD",
+    "name": "XRP",
+    "rarity": "EPIC",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "The XRP Ledger (XRPL), also called the Ripple Protocol, is a cryptocurrency platform launched in 2012 by Ripple Labs. The XRPL employs the native cryptocurrency known as XRP, and supports tokens, cryptocurrency or other units of value such as frequent flyer miles or mobile minutes."
+  },
+  {
+    "symbol": "NEAR/USD",
+    "name": "NEAR Protocol",
+    "rarity": "RARE",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency"
+  },
+  {
+    "symbol": "FIL/USD",
+    "name": "Filecoin",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency"
+  },
+  {
+    "symbol": "AAVE/USD",
+    "name": "Aave",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Aave is a decentralized finance protocol (DeFi) that enables the lending and borrowing of cryptocurrencies without the involvement of intermediary financial institutions."
+  },
+  {
+    "symbol": "SOL/USD",
+    "name": "Solana",
+    "rarity": "EPIC",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Solana is a public blockchain platform that uses a proof-of-stake consensus mechanism and provides smart contract functionality. The platform's native cryptocurrency is SOL. Solana was founded in 2018 by Toly Yakovenko and Raj Gokal, and the network was launched in March 2020 by their San Francisco-based company, Solana Labs.\nDesigned to support decentralized applications and high-throughput transactions, Solana gained traction as a competitor to Ethereum, particularly during the rise of non-fungible tokens (NFTs) in 2021. The platform's architecture aims to provide faster transaction speeds and lower costs than other major blockchains. However, the high volume of transactions has also contributed to several notable network outages that have impacted its stability and reliability.\nThe history of Solana has been marked by rapid growth and volatility. After a successful funding round in June 2021, the price of SOL grew by nearly 12,000% that year, reaching a market capitalization of over $70 billion. The platform has since faced challenges, including a major wallet hack in August 2022, a price collapse following the bankruptcy of FTX, and legal scrutiny from the U.S. Securities and Exchange Commission, which in 2023 alleged that SOL qualifies as an unregistered security. Nevertheless, in January 2025 United States President Donald Trump's memecoin, $TRUMP, began using the Solana blockchain causing a brief surge to near all-time highs."
+  },
+  {
+    "symbol": "ADA/USD",
+    "name": "Cardano",
+    "rarity": "RARE",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Cardano is a public decentralized blockchain platform which uses the cryptocurrency, ADA, to facilitate transactions.\nCardano's development began in 2015. When launched in 2017, it was the largest cryptocurrency to use a proof of stake blockchain. A number of independent entities collaborate on the project, including the Cardano Foundation based in Zug, Switzerland, and led by its chief executive officer Frederik Gregaard.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/2022_-_Crypto_PO1_7525_%2852475009129%29.jpg/960px-2022_-_Crypto_PO1_7525_%2852475009129%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "DOGE/USD",
+    "name": "Dogecoin",
+    "rarity": "EPIC",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Dogecoin ( DOHJ-koyn or DOHZH-koyn, Abbreviation:  DOGE; sign: Ð) is a cryptocurrency created by software engineers Billy Markus and Jackson Palmer, who decided to create a payment system as a joke, making fun of the wild speculation in cryptocurrencies at the time. It is considered both the first \"meme coin\", and more specifically the first \"dog coin\". Despite its satirical nature, some consider it a legitimate investment prospect. Dogecoin features the face of Kabosu from the \"doge\" meme as its logo and namesake. It was introduced on December 6, 2013, and quickly developed its own online community, reaching a peak market capitalization of over US$85 billion on May 5, 2021. As of 2021, it is the sleeve sponsor of Watford Football Club.\nDogecoin.com promotes the currency as the \"fun and friendly Internet currency\", referring to its origins as a \"joke\". Software engineers Markus and Palmer launched the satirical cryptocurrency as a way to make fun of Bitcoin and the many other cryptocurrencies boasting grand plans to take over the world. Dogecoin quickly gained traction, particularly on social platforms like Reddit. Within two weeks of launch, it had established a dedicated blog and forum and its market value reached $8 million, once jumping to become the seventh largest electronic currency in the world."
+  },
+  {
+    "symbol": "TRX/USD",
+    "name": "TRON",
+    "rarity": "EPIC",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Tron (stylized in all caps) is a decentralized, proof-of-stake blockchain with smart contract functionality. The cryptocurrency native to the blockchain is known as Tronix (TRX). It was founded in March 2014 by Justin Sun and, since 2017, has been overseen and supervised by the TRON Foundation, a non-profit organization in Singapore, established in the same year. It is open-source software.\nTron was originally an Ethereum-based ERC-20 token, which switched protocol to its own blockchain in 2018.\nTron has been criticised for enabling organized crime, with The Wall Street Journal stating in 2025 that it is a \"popular channel for crypto’s criminal fraternity to move funds\" and responsible for \"more than half of all illegal crypto activity\" in 2024, with the United Nations Office on Drugs and Crime calling it a “preferred choice for crypto money launderers” in Asia."
+  },
+  {
+    "symbol": "AVAX/USD",
+    "name": "Avalanche",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Avalanche is a public blockchain and smart-contract platform launched in September 2020 by the American company Ava Labs. The platform's native cryptocurrency is AVAX.",
+    "logoUrl": "https://upload.wikimedia.org/wikipedia/en/0/03/Avalanche_logo_without_text.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+  },
+  {
+    "symbol": "LINK/USD",
+    "name": "Chainlink",
+    "rarity": "RARE",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Chainlink is a decentralized blockchain oracle network. Chainlink's token is on Ethereum. The network is intended to be used to facilitate the transfer of tamper-proof data from off-chain sources to on-chain smart contracts."
+  },
+  {
+    "symbol": "DOT/USD",
+    "name": "Polkadot",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Polkadot is a decentralized, nominated proof-of-stake blockchain with smart contract functionality. The cryptocurrency native to the blockchain is the DOT.\nDesigned to facilitate interoperability, Polkadot enables independent blockchains to exchange data and assets securely without relying on centralized intermediaries. This cross-chain communication framework allows for the development of decentralized applications (dApps) and services that span multiple blockchains within a unified network architecture."
+  },
+  {
+    "symbol": "BCH/USD",
+    "name": "Bitcoin Cash",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Bitcoin Cash is a cryptocurrency that is a fork of bitcoin. Launched in 2017, Bitcoin Cash is considered an altcoin or spin-off of bitcoin. In November 2018, Bitcoin Cash further split into two separate cryptocurrencies: Bitcoin Cash (BCH) and Bitcoin Satoshi Vision (BSV).",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/BitcoinCash.svg/960px-BitcoinCash.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "LTC/USD",
+    "name": "Litecoin",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Litecoin (abbreviation: LTC) is a cryptocurrency and open-source software project created by Charlie Lee and released in 2011. Its software was derived from Bitcoin's codebase. Litecoin uses a scrypt-based proof-of-work system, targets a block interval of 2.5 minutes, and has a maximum supply of 84 million litecoins."
+  },
+  {
+    "symbol": "XLM/USD",
+    "name": "Stellar",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Stellar, or Stellar Lumens (symbol: XLM), is a cryptocurrency protocol which allows transactions between any pair of currencies.  \nThe Stellar protocol is supported by the nonprofit Stellar Development Foundation (though this organization does not have 501(c)(3) tax-exempt status) which was founded in 2014. The for profit arm, Lightyear.io, was founded in 2017.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Stellar_Symbol.png/960px-Stellar_Symbol.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "ETC/USD",
+    "name": "Ethereum Classic",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency"
+  },
+  {
+    "symbol": "ICP/USD",
+    "name": "Internet Computer",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "A cryptocurrency wallet is a device, physical medium, program or an online service which stores the public and/or private keys for cryptocurrency transactions. In addition to this basic function of storing the keys, a cryptocurrency wallet more often offers the functionality of encrypting and/or signing information. Signing can for example result in executing a smart contract, a cryptocurrency transaction (see \"bitcoin transaction\" image), identification, or legally signing a 'document' (see \"application form\" image)."
+  },
+  {
+    "symbol": "HBAR/USD",
+    "name": "Hedera",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Hedera Hashgraph, commonly known as Hedera, is a distributed ledger which uses a variant of proof of stake to reach consensus. The native cryptocurrency of the Hedera Hashgraph system is HBAR."
+  },
+  {
+    "symbol": "XMR/USD",
+    "name": "Monero",
+    "rarity": "RARE",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "Monero (; abbreviation: XMR) is a blockchain-based cryptocurrency which is private, untraceable, fungible, and decentralized.\nThe protocol is open source and based on CryptoNote v2, a concept described in a 2013 white paper authored by Nicolas van Saberhagen. Developers used this concept to design Monero, and deployed its mainnet in 2014. The Monero protocol includes various methods to obfuscate transaction details, though users can optionally share view keys for third-party auditing. Transactions are validated through a miner network running RandomX, a proof-of-work algorithm. The algorithm issues new coins to miners and was designed to be resistant against application-specific integrated circuit (ASIC) mining.\nMonero's privacy features have attracted cypherpunks and users desiring privacy measures not provided in other cryptocurrencies. A 2022 study in FSI Digital Investigations concluded \"For now, Monero is untraceable. However, it is probably only a matter of time and effort before it changes.\" Due to its perceived untraceability Monero is gaining increased use in illicit activities such as money laundering, darknet markets, ransomware, cryptojacking, and other organized crime."
+  },
+  {
+    "symbol": "TON/USD",
+    "name": "Toncoin",
+    "rarity": "COMMON",
+    "exchange": "CCC",
+    "currency": "USD",
+    "sector": "Cryptocurrency",
+    "description": "The Open Network (TON), or simply TON Blockchain, is a public, decentralised layer-1 blockchain platform that employs the cryptocurrency Gram (ticker: TON) to support transactions and its decentralised-app ecosystem. TON was originally established by Nikolai Durov, who co-founded the Telegram messaging platform, and was originally explored in a technical white paper publication released in 2019. After a legal dispute with the U.S. Securities and Exchange Commission (SEC) caused Telegram to abandon the project in 2020, the application has subsequently been developed and governed by an independent, community-run body called the TON Foundation. \nThe blockchain is named after its original working title, Telegram Open Network, although the app was renamed The Open Network in response to its freedom from Telegram after a 2020 settlement. In September 2023, Telegram elected TON as its Web3 infrastructure partner, integrating a TON-based wallet to the official Telegram app. TON's native medium is its own cryptocurrency Gram.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/TON_ICON.png/960px-TON_ICON.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  }
+]
