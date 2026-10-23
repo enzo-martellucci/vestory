@@ -38,10 +38,10 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
   bool get _isLastPack => _index == widget.packs.length - 1;
 
   bool get _isLegendaryMoment =>
-      (_result?.card.rarity.isLegendary ?? false) && _phase != OpeningPhase.ready && _phase != OpeningPhase.summary;
+      (_result?.asset.rarity.isLegendary ?? false) && _phase != OpeningPhase.ready && _phase != OpeningPhase.summary;
 
   List<Color> get _backgroundColors {
-    final rarity = _result?.card.rarity;
+    final rarity = _result?.asset.rarity;
     final rarityRevealed = _phase.index >= OpeningPhase.walkout.index && _phase != OpeningPhase.summary;
     if (rarity != null && (_isLegendaryMoment || rarityRevealed))
       return rarity.backgroundColors;
@@ -66,7 +66,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
         _phase = OpeningPhase.charging;
       });
 
-      final rarity = result.card.rarity;
+      final rarity = result.asset.rarity;
       await Future<void>.delayed(rarity.chargeDuration);
       if (!mounted)
         return;
@@ -91,7 +91,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final totalCards = ref.watch(cardsProvider).value?.length ?? 0;
+    final totalCards = ref.watch(assetsProvider).value?.length ?? 0;
 
     return PopScope(
       canPop: !_phase.isAnimating,
@@ -141,8 +141,8 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
             child: IgnorePointer(
               child: ParticleBurst(
                 key: ValueKey(_index),
-                color: result.card.rarity.color,
-                count: result.card.rarity.particleCount,
+                color: result.asset.rarity.color,
+                count: result.asset.rarity.particleCount,
               ),
             ),
           ),
@@ -155,7 +155,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
   void _onRevealed() {
     setState(() => _phase = OpeningPhase.revealed);
     if (_isLegendaryMoment)
-      _result!.card.rarity.haptic();
+      _result!.asset.rarity.haptic();
   }
 
   Widget _buildStage(int totalCards) => switch (_phase) {
@@ -166,7 +166,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
         child: OpeningPack(
           key: ValueKey(_index),
           type: _pack.type,
-          rarity: _result?.card.rarity,
+          rarity: _result?.asset.rarity,
           phase: _phase,
           onBurstComplete: () => setState(() => _phase = OpeningPhase.walkout),
         ),
@@ -174,7 +174,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
     ),
     OpeningPhase.walkout => WalkoutSequence(
       key: ValueKey(_index),
-      card: _results.last.card,
+      card: _results.last.asset,
       onComplete: () => setState(() => _phase = OpeningPhase.reveal),
     ),
     OpeningPhase.reveal || OpeningPhase.revealed => Column(
@@ -185,7 +185,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
           SizedBox(height: 48, child: _phase == OpeningPhase.revealed ? const _LegendaryBanner() : null),
         CardReveal(
           key: ValueKey(_index),
-          card: _results.last.card,
+          card: _results.last.asset,
           totalCards: totalCards,
           onRevealed: _onRevealed,
         ),
@@ -282,7 +282,7 @@ class _ResultBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = result.newCard ? AppColors.positive : AppColors.rare;
+    final color = result.newAsset ? AppColors.positive : AppColors.rare;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -291,9 +291,9 @@ class _ResultBadge extends StatelessWidget {
         mainAxisSize: .min,
         spacing: 6,
         children: [
-          Icon(result.newCard ? Icons.fiber_new : Icons.diamond, color: Colors.white, size: 20),
+          Icon(result.newAsset ? Icons.fiber_new : Icons.diamond, color: Colors.white, size: 20),
           Text(
-            result.newCard ? 'New card!' : 'Duplicate · +${result.gemsEarned} gems',
+            result.newAsset ? 'New card!' : 'Duplicate · +${result.gemsEarned} gems',
             style: const TextStyle(color: Colors.white, fontWeight: .w800),
           ),
         ],

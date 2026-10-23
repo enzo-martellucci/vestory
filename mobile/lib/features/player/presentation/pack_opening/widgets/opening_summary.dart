@@ -10,7 +10,7 @@ class OpeningSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newCards = results.where((result) => result.newCard).length;
+    final newCards = results.where((result) => result.newAsset).length;
     final gemsEarned = results.fold(0, (sum, result) => sum + result.gemsEarned);
 
     return Column(
@@ -28,7 +28,7 @@ class OpeningSummary extends StatelessWidget {
                     padding: const EdgeInsets.all(24),
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 300),
-                      child: AssetCard(card: results.single.card, totalCards: totalCards),
+                      child: AssetCard(card: results.single.asset, totalCards: totalCards),
                     ),
                   ),
                 )
@@ -41,7 +41,7 @@ class OpeningSummary extends StatelessWidget {
                     childAspectRatio: AssetCard.aspectRatio,
                   ),
                   itemCount: results.length,
-                  itemBuilder: (context, index) => AssetCard(card: results[index].card, totalCards: totalCards),
+                  itemBuilder: (context, index) => AssetCard(card: results[index].asset, totalCards: totalCards),
                 ),
         ),
       ],

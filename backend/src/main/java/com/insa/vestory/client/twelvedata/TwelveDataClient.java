@@ -2,8 +2,6 @@ package com.insa.vestory.client.twelvedata;
 
 import com.insa.vestory.client.MarketDataUnavailableException;
 import com.insa.vestory.client.RestClients;
-import com.insa.vestory.client.twelvedata.dto.TwelveDataForexPairDto;
-import com.insa.vestory.client.twelvedata.dto.TwelveDataForexPairsResponse;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataQuoteDto;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataTimeSeriesDto;
 import org.springframework.stereotype.Component;
@@ -12,7 +10,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.function.Function;
 
 @Component
@@ -26,18 +23,6 @@ public class TwelveDataClient {
     public TwelveDataClient(TwelveDataProperties properties) {
         this.properties = properties;
         this.restClient = RestClients.builder(properties.getBaseUrl()).build();
-    }
-
-    public List<TwelveDataForexPairDto> getForexPairs() {
-        TwelveDataForexPairsResponse response = get(uri -> uri
-                .path("/forex_pairs")
-                .queryParam("apikey", properties.getApiKey())
-                .build(), TwelveDataForexPairsResponse.class);
-
-        if (ERROR_STATUS.equalsIgnoreCase(response.status()))
-            throw new MarketDataUnavailableException("Twelve Data forex_pairs request failed");
-
-        return response.data() == null ? List.of() : response.data();
     }
 
     public TwelveDataQuoteDto getQuote(String symbol, String micCode) {

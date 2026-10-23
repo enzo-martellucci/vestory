@@ -1,11 +1,11 @@
 package com.insa.vestory.dto.player;
 
-import com.insa.vestory.dto.card.CardResponseDto;
+import com.insa.vestory.dto.asset.AssetResponseDto;
 
 import java.time.Instant;
 
-public record OwnedCardDto(
-        CardResponseDto card,
+public record OwnedAssetDto(
+        AssetResponseDto asset,
         boolean favorite,
         Instant firstObtainedAt,
         Instant lastObtainedAt

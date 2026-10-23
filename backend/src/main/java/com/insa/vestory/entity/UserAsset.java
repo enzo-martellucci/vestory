@@ -9,14 +9,14 @@ import java.util.UUID;
 
 @Entity
 @Table(
-    name = "user_cards",
+    name = "user_assets",
     uniqueConstraints = @UniqueConstraint(
-        columnNames = {"user_id", "asset_card_id"}
+        columnNames = {"user_id", "asset_id"}
     )
 )
 @Getter
 @Setter
-public class UserCard {
+public class UserAsset {
 
     @Id
     @GeneratedValue
@@ -27,8 +27,8 @@ public class UserCard {
     private User user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "asset_card_id", nullable = false)
-    private Card card;
+    @JoinColumn(name = "asset_id", nullable = false)
+    private Asset asset;
 
     private int quantity;
 

@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
-enum CardRarity {
+enum Rarity {
   common('COMMON', 'C', AppColors.common),
   rare('RARE', 'R', AppColors.rare),
   epic('EPIC', 'E', AppColors.epic),
@@ -11,12 +11,12 @@ enum CardRarity {
   final String letter;
   final Color color;
 
-  const CardRarity(this.apiValue, this.letter, this.color);
+  const Rarity(this.apiValue, this.letter, this.color);
 
-  static CardRarity fromApi(String? value) {
+  static Rarity fromApi(String? value) {
     for (final rarity in values) {
       if (rarity.apiValue == value) return rarity;
     }
-    return CardRarity.common;
+    return Rarity.common;
   }
 }

@@ -1,25 +1,24 @@
 package com.insa.vestory.service.player;
 
-import com.insa.vestory.constant.CardRarity;
 import com.insa.vestory.constant.PackSource;
 import com.insa.vestory.constant.PackType;
-import com.insa.vestory.dto.player.OwnedCardDto;
+import com.insa.vestory.constant.Rarity;
+import com.insa.vestory.dto.player.OwnedAssetDto;
 import com.insa.vestory.dto.player.PackOpeningResultDto;
 import com.insa.vestory.dto.player.PlayerProfileDto;
 import com.insa.vestory.dto.player.UserPackDto;
-import com.insa.vestory.entity.Card;
+import com.insa.vestory.entity.Asset;
 import com.insa.vestory.entity.PlayerProfile;
 import com.insa.vestory.entity.User;
-import com.insa.vestory.entity.UserCard;
+import com.insa.vestory.entity.UserAsset;
 import com.insa.vestory.entity.UserPack;
 import com.insa.vestory.exception.ResourceNotFoundException;
-import com.insa.vestory.mapper.CardMapper;
-import com.insa.vestory.repository.CardRepository;
+import com.insa.vestory.mapper.AssetMapper;
+import com.insa.vestory.repository.AssetRepository;
 import com.insa.vestory.repository.PlayerProfileRepository;
-import com.insa.vestory.repository.UserCardRepository;
+import com.insa.vestory.repository.UserAssetRepository;
 import com.insa.vestory.repository.UserPackRepository;
 import com.insa.vestory.repository.UserRepository;
-import com.insa.vestory.service.pack.PackDraw;
 import com.insa.vestory.service.pack.PackDrawer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,11 +44,11 @@ public class PlayerService {
 
     private final PlayerProfileRepository playerProfileRepository;
     private final UserPackRepository userPackRepository;
-    private final UserCardRepository userCardRepository;
-    private final CardRepository cardRepository;
+    private final UserAssetRepository userAssetRepository;
+    private final AssetRepository assetRepository;
     private final UserRepository userRepository;
     private final PackDrawer packDrawer;
-    private final CardMapper cardMapper;
+    private final AssetMapper assetMapper;
 
     @Transactional
     public PlayerProfileDto addGems(UUID userId, int amount) {
@@ -76,11 +75,11 @@ public class PlayerService {
     }
 
     @Transactional(readOnly = true)
-    public List<OwnedCardDto> getCollection(UUID userId) {
-        return userCardRepository.findAllByUserIdOrderByCardCollectionNumberAsc(userId)
+    public List<OwnedAssetDto> getCollection(UUID userId) {
+        return userAssetRepository.findAllByUserIdOrderByAssetIdAsc(userId)
                 .stream()
-                .map(owned -> new OwnedCardDto(
-                        cardMapper.toResponse(owned.getCard()),
+                .map(owned -> new OwnedAssetDto(
+                        assetMapper.toResponse(owned.getAsset()),
                         owned.isFavorite(),
                         owned.getFirstObtainedAt(),
                         owned.getLastObtainedAt()
@@ -116,33 +115,32 @@ public class PlayerService {
         if (pack.getOpenedAt() != null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Pack already opened");
 
-        PackDraw draw = packDrawer.draw(pack.getType(), pack.getSource(), enabledCardsByRarity());
-        Card card = draw.card();
+        Asset asset = packDrawer.draw(pack.getType(), pack.getSource(), assetsByRarity());
         Instant now = Instant.now();
 
         pack.setOpenedAt(now);
-        pack.setCard(card);
+        pack.setAsset(asset);
 
-        UserCard owned = userCardRepository.findByUserIdAndCardId(userId, card.getId()).orElse(null);
-        boolean newCard = owned == null;
-        int gemsEarned = newCard ? 0 : draw.rarity().getDuplicateGems();
+        UserAsset owned = userAssetRepository.findByUserIdAndAssetId(userId, asset.getId()).orElse(null);
+        boolean newAsset = owned == null;
+        int gemsEarned = newAsset ? 0 : asset.getRarity().getDuplicateGems();
 
-        if (newCard) {
-            owned = new UserCard();
+        if (newAsset) {
+            owned = new UserAsset();
             owned.setUser(profile.getUser());
-            owned.setCard(card);
-            owned.setQuantity(1);
+            owned.setAsset(asset);
             owned.setFirstObtainedAt(now);
         }
+        owned.setQuantity(owned.getQuantity() + 1);
         owned.setLastObtainedAt(now);
-        userCardRepository.save(owned);
+        userAssetRepository.save(owned);
         profile.setGems(profile.getGems() + gemsEarned);
 
         return new PackOpeningResultDto(
                 pack.getId(),
                 pack.getType(),
-                cardMapper.toResponse(card),
-                newCard,
+                assetMapper.toResponse(asset),
+                newAsset,
                 gemsEarned,
                 profile.getGems()
         );
@@ -174,11 +172,10 @@ public class PlayerService {
         return userPackRepository.save(pack);
     }
 
-    private Map<CardRarity, List<Card>> enabledCardsByRarity() {
-        return cardRepository.findAll()
+    private Map<Rarity, List<Asset>> assetsByRarity() {
+        return assetRepository.findAll()
                 .stream()
-                .filter(Card::isEnabled)
-                .collect(Collectors.groupingBy(Card::getRarity));
+                .collect(Collectors.groupingBy(Asset::getRarity));
     }
 
     private boolean isDailyPackAvailable(PlayerProfile profile) {

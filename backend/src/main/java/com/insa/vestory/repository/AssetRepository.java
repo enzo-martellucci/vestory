@@ -10,5 +10,5 @@ public interface AssetRepository extends JpaRepository<Asset, Long> {
 
     boolean existsBySymbolAndType(String symbol, AssetType type);
 
-    List<Asset> findAllByOrderBySymbolAsc();
+    List<Asset> findAllByOrderByIdAsc();
 }

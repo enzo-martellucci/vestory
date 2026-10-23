@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/network/api_exception.dart';
 import 'package:mobile/core/network/dio_provider.dart';
 import 'package:mobile/features/player/data/models/buy_pack_request.dart';
-import 'package:mobile/features/player/data/models/owned_card.dart';
+import 'package:mobile/features/player/data/models/owned_asset.dart';
 import 'package:mobile/features/player/data/models/pack_opening_result.dart';
 import 'package:mobile/features/player/data/models/pack_type.dart';
 import 'package:mobile/features/player/data/models/player_profile.dart';
@@ -21,10 +21,10 @@ class PlayerRepository {
     return PlayerProfile.fromJson(response.data);
   });
 
-  Future<List<OwnedCard>> getCollection() => _call(() async {
-    final response = await dio.get('/api/me/cards');
-    final cards = response.data as List<dynamic>;
-    return cards.map((json) => OwnedCard.fromJson(json as Map<String, dynamic>)).toList();
+  Future<List<OwnedAsset>> getCollection() => _call(() async {
+    final response = await dio.get('/api/me/assets');
+    final assets = response.data as List<dynamic>;
+    return assets.map((json) => OwnedAsset.fromJson(json as Map<String, dynamic>)).toList();
   });
 
   Future<UserPack> claimDailyPack() => _call(() async {

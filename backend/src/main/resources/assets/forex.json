@@ -2,6 +2,7 @@
   {
     "symbol": "EUR/CHF",
     "name": "Euro / Swiss Franc",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "CHF",
     "description": "EUR/CHF represents the exchange rate between Euro and Swiss Franc. It indicates how many units of Swiss Franc are required to purchase one unit of Euro.",
@@ -10,6 +11,7 @@
   {
     "symbol": "EUR/USD",
     "name": "Euro / U.S. Dollar",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "USD",
     "description": "EUR/USD represents the exchange rate between Euro and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of Euro.",
@@ -18,6 +20,7 @@
   {
     "symbol": "USD/JPY",
     "name": "U.S. Dollar / Japanese Yen",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "USD/JPY represents the exchange rate between U.S. Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of U.S. Dollar.",
@@ -26,6 +29,7 @@
   {
     "symbol": "GBP/USD",
     "name": "British Pound Sterling / U.S. Dollar",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "USD",
     "description": "GBP/USD represents the exchange rate between British Pound Sterling and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of British Pound Sterling."
@@ -33,6 +37,7 @@
   {
     "symbol": "USD/CHF",
     "name": "U.S. Dollar / Swiss Franc",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "CHF",
     "description": "USD/CHF represents the exchange rate between U.S. Dollar and Swiss Franc. It indicates how many units of Swiss Franc are required to purchase one unit of U.S. Dollar.",
@@ -41,6 +46,7 @@
   {
     "symbol": "AUD/USD",
     "name": "Australian Dollar / U.S. Dollar",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "USD",
     "description": "AUD/USD represents the exchange rate between Australian Dollar and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of Australian Dollar."
@@ -48,6 +54,7 @@
   {
     "symbol": "USD/CAD",
     "name": "U.S. Dollar / Canadian Dollar",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "CAD",
     "description": "USD/CAD represents the exchange rate between U.S. Dollar and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of U.S. Dollar.",
@@ -56,6 +63,7 @@
   {
     "symbol": "NZD/USD",
     "name": "New Zealand Dollar / U.S. Dollar",
+    "rarity": "LEGENDARY",
     "exchange": "FOREX",
     "currency": "USD",
     "description": "NZD/USD represents the exchange rate between New Zealand Dollar and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of New Zealand Dollar."
@@ -63,6 +71,7 @@
   {
     "symbol": "EUR/GBP",
     "name": "Euro / British Pound Sterling",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "GBP",
     "description": "EUR/GBP represents the exchange rate between Euro and British Pound Sterling. It indicates how many units of British Pound Sterling are required to purchase one unit of Euro.",
@@ -71,6 +80,7 @@
   {
     "symbol": "EUR/JPY",
     "name": "Euro / Japanese Yen",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "EUR/JPY represents the exchange rate between Euro and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Euro.",
@@ -79,6 +89,7 @@
   {
     "symbol": "GBP/JPY",
     "name": "British Pound Sterling / Japanese Yen",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "GBP/JPY represents the exchange rate between British Pound Sterling and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of British Pound Sterling."
@@ -86,6 +97,7 @@
   {
     "symbol": "EUR/AUD",
     "name": "Euro / Australian Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "AUD",
     "description": "EUR/AUD represents the exchange rate between Euro and Australian Dollar. It indicates how many units of Australian Dollar are required to purchase one unit of Euro.",
@@ -94,6 +106,7 @@
   {
     "symbol": "EUR/CAD",
     "name": "Euro / Canadian Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "CAD",
     "description": "EUR/CAD represents the exchange rate between Euro and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of Euro.",
@@ -102,6 +115,7 @@
   {
     "symbol": "GBP/CHF",
     "name": "British Pound Sterling / Swiss Franc",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "CHF",
     "description": "GBP/CHF represents the exchange rate between British Pound Sterling and Swiss Franc. It indicates how many units of Swiss Franc are required to purchase one unit of British Pound Sterling."
@@ -109,6 +123,7 @@
   {
     "symbol": "GBP/AUD",
     "name": "British Pound Sterling / Australian Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "AUD",
     "description": "GBP/AUD represents the exchange rate between British Pound Sterling and Australian Dollar. It indicates how many units of Australian Dollar are required to purchase one unit of British Pound Sterling."
@@ -116,6 +131,7 @@
   {
     "symbol": "GBP/CAD",
     "name": "British Pound Sterling / Canadian Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "CAD",
     "description": "GBP/CAD represents the exchange rate between British Pound Sterling and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of British Pound Sterling."
@@ -123,6 +139,7 @@
   {
     "symbol": "AUD/JPY",
     "name": "Australian Dollar / Japanese Yen",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "AUD/JPY represents the exchange rate between Australian Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Australian Dollar."
@@ -130,6 +147,7 @@
   {
     "symbol": "AUD/NZD",
     "name": "Australian Dollar / New Zealand Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "NZD",
     "description": "AUD/NZD represents the exchange rate between Australian Dollar and New Zealand Dollar. It indicates how many units of New Zealand Dollar are required to purchase one unit of Australian Dollar."
@@ -137,6 +155,7 @@
   {
     "symbol": "AUD/CAD",
     "name": "Australian Dollar / Canadian Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "CAD",
     "description": "AUD/CAD represents the exchange rate between Australian Dollar and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of Australian Dollar."
@@ -144,6 +163,7 @@
   {
     "symbol": "CAD/JPY",
     "name": "Canadian Dollar / Japanese Yen",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "CAD/JPY represents the exchange rate between Canadian Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Canadian Dollar."
@@ -151,6 +171,7 @@
   {
     "symbol": "CHF/JPY",
     "name": "Swiss Franc / Japanese Yen",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "CHF/JPY represents the exchange rate between Swiss Franc and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Swiss Franc."
@@ -158,6 +179,7 @@
   {
     "symbol": "NZD/JPY",
     "name": "New Zealand Dollar / Japanese Yen",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "JPY",
     "description": "NZD/JPY represents the exchange rate between New Zealand Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of New Zealand Dollar."
@@ -165,6 +187,7 @@
   {
     "symbol": "NZD/CAD",
     "name": "New Zealand Dollar / Canadian Dollar",
+    "rarity": "RARE",
     "exchange": "FOREX",
     "currency": "CAD",
     "description": "NZD/CAD represents the exchange rate between New Zealand Dollar and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of New Zealand Dollar."
@@ -172,6 +195,7 @@
   {
     "symbol": "USD/CNH",
     "name": "U.S. Dollar / Chinese Yuan (Offshore)",
+    "rarity": "COMMON",
     "exchange": "FOREX",
     "currency": "CNH",
     "description": "USD/CNH represents the exchange rate between U.S. Dollar and Chinese Yuan (Offshore). It indicates how many units of Chinese Yuan (Offshore) are required to purchase one unit of U.S. Dollar.",
@@ -180,6 +204,7 @@
   {
     "symbol": "USD/SGD",
     "name": "U.S. Dollar / Singapore Dollar",
+    "rarity": "COMMON",
     "exchange": "FOREX",
     "currency": "SGD",
     "description": "USD/SGD represents the exchange rate between U.S. Dollar and Singapore Dollar. It indicates how many units of Singapore Dollar are required to purchase one unit of U.S. Dollar.",

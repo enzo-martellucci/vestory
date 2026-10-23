@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/widgets/asset_card.dart';
 import 'package:mobile/features/cards/presentation/widgets/recto/asset_card_front.dart';
 import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.dart';
@@ -10,7 +10,7 @@ import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.
 class CardReveal extends StatefulWidget {
   static const width = 240.0;
 
-  final AssetCardModel card;
+  final Asset card;
   final int totalCards;
   final VoidCallback onRevealed;
 

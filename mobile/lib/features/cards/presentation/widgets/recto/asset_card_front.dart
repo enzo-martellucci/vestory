@@ -1,12 +1,12 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/widgets/card_frame.dart';
 import 'package:mobile/features/cards/presentation/widgets/recto/card_background.dart';
 import 'package:mobile/features/cards/presentation/widgets/recto/card_info_section.dart';
 import 'package:mobile/features/cards/presentation/widgets/recto/rarity_badge.dart';
 
 class AssetCardFront extends StatelessWidget {
-  final AssetCardModel card;
+  final Asset card;
   final int totalCards;
 
   const AssetCardFront({

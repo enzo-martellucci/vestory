@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/widgets/error_view.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/card_query.dart';
 import 'package:mobile/features/cards/presentation/cards_provider.dart';
 import 'package:mobile/features/cards/presentation/widgets/asset_card.dart';
@@ -24,10 +24,10 @@ class CardsScreen extends ConsumerWidget {
     final view = ref.watch(cardsViewProvider);
     final query = ref.watch(cardQueryProvider);
     final queryNotifier = ref.read(cardQueryProvider.notifier);
-    final totalCards = ref.watch(cardsProvider).value?.length ?? 0;
-    final ownedIds = ref.watch(ownedCardIdsProvider).value ?? const <String>{};
+    final totalCards = ref.watch(assetsProvider).value?.length ?? 0;
+    final ownedIds = ref.watch(ownedAssetIdsProvider).value ?? const <int>{};
 
-    Future<void> refresh() => Future.wait([ref.refresh(cardsProvider.future), ref.refresh(collectionProvider.future)]);
+    Future<void> refresh() => Future.wait([ref.refresh(assetsProvider.future), ref.refresh(collectionProvider.future)]);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Collection', style: TextStyle(fontWeight: .w800))),
@@ -69,7 +69,7 @@ class CardsScreen extends ConsumerWidget {
               error: (error, stackTrace) => ErrorView(
                 message: 'Unable to load cards.\n${apiErrorMessage(error)}',
                 onRetry: () {
-                  ref.invalidate(cardsProvider);
+                  ref.invalidate(assetsProvider);
                   ref.invalidate(collectionProvider);
                 },
               ),
@@ -95,9 +95,9 @@ class CardsScreen extends ConsumerWidget {
 }
 
 class _CardsGrid extends StatelessWidget {
-  final List<AssetCardModel> cards;
+  final List<Asset> cards;
   final int totalCards;
-  final Set<String> ownedIds;
+  final Set<int> ownedIds;
   final String emptyMessage;
 
   const _CardsGrid({

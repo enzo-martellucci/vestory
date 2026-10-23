@@ -3,7 +3,7 @@ package com.insa.vestory.constant;
 import lombok.Getter;
 
 @Getter
-public enum CardRarity {
+public enum Rarity {
     COMMON(2),
     RARE(10),
     EPIC(50),
@@ -11,7 +11,7 @@ public enum CardRarity {
 
     private final int duplicateGems;
 
-    CardRarity(int duplicateGems) {
+    Rarity(int duplicateGems) {
         this.duplicateGems = duplicateGems;
     }
 }

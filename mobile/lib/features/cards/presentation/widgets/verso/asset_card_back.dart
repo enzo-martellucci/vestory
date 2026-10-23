@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/widgets/card_frame.dart';
 import 'package:mobile/features/cards/presentation/widgets/verso/data_freshness.dart';
 import 'package:mobile/features/cards/presentation/widgets/verso/financial_card_header.dart';
@@ -14,7 +14,7 @@ import 'package:mobile/features/market/data/models/financial_history.dart';
 import 'package:mobile/features/market/data/models/financial_quote.dart';
 
 class AssetCardBack extends StatelessWidget {
-  final AssetCardModel card;
+  final Asset card;
   final AsyncValue<FinancialQuote>? quote;
   final AsyncValue<FinancialHistory>? history;
 

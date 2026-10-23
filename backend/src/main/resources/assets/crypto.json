@@ -2,6 +2,7 @@
   {
     "symbol": "ALGO/USD",
     "name": "Algorand",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -10,6 +11,7 @@
   {
     "symbol": "UNI/USD",
     "name": "Uniswap",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -18,6 +20,7 @@
   {
     "symbol": "ATOM/USD",
     "name": "Cosmos",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency"
@@ -25,6 +28,7 @@
   {
     "symbol": "BTC/USD",
     "name": "Bitcoin",
+    "rarity": "LEGENDARY",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -34,6 +38,7 @@
   {
     "symbol": "ETH/USD",
     "name": "Ethereum",
+    "rarity": "LEGENDARY",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -43,6 +48,7 @@
   {
     "symbol": "BNB/USD",
     "name": "BNB",
+    "rarity": "EPIC",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -52,6 +58,7 @@
   {
     "symbol": "XRP/USD",
     "name": "XRP",
+    "rarity": "EPIC",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -60,6 +67,7 @@
   {
     "symbol": "NEAR/USD",
     "name": "NEAR Protocol",
+    "rarity": "RARE",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency"
@@ -67,6 +75,7 @@
   {
     "symbol": "FIL/USD",
     "name": "Filecoin",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency"
@@ -74,6 +83,7 @@
   {
     "symbol": "AAVE/USD",
     "name": "Aave",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -82,6 +92,7 @@
   {
     "symbol": "SOL/USD",
     "name": "Solana",
+    "rarity": "EPIC",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -90,6 +101,7 @@
   {
     "symbol": "ADA/USD",
     "name": "Cardano",
+    "rarity": "RARE",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -99,6 +111,7 @@
   {
     "symbol": "DOGE/USD",
     "name": "Dogecoin",
+    "rarity": "EPIC",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -107,6 +120,7 @@
   {
     "symbol": "TRX/USD",
     "name": "TRON",
+    "rarity": "EPIC",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -115,6 +129,7 @@
   {
     "symbol": "AVAX/USD",
     "name": "Avalanche",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -124,6 +139,7 @@
   {
     "symbol": "LINK/USD",
     "name": "Chainlink",
+    "rarity": "RARE",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -132,6 +148,7 @@
   {
     "symbol": "DOT/USD",
     "name": "Polkadot",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -140,6 +157,7 @@
   {
     "symbol": "BCH/USD",
     "name": "Bitcoin Cash",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -149,6 +167,7 @@
   {
     "symbol": "LTC/USD",
     "name": "Litecoin",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -157,6 +176,7 @@
   {
     "symbol": "XLM/USD",
     "name": "Stellar",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -166,6 +186,7 @@
   {
     "symbol": "ETC/USD",
     "name": "Ethereum Classic",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency"
@@ -173,6 +194,7 @@
   {
     "symbol": "ICP/USD",
     "name": "Internet Computer",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -181,6 +203,7 @@
   {
     "symbol": "HBAR/USD",
     "name": "Hedera",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -189,6 +212,7 @@
   {
     "symbol": "XMR/USD",
     "name": "Monero",
+    "rarity": "RARE",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",
@@ -197,6 +221,7 @@
   {
     "symbol": "TON/USD",
     "name": "Toncoin",
+    "rarity": "COMMON",
     "exchange": "CCC",
     "currency": "USD",
     "sector": "Cryptocurrency",

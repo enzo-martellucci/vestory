@@ -2,6 +2,7 @@
   {
     "symbol": "AAPL",
     "name": "Apple Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -14,6 +15,7 @@
   {
     "symbol": "MSFT",
     "name": "Microsoft Corporation",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -26,6 +28,7 @@
   {
     "symbol": "NVDA",
     "name": "NVIDIA Corporation",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -38,6 +41,7 @@
   {
     "symbol": "AMZN",
     "name": "Amazon.com, Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -50,6 +54,7 @@
   {
     "symbol": "GOOGL",
     "name": "Alphabet Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -62,6 +67,7 @@
   {
     "symbol": "META",
     "name": "Meta Platforms, Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -74,6 +80,7 @@
   {
     "symbol": "AVGO",
     "name": "Broadcom Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -86,6 +93,7 @@
   {
     "symbol": "TSLA",
     "name": "Tesla, Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -98,6 +106,7 @@
   {
     "symbol": "JPM",
     "name": "JPMorgan Chase & Co.",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -110,6 +119,7 @@
   {
     "symbol": "WMT",
     "name": "Walmart Inc.",
+    "rarity": "EPIC",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -122,6 +132,7 @@
   {
     "symbol": "LLY",
     "name": "Eli Lilly and Company",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -134,6 +145,7 @@
   {
     "symbol": "V",
     "name": "Visa Inc.",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -146,6 +158,7 @@
   {
     "symbol": "JNJ",
     "name": "Johnson & Johnson",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -158,6 +171,7 @@
   {
     "symbol": "MA",
     "name": "Mastercard Incorporated",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -170,6 +184,7 @@
   {
     "symbol": "ORCL",
     "name": "Oracle Corporation",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -182,6 +197,7 @@
   {
     "symbol": "NFLX",
     "name": "Netflix, Inc.",
+    "rarity": "EPIC",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -194,6 +210,7 @@
   {
     "symbol": "XOM",
     "name": "Exxonmobil Holdings Corporation",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -206,6 +223,7 @@
   {
     "symbol": "COST",
     "name": "Costco Wholesale Corporation",
+    "rarity": "RARE",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -218,6 +236,7 @@
   {
     "symbol": "HD",
     "name": "The Home Depot, Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -230,6 +249,7 @@
   {
     "symbol": "PG",
     "name": "The Procter & Gamble Company",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -242,6 +262,7 @@
   {
     "symbol": "ABBV",
     "name": "AbbVie Inc.",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -254,6 +275,7 @@
   {
     "symbol": "BAC",
     "name": "Bank of America Corporation",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -266,6 +288,7 @@
   {
     "symbol": "KO",
     "name": "The Coca-Cola Company",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -278,6 +301,7 @@
   {
     "symbol": "PLTR",
     "name": "Palantir Technologies Inc.",
+    "rarity": "EPIC",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -290,6 +314,7 @@
   {
     "symbol": "CRM",
     "name": "Salesforce, Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -302,6 +327,7 @@
   {
     "symbol": "CRWD",
     "name": "CrowdStrike Holdings, Inc.",
+    "rarity": "RARE",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -314,6 +340,7 @@
   {
     "symbol": "CSCO",
     "name": "Cisco Systems, Inc.",
+    "rarity": "EPIC",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -326,6 +353,7 @@
   {
     "symbol": "CVX",
     "name": "Chevron Corporation",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -338,6 +366,7 @@
   {
     "symbol": "IBM",
     "name": "International Business Machines Corporation",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -350,6 +379,7 @@
   {
     "symbol": "MRK",
     "name": "Merck & Co., Inc.",
+    "rarity": "EPIC",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -362,6 +392,7 @@
   {
     "symbol": "GE",
     "name": "GE Aerospace",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -374,6 +405,7 @@
   {
     "symbol": "WFC",
     "name": "Wells Fargo & Company",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -386,6 +418,7 @@
   {
     "symbol": "MCD",
     "name": "McDonald's Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -398,6 +431,7 @@
   {
     "symbol": "AMD",
     "name": "Advanced Micro Devices, Inc.",
+    "rarity": "EPIC",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -410,6 +444,7 @@
   {
     "symbol": "ABT",
     "name": "Abbott Laboratories",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -422,6 +457,7 @@
   {
     "symbol": "DIS",
     "name": "The Walt Disney Company",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -434,6 +470,7 @@
   {
     "symbol": "QCOM",
     "name": "QUALCOMM Incorporated",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -446,6 +483,7 @@
   {
     "symbol": "INTU",
     "name": "Intuit Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -458,6 +496,7 @@
   {
     "symbol": "CAT",
     "name": "Caterpillar Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -470,6 +509,7 @@
   {
     "symbol": "AMGN",
     "name": "Amgen Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -482,6 +522,7 @@
   {
     "symbol": "TMO",
     "name": "Thermo Fisher Scientific Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -494,6 +535,7 @@
   {
     "symbol": "GS",
     "name": "The Goldman Sachs Group, Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -506,6 +548,7 @@
   {
     "symbol": "RTX",
     "name": "RTX Corporation",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -518,6 +561,7 @@
   {
     "symbol": "NOW",
     "name": "ServiceNow, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -530,6 +574,7 @@
   {
     "symbol": "TXN",
     "name": "Texas Instruments Incorporated",
+    "rarity": "RARE",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -542,6 +587,7 @@
   {
     "symbol": "ISRG",
     "name": "Intuitive Surgical, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -554,6 +600,7 @@
   {
     "symbol": "PEP",
     "name": "PepsiCo, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -566,6 +613,7 @@
   {
     "symbol": "PM",
     "name": "Philip Morris International Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -578,6 +626,7 @@
   {
     "symbol": "AMAT",
     "name": "Applied Materials, Inc.",
+    "rarity": "RARE",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -590,6 +639,7 @@
   {
     "symbol": "BKNG",
     "name": "Booking Holdings Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -602,6 +652,7 @@
   {
     "symbol": "LOW",
     "name": "Lowe's Companies, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -614,6 +665,7 @@
   {
     "symbol": "SPGI",
     "name": "S&P Global Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -626,6 +678,7 @@
   {
     "symbol": "C",
     "name": "Citigroup Inc.",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -638,6 +691,7 @@
   {
     "symbol": "CEG",
     "name": "Constellation Energy Corporation",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -650,6 +704,7 @@
   {
     "symbol": "HON",
     "name": "Honeywell International Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -662,6 +717,7 @@
   {
     "symbol": "UNH",
     "name": "UnitedHealth Group Incorporated",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -674,6 +730,7 @@
   {
     "symbol": "DHR",
     "name": "Danaher Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -686,6 +743,7 @@
   {
     "symbol": "NEE",
     "name": "NextEra Energy, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -698,6 +756,7 @@
   {
     "symbol": "PGR",
     "name": "The Progressive Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -710,6 +769,7 @@
   {
     "symbol": "BLK",
     "name": "BlackRock, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -722,6 +782,7 @@
   {
     "symbol": "SYK",
     "name": "Stryker Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -734,6 +795,7 @@
   {
     "symbol": "ETN",
     "name": "Eaton Corporation plc",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "IE",
@@ -746,6 +808,7 @@
   {
     "symbol": "BSX",
     "name": "Boston Scientific Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -758,6 +821,7 @@
   {
     "symbol": "GILD",
     "name": "Gilead Sciences, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -770,6 +834,7 @@
   {
     "symbol": "DE",
     "name": "Deere & Company",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -782,6 +847,7 @@
   {
     "symbol": "ADP",
     "name": "Automatic Data Processing, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -794,6 +860,7 @@
   {
     "symbol": "TJX",
     "name": "The TJX Companies, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -806,6 +873,7 @@
   {
     "symbol": "LMT",
     "name": "Lockheed Martin Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -818,6 +886,7 @@
   {
     "symbol": "MU",
     "name": "Micron Technology, Inc.",
+    "rarity": "LEGENDARY",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -830,6 +899,7 @@
   {
     "symbol": "PANW",
     "name": "Palo Alto Networks, Inc.",
+    "rarity": "RARE",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -842,6 +912,7 @@
   {
     "symbol": "MDLZ",
     "name": "Mondelez International, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -854,6 +925,7 @@
   {
     "symbol": "CB",
     "name": "Chubb Limited",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "CH",
@@ -866,6 +938,7 @@
   {
     "symbol": "MRSH",
     "name": "Marsh & McLennan Companies, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -878,6 +951,7 @@
   {
     "symbol": "ADI",
     "name": "Analog Devices, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -890,6 +964,7 @@
   {
     "symbol": "COP",
     "name": "ConocoPhillips",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -902,6 +977,7 @@
   {
     "symbol": "KLAC",
     "name": "KLA Corporation",
+    "rarity": "RARE",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -914,6 +990,7 @@
   {
     "symbol": "ICE",
     "name": "Intercontinental Exchange, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -926,6 +1003,7 @@
   {
     "symbol": "CME",
     "name": "CME Group Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -938,6 +1016,7 @@
   {
     "symbol": "SO",
     "name": "The Southern Company",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -950,6 +1029,7 @@
   {
     "symbol": "EQIX",
     "name": "Equinix, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -962,6 +1042,7 @@
   {
     "symbol": "FISV",
     "name": "Fiserv, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -974,6 +1055,7 @@
   {
     "symbol": "AON",
     "name": "Aon plc",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "IE",
@@ -986,6 +1068,7 @@
   {
     "symbol": "SHW",
     "name": "The Sherwin-Williams Company",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -998,6 +1081,7 @@
   {
     "symbol": "CL",
     "name": "Colgate-Palmolive Company",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1010,6 +1094,7 @@
   {
     "symbol": "APH",
     "name": "Amphenol Corporation",
+    "rarity": "RARE",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1022,6 +1107,7 @@
   {
     "symbol": "WM",
     "name": "Waste Management, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1034,6 +1120,7 @@
   {
     "symbol": "MCO",
     "name": "Moody's Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1046,6 +1133,7 @@
   {
     "symbol": "PH",
     "name": "Parker-Hannifin Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1058,6 +1146,7 @@
   {
     "symbol": "HCA",
     "name": "HCA Healthcare, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1070,6 +1159,7 @@
   {
     "symbol": "USB",
     "name": "U.S. Bancorp",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1082,6 +1172,7 @@
   {
     "symbol": "PNC",
     "name": "The PNC Financial Services Group, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1094,6 +1185,7 @@
   {
     "symbol": "GD",
     "name": "General Dynamics Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1106,6 +1198,7 @@
   {
     "symbol": "MSI",
     "name": "Motorola Solutions, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1118,6 +1211,7 @@
   {
     "symbol": "CI",
     "name": "Cigna Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1130,6 +1224,7 @@
   {
     "symbol": "ECL",
     "name": "Ecolab Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1142,6 +1237,7 @@
   {
     "symbol": "ITW",
     "name": "Illinois Tool Works Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1154,6 +1250,7 @@
   {
     "symbol": "ORLY",
     "name": "O'Reilly Automotive, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -1166,6 +1263,7 @@
   {
     "symbol": "MAR",
     "name": "Marriott International, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -1178,6 +1276,7 @@
   {
     "symbol": "APD",
     "name": "Air Products and Chemicals, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1190,6 +1289,7 @@
   {
     "symbol": "SBUX",
     "name": "Starbucks Corporation",
+    "rarity": "COMMON",
     "micCode": "XNGS",
     "exchange": "NASDAQ",
     "country": "US",
@@ -1202,6 +1302,7 @@
   {
     "symbol": "UPS",
     "name": "United Parcel Service, Inc.",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1214,6 +1315,7 @@
   {
     "symbol": "FDX",
     "name": "FedEx Corporation",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1226,6 +1328,7 @@
   {
     "symbol": "GM",
     "name": "General Motors Company",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",
@@ -1238,6 +1341,7 @@
   {
     "symbol": "F",
     "name": "Ford Motor Company",
+    "rarity": "COMMON",
     "micCode": "XNYS",
     "exchange": "NYSE",
     "country": "US",

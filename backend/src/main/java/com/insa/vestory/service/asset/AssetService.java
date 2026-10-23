@@ -18,7 +18,7 @@ public class AssetService {
 
     @Transactional(readOnly = true)
     public List<AssetResponseDto> getAll() {
-        return assetRepository.findAllByOrderBySymbolAsc().stream()
+        return assetRepository.findAllByOrderByIdAsc().stream()
             .map(assetMapper::toResponse)
             .toList();
     }

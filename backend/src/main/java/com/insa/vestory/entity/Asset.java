@@ -1,6 +1,7 @@
 package com.insa.vestory.entity;
 
 import com.insa.vestory.constant.AssetType;
+import com.insa.vestory.constant.Rarity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,10 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private AssetType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Rarity rarity;
 
     @Column(length = 10)
     private String micCode;

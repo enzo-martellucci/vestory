@@ -1,7 +1,6 @@
 package com.insa.vestory.client.fmp;
 
 import com.insa.vestory.client.RestClients;
-import com.insa.vestory.client.fmp.dto.FmpCompanyProfileDto;
 import com.insa.vestory.client.fmp.dto.FmpDailyPriceDto;
 import com.insa.vestory.client.fmp.dto.FmpQuoteDto;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,16 +19,6 @@ public class FmpClient {
     public FmpClient(FmpProperties properties) {
         this.properties = properties;
         this.restClient = RestClients.builder(properties.getBaseUrl()).build();
-    }
-
-    public FmpCompanyProfileDto getCompanyProfile(String symbol) {
-        List<FmpCompanyProfileDto> response = getList("/profile", symbol, new ParameterizedTypeReference<List<FmpCompanyProfileDto>>() {
-        });
-
-        if (response.isEmpty())
-            throw new IllegalStateException("No profile returned by FMP for " + symbol);
-
-        return response.getFirst();
     }
 
     public FmpQuoteDto getQuote(String symbol) {
