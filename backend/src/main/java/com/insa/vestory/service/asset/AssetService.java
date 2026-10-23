@@ -14,20 +14,12 @@ import java.util.List;
 public class AssetService {
 
     private final AssetRepository assetRepository;
-    private final AssetImportService assetImportService;
     private final AssetMapper assetMapper;
 
     @Transactional(readOnly = true)
     public List<AssetResponseDto> getAll() {
-        return assetMapper.toResponses(assetRepository.findAllByOrderBySymbolAsc());
-    }
-
-    public void importAll() {
-        assetImportService.importAll();
-    }
-
-    @Transactional
-    public void deleteAll() {
-        assetRepository.deleteAllInBatch();
+        return assetRepository.findAllByOrderBySymbolAsc().stream()
+            .map(assetMapper::toResponse)
+            .toList();
     }
 }

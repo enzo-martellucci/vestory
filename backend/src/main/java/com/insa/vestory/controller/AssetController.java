@@ -3,8 +3,9 @@ package com.insa.vestory.controller;
 import com.insa.vestory.dto.asset.AssetResponseDto;
 import com.insa.vestory.service.asset.AssetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,17 +19,5 @@ public class AssetController {
     @GetMapping
     public List<AssetResponseDto> getAll() {
         return assetService.getAll();
-    }
-
-    @PostMapping("/import")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void importAll() {
-        assetService.importAll();
-    }
-
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAll() {
-        assetService.deleteAll();
     }
 }

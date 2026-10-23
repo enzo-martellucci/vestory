@@ -1,0 +1,188 @@
+[
+  {
+    "symbol": "EUR/CHF",
+    "name": "Euro / Swiss Franc",
+    "exchange": "FOREX",
+    "currency": "CHF",
+    "description": "EUR/CHF represents the exchange rate between Euro and Swiss Franc. It indicates how many units of Swiss Franc are required to purchase one unit of Euro.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Euro_Series_Banknotes_%282019%29_-_centered.png/960px-Euro_Series_Banknotes_%282019%29_-_centered.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "EUR/USD",
+    "name": "Euro / U.S. Dollar",
+    "exchange": "FOREX",
+    "currency": "USD",
+    "description": "EUR/USD represents the exchange rate between Euro and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of Euro.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Euro_Series_Banknotes_%282019%29_-_centered.png/960px-Euro_Series_Banknotes_%282019%29_-_centered.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "USD/JPY",
+    "name": "U.S. Dollar / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "USD/JPY represents the exchange rate between U.S. Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of U.S. Dollar.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/USDnotesNew.png/960px-USDnotesNew.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "GBP/USD",
+    "name": "British Pound Sterling / U.S. Dollar",
+    "exchange": "FOREX",
+    "currency": "USD",
+    "description": "GBP/USD represents the exchange rate between British Pound Sterling and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of British Pound Sterling."
+  },
+  {
+    "symbol": "USD/CHF",
+    "name": "U.S. Dollar / Swiss Franc",
+    "exchange": "FOREX",
+    "currency": "CHF",
+    "description": "USD/CHF represents the exchange rate between U.S. Dollar and Swiss Franc. It indicates how many units of Swiss Franc are required to purchase one unit of U.S. Dollar.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/USDnotesNew.png/960px-USDnotesNew.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "AUD/USD",
+    "name": "Australian Dollar / U.S. Dollar",
+    "exchange": "FOREX",
+    "currency": "USD",
+    "description": "AUD/USD represents the exchange rate between Australian Dollar and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of Australian Dollar."
+  },
+  {
+    "symbol": "USD/CAD",
+    "name": "U.S. Dollar / Canadian Dollar",
+    "exchange": "FOREX",
+    "currency": "CAD",
+    "description": "USD/CAD represents the exchange rate between U.S. Dollar and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of U.S. Dollar.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/USDnotesNew.png/960px-USDnotesNew.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "NZD/USD",
+    "name": "New Zealand Dollar / U.S. Dollar",
+    "exchange": "FOREX",
+    "currency": "USD",
+    "description": "NZD/USD represents the exchange rate between New Zealand Dollar and U.S. Dollar. It indicates how many units of U.S. Dollar are required to purchase one unit of New Zealand Dollar."
+  },
+  {
+    "symbol": "EUR/GBP",
+    "name": "Euro / British Pound Sterling",
+    "exchange": "FOREX",
+    "currency": "GBP",
+    "description": "EUR/GBP represents the exchange rate between Euro and British Pound Sterling. It indicates how many units of British Pound Sterling are required to purchase one unit of Euro.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Euro_Series_Banknotes_%282019%29_-_centered.png/960px-Euro_Series_Banknotes_%282019%29_-_centered.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "EUR/JPY",
+    "name": "Euro / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "EUR/JPY represents the exchange rate between Euro and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Euro.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Euro_Series_Banknotes_%282019%29_-_centered.png/960px-Euro_Series_Banknotes_%282019%29_-_centered.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "GBP/JPY",
+    "name": "British Pound Sterling / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "GBP/JPY represents the exchange rate between British Pound Sterling and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of British Pound Sterling."
+  },
+  {
+    "symbol": "EUR/AUD",
+    "name": "Euro / Australian Dollar",
+    "exchange": "FOREX",
+    "currency": "AUD",
+    "description": "EUR/AUD represents the exchange rate between Euro and Australian Dollar. It indicates how many units of Australian Dollar are required to purchase one unit of Euro.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Euro_Series_Banknotes_%282019%29_-_centered.png/960px-Euro_Series_Banknotes_%282019%29_-_centered.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "EUR/CAD",
+    "name": "Euro / Canadian Dollar",
+    "exchange": "FOREX",
+    "currency": "CAD",
+    "description": "EUR/CAD represents the exchange rate between Euro and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of Euro.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Euro_Series_Banknotes_%282019%29_-_centered.png/960px-Euro_Series_Banknotes_%282019%29_-_centered.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "GBP/CHF",
+    "name": "British Pound Sterling / Swiss Franc",
+    "exchange": "FOREX",
+    "currency": "CHF",
+    "description": "GBP/CHF represents the exchange rate between British Pound Sterling and Swiss Franc. It indicates how many units of Swiss Franc are required to purchase one unit of British Pound Sterling."
+  },
+  {
+    "symbol": "GBP/AUD",
+    "name": "British Pound Sterling / Australian Dollar",
+    "exchange": "FOREX",
+    "currency": "AUD",
+    "description": "GBP/AUD represents the exchange rate between British Pound Sterling and Australian Dollar. It indicates how many units of Australian Dollar are required to purchase one unit of British Pound Sterling."
+  },
+  {
+    "symbol": "GBP/CAD",
+    "name": "British Pound Sterling / Canadian Dollar",
+    "exchange": "FOREX",
+    "currency": "CAD",
+    "description": "GBP/CAD represents the exchange rate between British Pound Sterling and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of British Pound Sterling."
+  },
+  {
+    "symbol": "AUD/JPY",
+    "name": "Australian Dollar / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "AUD/JPY represents the exchange rate between Australian Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Australian Dollar."
+  },
+  {
+    "symbol": "AUD/NZD",
+    "name": "Australian Dollar / New Zealand Dollar",
+    "exchange": "FOREX",
+    "currency": "NZD",
+    "description": "AUD/NZD represents the exchange rate between Australian Dollar and New Zealand Dollar. It indicates how many units of New Zealand Dollar are required to purchase one unit of Australian Dollar."
+  },
+  {
+    "symbol": "AUD/CAD",
+    "name": "Australian Dollar / Canadian Dollar",
+    "exchange": "FOREX",
+    "currency": "CAD",
+    "description": "AUD/CAD represents the exchange rate between Australian Dollar and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of Australian Dollar."
+  },
+  {
+    "symbol": "CAD/JPY",
+    "name": "Canadian Dollar / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "CAD/JPY represents the exchange rate between Canadian Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Canadian Dollar."
+  },
+  {
+    "symbol": "CHF/JPY",
+    "name": "Swiss Franc / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "CHF/JPY represents the exchange rate between Swiss Franc and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of Swiss Franc."
+  },
+  {
+    "symbol": "NZD/JPY",
+    "name": "New Zealand Dollar / Japanese Yen",
+    "exchange": "FOREX",
+    "currency": "JPY",
+    "description": "NZD/JPY represents the exchange rate between New Zealand Dollar and Japanese Yen. It indicates how many units of Japanese Yen are required to purchase one unit of New Zealand Dollar."
+  },
+  {
+    "symbol": "NZD/CAD",
+    "name": "New Zealand Dollar / Canadian Dollar",
+    "exchange": "FOREX",
+    "currency": "CAD",
+    "description": "NZD/CAD represents the exchange rate between New Zealand Dollar and Canadian Dollar. It indicates how many units of Canadian Dollar are required to purchase one unit of New Zealand Dollar."
+  },
+  {
+    "symbol": "USD/CNH",
+    "name": "U.S. Dollar / Chinese Yuan (Offshore)",
+    "exchange": "FOREX",
+    "currency": "CNH",
+    "description": "USD/CNH represents the exchange rate between U.S. Dollar and Chinese Yuan (Offshore). It indicates how many units of Chinese Yuan (Offshore) are required to purchase one unit of U.S. Dollar.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/USDnotesNew.png/960px-USDnotesNew.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  {
+    "symbol": "USD/SGD",
+    "name": "U.S. Dollar / Singapore Dollar",
+    "exchange": "FOREX",
+    "currency": "SGD",
+    "description": "USD/SGD represents the exchange rate between U.S. Dollar and Singapore Dollar. It indicates how many units of Singapore Dollar are required to purchase one unit of U.S. Dollar.",
+    "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/USDnotesNew.png/960px-USDnotesNew.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  }
+]
