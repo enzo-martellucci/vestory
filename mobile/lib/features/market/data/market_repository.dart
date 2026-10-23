@@ -18,12 +18,12 @@ class MarketRepository {
 
   MarketRepository({required this.dio, required this.cache, this.now = DateTime.now});
 
-  Future<FinancialQuote> getQuote(String financialAssetId) async {
+  Future<FinancialQuote> getQuote(int financialAssetId) async {
     final entry = await _load('quote:$financialAssetId', '/api/market/assets/$financialAssetId/quote');
     return FinancialQuote.fromJson(entry.json, fetchedAt: entry.fetchedAt);
   }
 
-  Future<FinancialHistory> getHistory(String financialAssetId) async {
+  Future<FinancialHistory> getHistory(int financialAssetId) async {
     final entry = await _load('history:$financialAssetId', '/api/market/assets/$financialAssetId/history');
     return FinancialHistory.fromJson(entry.json, fetchedAt: entry.fetchedAt);
   }

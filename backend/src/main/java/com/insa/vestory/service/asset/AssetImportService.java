@@ -38,7 +38,7 @@ public class AssetImportService {
 
     public void importAll() {
         List<AssetImportRow> missingRows = readCsv().stream()
-            .filter(row -> !assetRepository.existsBySymbolAndAssetType(row.symbol(), row.type()))
+            .filter(row -> !assetRepository.existsBySymbolAndType(row.symbol(), row.type()))
             .toList();
 
         if (missingRows.isEmpty()) {
@@ -100,7 +100,7 @@ public class AssetImportService {
         Asset asset = new Asset();
         asset.setSymbol(row.symbol());
         asset.setName(profile.companyName());
-        asset.setAssetType(row.type());
+        asset.setType(row.type());
         asset.setMicCode(row.micCode());
         asset.setExchange(profile.exchange());
         asset.setCountry(profile.country());
@@ -108,7 +108,6 @@ public class AssetImportService {
         asset.setSector(profile.sector());
         asset.setIndustry(profile.industry());
         asset.setDescription(profile.description());
-        asset.setWebsite(profile.website());
         asset.setLogoUrl(profile.image());
         return asset;
     }
@@ -124,7 +123,7 @@ public class AssetImportService {
         Asset asset = new Asset();
         asset.setSymbol(row.symbol());
         asset.setName(name);
-        asset.setAssetType(AssetType.CRYPTO);
+        asset.setType(AssetType.CRYPTO);
         asset.setExchange(crypto.exchange());
         asset.setCurrency("USD");
         asset.setSector("Cryptocurrency");
@@ -146,7 +145,7 @@ public class AssetImportService {
         Asset asset = new Asset();
         asset.setSymbol(row.symbol());
         asset.setName(forex.fromName() + " / " + forex.toName());
-        asset.setAssetType(AssetType.FOREX);
+        asset.setType(AssetType.FOREX);
         asset.setCurrency(forex.toCurrency());
         asset.setExchange("FOREX");
         asset.setDescription(buildForexDescription(forex));
@@ -167,7 +166,7 @@ public class AssetImportService {
         Asset asset = new Asset();
         asset.setSymbol(commodity.symbol());
         asset.setName(name);
-        asset.setAssetType(AssetType.COMMODITY);
+        asset.setType(AssetType.COMMODITY);
         asset.setExchange(commodity.exchange());
         asset.setCurrency(commodity.currency());
 

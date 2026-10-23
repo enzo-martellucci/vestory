@@ -22,11 +22,11 @@ public class RarityCalculator {
 
     private static final double COMMODITY_FALLBACK_SCORE = 50.0;
 
-    public Map<UUID, Double> computeScores(List<Asset> assets, Map<UUID, RarityMarketData> marketData) {
-        Map<UUID, Double> scores = new HashMap<>();
+    public Map<Long, Double> computeScores(List<Asset> assets, Map<Long, RarityMarketData> marketData) {
+        Map<Long, Double> scores = new HashMap<>();
 
         assets.stream()
-            .collect(Collectors.groupingBy(Asset::getAssetType))
+            .collect(Collectors.groupingBy(Asset::getType))
             .forEach((type, group) -> {
                 if (type == AssetType.FOREX)
                     group.forEach(asset -> scores.put(asset.getId(), forexScore(marketData.get(asset.getId()))));
@@ -37,7 +37,7 @@ public class RarityCalculator {
         return scores;
     }
 
-    public Map<UUID, CardRarity> assignRarities(List<Asset> assets, Map<UUID, Double> scores) {
+    public Map<Long, CardRarity> assignRarities(List<Asset> assets, Map<Long, Double> scores) {
         List<Asset> ranked = assets.stream()
             .sorted(Comparator.comparingDouble((Asset asset) -> scores.getOrDefault(asset.getId(), 0.0))
                 .reversed()
@@ -49,14 +49,14 @@ public class RarityCalculator {
         int epicLimit = legendaryLimit + (int) Math.round(total * EPIC_SHARE);
         int rareLimit = epicLimit + (int) Math.round(total * RARE_SHARE);
 
-        Map<UUID, CardRarity> rarities = new HashMap<>();
+        Map<Long, CardRarity> rarities = new HashMap<>();
         for (int rank = 0; rank < total; rank++)
             rarities.put(ranked.get(rank).getId(), rarityForRank(rank, legendaryLimit, epicLimit, rareLimit));
 
         return rarities;
     }
 
-    private Map<UUID, Double> computeMarketScores(AssetType type, List<Asset> group, Map<UUID, RarityMarketData> marketData) {
+    private Map<Long, Double> computeMarketScores(AssetType type, List<Asset> group, Map<Long, RarityMarketData> marketData) {
         List<RarityMarketData> available = group.stream()
             .map(asset -> marketData.get(asset.getId()))
             .filter(Objects::nonNull)
@@ -64,7 +64,7 @@ public class RarityCalculator {
         List<BigDecimal> marketCaps = positiveValues(available, RarityMarketData::marketCap);
         List<BigDecimal> volumes = positiveValues(available, RarityMarketData::volume);
 
-        Map<UUID, Double> scores = new HashMap<>();
+        Map<Long, Double> scores = new HashMap<>();
         for (Asset asset : group) {
             RarityMarketData data = marketData.get(asset.getId());
             scores.put(asset.getId(), data == null ? fallbackScore(type) : round(marketScore(type, data, marketCaps, volumes)));

@@ -13,7 +13,7 @@ public interface CardMapper {
     @Mapping(target = "assetId", source = "asset.id")
     @Mapping(target = "symbol", source = "asset.symbol")
     @Mapping(target = "name", source = "asset.name")
-    @Mapping(target = "assetType", source = "asset.assetType")
+    @Mapping(target = "assetType", source = "asset.type")
     @Mapping(target = "country", source = "asset.country")
     @Mapping(target = "sector", source = "asset.sector")
     @Mapping(target = "logoUrl", source = "asset.logoUrl")

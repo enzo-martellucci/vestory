@@ -27,17 +27,17 @@ public class RarityMarketDataLoader {
     private final TwelveDataClient twelveDataClient;
 
     public Result load(List<Asset> assets) {
-        Map<UUID, RarityMarketData> data = new HashMap<>();
+        Map<Long, RarityMarketData> data = new HashMap<>();
         List<String> unavailableSymbols = new ArrayList<>();
         Map<String, TwelveDataForexPairDto> forexPairs = hasForex(assets) ? loadForexPairs() : Map.of();
 
         for (Asset asset : assets) {
-            RarityMarketData assetData = asset.getAssetType() == AssetType.FOREX
+            RarityMarketData assetData = asset.getType() == AssetType.FOREX
                 ? loadForex(asset, forexPairs)
                 : loadFromFmp(asset);
 
             if (assetData == null)
-                unavailableSymbols.add(asset.getSymbol() + (asset.getAssetType() == AssetType.FOREX ? " [Twelve Data]" : " [FMP]"));
+                unavailableSymbols.add(asset.getSymbol() + (asset.getType() == AssetType.FOREX ? " [Twelve Data]" : " [FMP]"));
             else
                 data.put(asset.getId(), assetData);
         }
@@ -54,7 +54,7 @@ public class RarityMarketDataLoader {
         String symbol = asset.getSymbol().replace("/", "").trim().toUpperCase();
 
         try {
-            return switch (asset.getAssetType()) {
+            return switch (asset.getType()) {
                 case STOCK, ETF -> {
                     FmpCompanyProfileDto profile = fmpClient.getCompanyProfile(symbol);
                     yield RarityMarketData.ofMarket(profile.marketCap(), profile.volume());
@@ -89,13 +89,13 @@ public class RarityMarketDataLoader {
     }
 
     private boolean hasForex(List<Asset> assets) {
-        return assets.stream().anyMatch(asset -> asset.getAssetType() == AssetType.FOREX);
+        return assets.stream().anyMatch(asset -> asset.getType() == AssetType.FOREX);
     }
 
     private String normalizeForex(String symbol) {
         return symbol.trim().toUpperCase();
     }
 
-    public record Result(Map<UUID, RarityMarketData> data, List<String> unavailableSymbols) {
+    public record Result(Map<Long, RarityMarketData> data, List<String> unavailableSymbols) {
     }
 }

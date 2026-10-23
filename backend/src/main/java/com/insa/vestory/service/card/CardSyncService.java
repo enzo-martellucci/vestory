@@ -35,14 +35,14 @@ public class CardSyncService {
 
     @Transactional
     public CardGenerationResult syncCards() {
-        List<Asset> assets = assetRepository.findAllByEnabledTrueOrderBySymbolAsc();
+        List<Asset> assets = assetRepository.findAllByOrderBySymbolAsc();
         if (assets.isEmpty())
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "No enabled financial asset, run the import first");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "No asset, run the import first");
 
         List<Card> existingCards = cardRepository.findAll();
-        Map<UUID, Card> cardsByAssetId = existingCards.stream()
+        Map<Long, Card> cardsByAssetId = existingCards.stream()
             .collect(Collectors.toMap(card -> card.getAsset().getId(), Function.identity()));
-        Set<UUID> enabledAssetIds = assets.stream().map(Asset::getId).collect(Collectors.toSet());
+        Set<Long> enabledAssetIds = assets.stream().map(Asset::getId).collect(Collectors.toSet());
 
         int nextCollectionNumber = existingCards.stream().mapToInt(Card::getCollectionNumber).max().orElse(0) + 1;
         int created = 0;
@@ -85,11 +85,11 @@ public class CardSyncService {
         if (coverage < MINIMUM_DATA_COVERAGE)
             throw new MarketDataUnavailableException("Not enough market data to update rarities (coverage: " + Math.round(coverage * 100) + "%)");
 
-        Map<UUID, Double> scores = rarityCalculator.computeScores(assets, marketData.data());
-        Map<UUID, CardRarity> rarities = rarityCalculator.assignRarities(assets, scores);
+        Map<Long, Double> scores = rarityCalculator.computeScores(assets, marketData.data());
+        Map<Long, CardRarity> rarities = rarityCalculator.assignRarities(assets, scores);
 
         for (Card card : cards) {
-            UUID assetId = card.getAsset().getId();
+            Long assetId = card.getAsset().getId();
             card.setRarityScore(scores.getOrDefault(assetId, 0.0));
             card.setRarity(rarities.get(assetId));
         }

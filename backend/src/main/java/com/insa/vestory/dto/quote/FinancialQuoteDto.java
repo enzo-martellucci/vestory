@@ -3,11 +3,10 @@ package com.insa.vestory.dto.quote;
 import com.insa.vestory.constant.AssetType;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public record FinancialQuoteDto(
 
-    UUID financialAssetId,
+    Long financialAssetId,
 
     String symbol,
     String name,

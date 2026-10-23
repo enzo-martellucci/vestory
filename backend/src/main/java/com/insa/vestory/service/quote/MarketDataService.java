@@ -30,7 +30,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -48,7 +47,7 @@ public class MarketDataService {
     private final FmpClient fmpClient;
 
     @Cacheable(cacheNames = CacheConfiguration.QUOTES, key = "#financialAssetId")
-    public FinancialQuoteDto getQuote(UUID financialAssetId) {
+    public FinancialQuoteDto getQuote(Long financialAssetId) {
         Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
 
@@ -62,7 +61,7 @@ public class MarketDataService {
     }
 
     @Cacheable(cacheNames = CacheConfiguration.HISTORY, key = "#financialAssetId")
-    public FinancialHistoryDto getHistory(UUID financialAssetId) {
+    public FinancialHistoryDto getHistory(Long financialAssetId) {
         Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
 
@@ -85,7 +84,7 @@ public class MarketDataService {
             asset.getId(),
             asset.getSymbol(),
             asset.getName(),
-            asset.getAssetType(),
+            asset.getType(),
             asset.getCurrency(),
             asset.getExchange(),
             price,
@@ -112,7 +111,7 @@ public class MarketDataService {
             asset.getId(),
             asset.getSymbol(),
             asset.getName(),
-            asset.getAssetType(),
+            asset.getType(),
             asset.getCurrency(),
             asset.getExchange(),
             quote.price().doubleValue(),
@@ -171,7 +170,7 @@ public class MarketDataService {
         }
     }
 
-    private Asset findAsset(UUID financialAssetId) {
+    private Asset findAsset(Long financialAssetId) {
         return assetRepository.findById(financialAssetId)
             .orElseThrow(() -> new ResourceNotFoundException("Financial asset not found"));
     }

@@ -7,7 +7,7 @@ class AssetCardModel {
   final double rarityScore;
   final bool enabled;
 
-  final String assetId;
+  final int assetId;
   final String symbol;
   final String name;
   final String assetType;
@@ -39,7 +39,7 @@ class AssetCardModel {
       rarity: CardRarity.fromApi(json['rarity'] as String?),
       rarityScore: (json['rarityScore'] as num).toDouble(),
       enabled: json['enabled'] as bool,
-      assetId: json['assetId'] as String,
+      assetId: json['assetId'] as int,
       symbol: json['symbol'] as String,
       name: json['name'] as String,
       assetType: json['assetType'] as String,

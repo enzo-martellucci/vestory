@@ -11,7 +11,7 @@ public record CardResponseDto(
     CardRarity rarity,
     double rarityScore,
     boolean enabled,
-    UUID assetId,
+    Long assetId,
     String symbol,
     String name,
     AssetType assetType,

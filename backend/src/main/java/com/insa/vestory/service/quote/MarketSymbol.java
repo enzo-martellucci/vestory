@@ -19,7 +19,7 @@ record MarketSymbol(String symbol, String micCode, String trackedBy) {
     );
 
     static MarketSymbol of(Asset asset) {
-        if (asset.getAssetType() != AssetType.COMMODITY)
+        if (asset.getType() != AssetType.COMMODITY)
             return new MarketSymbol(asset.getSymbol(), asset.getMicCode(), null);
 
         return COMMODITIES.getOrDefault(asset.getSymbol().toUpperCase(), new MarketSymbol(asset.getSymbol(), null, null));

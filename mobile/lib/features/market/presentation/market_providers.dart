@@ -3,10 +3,10 @@ import 'package:mobile/features/market/data/market_repository.dart';
 import 'package:mobile/features/market/data/models/financial_history.dart';
 import 'package:mobile/features/market/data/models/financial_quote.dart';
 
-final quoteProvider = FutureProvider.autoDispose.family<FinancialQuote, String>(
+final quoteProvider = FutureProvider.autoDispose.family<FinancialQuote, int>(
   (ref, financialAssetId) => ref.watch(marketRepositoryProvider).getQuote(financialAssetId),
 );
 
-final historyProvider = FutureProvider.autoDispose.family<FinancialHistory, String>(
+final historyProvider = FutureProvider.autoDispose.family<FinancialHistory, int>(
   (ref, financialAssetId) => ref.watch(marketRepositoryProvider).getHistory(financialAssetId),
 );

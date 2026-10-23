@@ -1,5 +1,5 @@
 class FinancialQuote {
-  final String financialAssetId;
+  final int financialAssetId;
   final String symbol;
   final String name;
   final String assetType;
@@ -54,7 +54,7 @@ class FinancialQuote {
     final rawTimestamp = json['timestamp'] as String?;
 
     return FinancialQuote(
-      financialAssetId: json['financialAssetId'] as String,
+      financialAssetId: json['financialAssetId'] as int,
       symbol: json['symbol'] as String,
       name: json['name'] as String,
       assetType: json['assetType'] as String,
