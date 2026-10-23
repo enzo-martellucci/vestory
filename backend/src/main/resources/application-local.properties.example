@@ -1,0 +1,6 @@
+DB_URL=jdbc:postgresql://localhost:5432/vestory
+DB_USERNAME=vestory
+DB_PASSWORD=vestory
+JWT_SECRET=change-me-with-a-base64-secret-of-at-least-32-bytes
+TWELVE_DATA_API_KEY=your-twelve-data-api-key
+FMP_DATA_API_KEY=your-fmp-api-key

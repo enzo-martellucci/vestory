@@ -33,6 +33,7 @@ build/
 
 ### Local configuration ###
 application-local.yaml
+application-local.properties
 
 ### Secrets ###
 .env
