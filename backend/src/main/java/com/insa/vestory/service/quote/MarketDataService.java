@@ -8,7 +8,6 @@ import com.insa.vestory.client.twelvedata.TwelveDataClient;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataQuoteDto;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataTimeSeriesDto;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataTimeSeriesValueDto;
-import com.insa.vestory.config.CacheConfiguration;
 import com.insa.vestory.dto.quote.FinancialHistoryDto;
 import com.insa.vestory.dto.quote.FinancialHistoryPointDto;
 import com.insa.vestory.dto.quote.FinancialQuoteDto;
@@ -17,7 +16,6 @@ import com.insa.vestory.exception.ResourceNotFoundException;
 import com.insa.vestory.repository.AssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -46,7 +44,6 @@ public class MarketDataService {
     private final TwelveDataClient twelveDataClient;
     private final FmpClient fmpClient;
 
-    @Cacheable(cacheNames = CacheConfiguration.QUOTES, key = "#financialAssetId")
     public FinancialQuoteDto getQuote(Long financialAssetId) {
         Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
@@ -60,7 +57,6 @@ public class MarketDataService {
         return quoteFromFmp(asset, marketSymbol);
     }
 
-    @Cacheable(cacheNames = CacheConfiguration.HISTORY, key = "#financialAssetId")
     public FinancialHistoryDto getHistory(Long financialAssetId) {
         Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);

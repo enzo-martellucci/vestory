@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -51,7 +50,6 @@ public class PlayerService {
     private final UserRepository userRepository;
     private final PackDrawer packDrawer;
     private final CardMapper cardMapper;
-    private final Clock clock;
 
     @Transactional
     public PlayerProfileDto addGems(UUID userId, int amount) {
@@ -96,7 +94,7 @@ public class PlayerService {
         if (!isDailyPackAvailable(profile))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Daily pack already claimed today");
 
-        profile.setLastDailyPackAt(clock.instant());
+        profile.setLastDailyPackAt(Instant.now());
         return toDto(addPack(profile.getUser(), PackType.STANDARD, PackSource.DAILY));
     }
 
@@ -120,7 +118,7 @@ public class PlayerService {
 
         PackDraw draw = packDrawer.draw(pack.getType(), pack.getSource(), enabledCardsByRarity());
         Card card = draw.card();
-        Instant now = clock.instant();
+        Instant now = Instant.now();
 
         pack.setOpenedAt(now);
         pack.setCard(card);
@@ -172,7 +170,7 @@ public class PlayerService {
         pack.setUser(user);
         pack.setType(type);
         pack.setSource(source);
-        pack.setObtainedAt(clock.instant());
+        pack.setObtainedAt(Instant.now());
         return userPackRepository.save(pack);
     }
 
@@ -186,11 +184,11 @@ public class PlayerService {
     private boolean isDailyPackAvailable(PlayerProfile profile) {
         Instant lastDailyPackAt = profile.getLastDailyPackAt();
         return lastDailyPackAt == null
-                || LocalDate.ofInstant(lastDailyPackAt, GAME_ZONE).isBefore(LocalDate.now(clock.withZone(GAME_ZONE)));
+                || LocalDate.ofInstant(lastDailyPackAt, GAME_ZONE).isBefore(LocalDate.now(GAME_ZONE));
     }
 
     private Instant nextDailyPackAt() {
-        return LocalDate.now(clock.withZone(GAME_ZONE)).plusDays(1).atStartOfDay(GAME_ZONE).toInstant();
+        return LocalDate.now(GAME_ZONE).plusDays(1).atStartOfDay(GAME_ZONE).toInstant();
     }
 
     private UserPackDto toDto(UserPack pack) {
