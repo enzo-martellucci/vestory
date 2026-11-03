@@ -6,7 +6,7 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/app_panel.dart';
 import 'package:mobile/core/widgets/fade_slide_in.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/invest/domain/simulation.dart';
 import 'package:mobile/features/invest/presentation/invest_providers.dart';
 import 'package:mobile/features/invest/presentation/money_format.dart';
@@ -14,7 +14,7 @@ import 'package:mobile/features/invest/presentation/widgets/result_stats.dart';
 import 'package:mobile/features/invest/presentation/widgets/simulation_chart.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
-  final AssetCardModel card;
+  final Asset card;
 
   const SimulationScreen({super.key, required this.card});
 
@@ -126,7 +126,7 @@ class _Request {
 }
 
 class _AssetHeader extends StatelessWidget {
-  final AssetCardModel card;
+  final Asset card;
 
   const _AssetHeader({required this.card});
 
@@ -142,7 +142,7 @@ class _AssetHeader extends StatelessWidget {
             spacing: 2,
             children: [
               Text(card.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: .w900)),
-              Text('${card.symbol} · ${card.assetType}', style: const TextStyle(color: AppColors.muted)),
+              Text('${card.symbol} · ${card.type}', style: const TextStyle(color: AppColors.muted)),
             ],
           ),
         ),
@@ -213,14 +213,14 @@ class _Presets extends StatelessWidget {
 }
 
 class _ResultPreview extends ConsumerWidget {
-  final AssetCardModel card;
+  final Asset card;
   final _Request request;
 
   const _ResultPreview({required this.card, required this.request});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(monthlyHistoryProvider((card.assetId, request.years))).when(
+    return ref.watch(monthlyHistoryProvider((card.id, request.years))).when(
       loading: () => const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator())),
       error: (error, stackTrace) => Text(apiErrorMessage(error), textAlign: .center),
       data: (prices) {

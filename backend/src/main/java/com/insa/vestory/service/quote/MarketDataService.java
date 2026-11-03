@@ -8,7 +8,6 @@ import com.insa.vestory.client.twelvedata.TwelveDataClient;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataQuoteDto;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataTimeSeriesDto;
 import com.insa.vestory.client.twelvedata.dto.TwelveDataTimeSeriesValueDto;
-import com.insa.vestory.config.CacheConfiguration;
 import com.insa.vestory.dto.quote.FinancialHistoryDto;
 import com.insa.vestory.dto.quote.FinancialHistoryPointDto;
 import com.insa.vestory.dto.quote.FinancialQuoteDto;
@@ -17,7 +16,6 @@ import com.insa.vestory.exception.ResourceNotFoundException;
 import com.insa.vestory.repository.AssetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,7 +28,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -47,8 +44,7 @@ public class MarketDataService {
     private final TwelveDataClient twelveDataClient;
     private final FmpClient fmpClient;
 
-    @Cacheable(cacheNames = CacheConfiguration.QUOTES, key = "#financialAssetId")
-    public FinancialQuoteDto getQuote(UUID financialAssetId) {
+    public FinancialQuoteDto getQuote(Long financialAssetId) {
         Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
 
@@ -61,8 +57,7 @@ public class MarketDataService {
         return quoteFromFmp(asset, marketSymbol);
     }
 
-    @Cacheable(cacheNames = CacheConfiguration.HISTORY, key = "#financialAssetId")
-    public FinancialHistoryDto getHistory(UUID financialAssetId) {
+    public FinancialHistoryDto getHistory(Long financialAssetId) {
         Asset asset = findAsset(financialAssetId);
         MarketSymbol marketSymbol = MarketSymbol.of(asset);
 
@@ -85,7 +80,7 @@ public class MarketDataService {
             asset.getId(),
             asset.getSymbol(),
             asset.getName(),
-            asset.getAssetType(),
+            asset.getType(),
             asset.getCurrency(),
             asset.getExchange(),
             price,
@@ -112,7 +107,7 @@ public class MarketDataService {
             asset.getId(),
             asset.getSymbol(),
             asset.getName(),
-            asset.getAssetType(),
+            asset.getType(),
             asset.getCurrency(),
             asset.getExchange(),
             quote.price().doubleValue(),
@@ -171,7 +166,7 @@ public class MarketDataService {
         }
     }
 
-    private Asset findAsset(UUID financialAssetId) {
+    private Asset findAsset(Long financialAssetId) {
         return assetRepository.findById(financialAssetId)
             .orElseThrow(() -> new ResourceNotFoundException("Financial asset not found"));
     }

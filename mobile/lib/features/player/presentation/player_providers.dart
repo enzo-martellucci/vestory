@@ -6,6 +6,6 @@ final playerProfileProvider = FutureProvider.autoDispose<PlayerProfile>(
   (ref) => ref.watch(playerRepositoryProvider).getProfile(),
 );
 
-final collectionProvider = FutureProvider.autoDispose<List<OwnedCard>>(
+final collectionProvider = FutureProvider.autoDispose<List<OwnedAsset>>(
   (ref) => ref.watch(playerRepositoryProvider).getCollection(),
 );

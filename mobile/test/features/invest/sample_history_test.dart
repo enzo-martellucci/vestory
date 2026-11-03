@@ -37,7 +37,7 @@ void main() {
 
   test('the repository returns the sample history', () async {
     final repository = InvestRepository(now: () => now);
-    final history = await repository.getMonthlyHistory('asset', 1);
+    final history = await repository.getMonthlyHistory(1, 1);
 
     expect(history, hasLength(13));
   });

@@ -11,8 +11,8 @@ class InvestRepository {
 
   InvestRepository({this.now = DateTime.now});
 
-  Future<List<PricePoint>> getMonthlyHistory(String assetId, int years) async {
+  Future<List<PricePoint>> getMonthlyHistory(int assetId, int years) async {
     await Future<void>.delayed(_simulatedLatency);
-    return sampleMonthlyHistory(seed: assetId, years: years, now: now());
+    return sampleMonthlyHistory(seed: assetId.toString(), years: years, now: now());
   }
 }

@@ -5,13 +5,10 @@ import com.insa.vestory.entity.Asset;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface AssetRepository extends JpaRepository<Asset, UUID> {
+public interface AssetRepository extends JpaRepository<Asset, Long> {
 
-    boolean existsBySymbolAndAssetType(String symbol, AssetType assetType);
+    boolean existsBySymbolAndType(String symbol, AssetType type);
 
-    List<Asset> findAllByEnabledTrueOrderBySymbolAsc();
-
-    List<Asset> findAllByOrderBySymbolAsc();
+    List<Asset> findAllByOrderByIdAsc();
 }

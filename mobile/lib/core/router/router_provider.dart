@@ -6,7 +6,7 @@ import 'package:mobile/features/auth/presentation/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/login_screen.dart';
 import 'package:mobile/features/auth/presentation/register_screen.dart';
 import 'package:mobile/features/auth/presentation/splash_screen.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/cards_screen.dart';
 import 'package:mobile/features/home/presentation/home_screen.dart';
 import 'package:mobile/features/invest/presentation/invest_screen.dart';
@@ -56,7 +56,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: 'simulate',
-                    builder: (context, state) => SimulationScreen(card: state.extra as AssetCardModel),
+                    builder: (context, state) => SimulationScreen(card: state.extra as Asset),
                   ),
                 ],
               ),

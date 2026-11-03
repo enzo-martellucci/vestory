@@ -28,8 +28,8 @@ class HomeScreen extends ConsumerWidget {
     });
 
     final username = ref.watch(currentUserProvider).value?.username ?? '';
-    final collection = ref.watch(collectionProvider).value ?? const <OwnedCard>[];
-    final totalCards = ref.watch(cardsProvider).value?.length ?? 0;
+    final collection = ref.watch(collectionProvider).value ?? const <OwnedAsset>[];
+    final totalCards = ref.watch(assetsProvider).value?.length ?? 0;
     final recentCards = [...collection]
       ..sort((a, b) => b.lastObtainedAt.compareTo(a.lastObtainedAt));
 

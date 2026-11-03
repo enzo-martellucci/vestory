@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:mobile/features/cards/data/models/card_rarity.dart';
+import 'package:mobile/features/cards/data/models/rarity.dart';
 import 'package:mobile/features/player/data/models/pack.dart';
 import 'package:mobile/features/player/presentation/pack_opening/pack_opening_screen.dart';
 import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.dart';
@@ -16,7 +16,7 @@ class OpeningPack extends StatefulWidget {
   static const _tearShare = 0.2;
 
   final PackType type;
-  final CardRarity? rarity;
+  final Rarity? rarity;
   final OpeningPhase phase;
   final VoidCallback onHoldComplete;
   final VoidCallback onBurstComplete;

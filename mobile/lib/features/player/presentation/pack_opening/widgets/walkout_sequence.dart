@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/widgets/app_network_image.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.dart';
 
 class WalkoutSequence extends StatefulWidget {
-  final AssetCardModel card;
+  final Asset card;
   final VoidCallback onComplete;
 
   const WalkoutSequence({super.key, required this.card, required this.onComplete});
@@ -85,8 +85,8 @@ class _WalkoutSequenceState extends State<WalkoutSequence> {
       ),
       _Clue(
         caption: 'Asset type',
-        title: card.assetType,
-        visual: Icon(_assetTypeIcon(card.assetType), color: Colors.white, size: 88),
+        title: card.type,
+        visual: Icon(_assetTypeIcon(card.type), color: Colors.white, size: 88),
       ),
       if (country.length == 2)
         _Clue(

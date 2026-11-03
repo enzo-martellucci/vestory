@@ -1,11 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
-import 'package:mobile/features/cards/data/models/card_rarity.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
+import 'package:mobile/features/cards/data/models/rarity.dart';
 import 'package:mobile/features/cards/presentation/widgets/card_frame.dart';
 
 class AssetCardFront extends StatelessWidget {
-  final AssetCardModel card;
+  final Asset card;
   final int totalCards;
 
   const AssetCardFront({
@@ -113,7 +113,7 @@ class _Background extends StatelessWidget {
 }
 
 class _InfoSection extends StatelessWidget {
-  final AssetCardModel card;
+  final Asset card;
   final int totalCards;
 
   const _InfoSection({
@@ -199,8 +199,8 @@ class _InfoSection extends StatelessWidget {
             color: AppColors.divider,
           ),
           _Footer(
-            assetType: card.assetType,
-            collectionNumber: card.collectionNumber,
+            assetType: card.type,
+            collectionNumber: card.id,
             totalCards: totalCards,
           ),
         ],
@@ -247,7 +247,7 @@ class _Footer extends StatelessWidget {
 }
 
 class _RarityBadge extends StatelessWidget {
-  final CardRarity rarity;
+  final Rarity rarity;
 
   const _RarityBadge({required this.rarity});
 

@@ -37,6 +37,6 @@ public class UserPack {
     private Instant openedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_card_id")
-    private Card card;
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
 }

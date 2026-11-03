@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/cards/data/models/card_rarity.dart';
+import 'package:mobile/features/cards/data/models/rarity.dart';
 
 class CardFrame extends StatelessWidget {
-  final CardRarity rarity;
+  final Rarity rarity;
   final Widget child;
   final EdgeInsetsGeometry? padding;
 

@@ -17,10 +17,10 @@ class PlayerRepository {
     return PlayerProfile.fromJson(response.data);
   });
 
-  Future<List<OwnedCard>> getCollection() => _call(() async {
-    final response = await dio.get('/api/me/cards');
-    final cards = response.data as List<dynamic>;
-    return cards.map((json) => OwnedCard.fromJson(json as Map<String, dynamic>)).toList();
+  Future<List<OwnedAsset>> getCollection() => _call(() async {
+    final response = await dio.get('/api/me/assets');
+    final assets = response.data as List<dynamic>;
+    return assets.map((json) => OwnedAsset.fromJson(json as Map<String, dynamic>)).toList();
   });
 
   Future<UserPack> claimDailyPack() => _call(() async {

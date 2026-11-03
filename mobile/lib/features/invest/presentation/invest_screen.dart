@@ -7,7 +7,7 @@ import 'package:mobile/core/widgets/app_network_image.dart';
 import 'package:mobile/core/widgets/app_screen.dart';
 import 'package:mobile/core/widgets/error_view.dart';
 import 'package:mobile/core/widgets/fade_slide_in.dart';
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
 
 class InvestScreen extends ConsumerStatefulWidget {
@@ -20,7 +20,7 @@ class InvestScreen extends ConsumerStatefulWidget {
 class _InvestScreenState extends ConsumerState<InvestScreen> {
   String _search = '';
 
-  List<AssetCardModel> _filter(List<AssetCardModel> cards) {
+  List<Asset> _filter(List<Asset> cards) {
     final term = _search.trim().toLowerCase();
     final filtered = term.isEmpty
         ? cards
@@ -40,7 +40,7 @@ class _InvestScreenState extends ConsumerState<InvestScreen> {
           onRetry: () => ref.invalidate(collectionProvider),
         ),
         data: (owned) {
-          final cards = _filter([for (final ownedCard in owned) ownedCard.card]);
+          final cards = _filter([for (final ownedAsset in owned) ownedAsset.asset]);
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
@@ -120,7 +120,7 @@ class _Intro extends StatelessWidget {
 }
 
 class _AssetTile extends StatelessWidget {
-  final AssetCardModel card;
+  final Asset card;
   final VoidCallback onTap;
 
   const _AssetTile({required this.card, required this.onTap});
@@ -154,7 +154,7 @@ class _AssetTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 16, fontWeight: .w800),
                     ),
-                    Text('${card.symbol} · ${card.assetType}', style: const TextStyle(color: AppColors.muted, fontSize: 13)),
+                    Text('${card.symbol} · ${card.type}', style: const TextStyle(color: AppColors.muted, fontSize: 13)),
                   ],
                 ),
               ),

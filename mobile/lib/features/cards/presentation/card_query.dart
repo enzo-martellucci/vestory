@@ -1,4 +1,4 @@
-import 'package:mobile/features/cards/data/models/asset_card_model.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
 
 enum CardSort {
   collectionNumber('Collection number'),
@@ -19,7 +19,7 @@ class CardQuery {
   CardQuery copyWith({String? search, CardSort? sort}) =>
       CardQuery(search: search ?? this.search, sort: sort ?? this.sort);
 
-  List<AssetCardModel> apply(List<AssetCardModel> cards) {
+  List<Asset> apply(List<Asset> cards) {
     final term = search.trim().toLowerCase();
     final filtered = term.isEmpty
         ? List.of(cards)
@@ -28,11 +28,11 @@ class CardQuery {
             .toList();
 
     filtered.sort(switch (sort) {
-      CardSort.collectionNumber => (a, b) => a.collectionNumber.compareTo(b.collectionNumber),
+      CardSort.collectionNumber => (a, b) => a.id.compareTo(b.id),
       CardSort.name => (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
       CardSort.rarity => (a, b) {
         final byRarity = b.rarity.index.compareTo(a.rarity.index);
-        return byRarity != 0 ? byRarity : a.collectionNumber.compareTo(b.collectionNumber);
+        return byRarity != 0 ? byRarity : a.id.compareTo(b.id);
       },
     });
 
