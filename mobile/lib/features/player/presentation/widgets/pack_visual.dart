@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
-import 'package:mobile/features/player/data/models/pack_type.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 
 class PackVisual extends StatelessWidget {
   static const aspectRatio = 0.7;

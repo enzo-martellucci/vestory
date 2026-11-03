@@ -2,8 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/app_screen.dart';
 import 'package:mobile/core/widgets/error_view.dart';
-import 'package:mobile/features/player/data/models/pack_type.dart';
+import 'package:mobile/core/widgets/fade_slide_in.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
 import 'package:mobile/features/player/presentation/widgets/gems_badge.dart';
 import 'package:mobile/features/shop/presentation/widgets/pack_offer_card.dart';
@@ -16,14 +18,12 @@ class ShopScreen extends ConsumerWidget {
     final profile = ref.watch(playerProfileProvider);
     final gems = profile.value?.gems;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shop', style: TextStyle(fontWeight: .w800)),
-        actions: [
-          if (gems != null)
-            Padding(padding: const EdgeInsets.only(right: 16), child: GemsBadge(gems: gems)),
-        ],
-      ),
+    return AppScreen(
+      title: 'Shop',
+      actions: [
+        if (gems != null)
+          GemsBadge(gems: gems),
+      ],
       body: profile.when(
         skipError: true,
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -35,10 +35,10 @@ class ShopScreen extends ConsumerWidget {
           onRefresh: () => ref.refresh(playerProfileProvider.future),
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
             children: [
-              for (final type in PackType.values) ...[
-                PackOfferCard(type: type, gems: profile.gems),
+              for (final (index, type) in PackType.values.indexed) ...[
+                FadeSlideIn(index: index, child: PackOfferCard(type: type, gems: profile.gems)),
                 const SizedBox(height: 16),
               ],
               const Text(

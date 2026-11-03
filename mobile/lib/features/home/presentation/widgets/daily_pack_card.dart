@@ -5,7 +5,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_panel.dart';
-import 'package:mobile/features/player/data/models/pack_type.dart';
+import 'package:mobile/core/widgets/floating.dart';
+import 'package:mobile/core/widgets/shine_sweep.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 import 'package:mobile/features/player/data/models/player_profile.dart';
 import 'package:mobile/features/player/data/player_repository.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
@@ -21,6 +23,8 @@ class DailyPackCard extends ConsumerStatefulWidget {
 }
 
 class _DailyPackCardState extends ConsumerState<DailyPackCard> {
+  static const _packWidth = 84.0;
+
   Timer? _timer;
   bool _claiming = false;
 
@@ -75,44 +79,108 @@ class _DailyPackCardState extends ConsumerState<DailyPackCard> {
   @override
   Widget build(BuildContext context) {
     final available = widget.profile.dailyPackAvailable;
+    final remaining = _remaining();
 
     return AppPanel(
       child: Column(
-        spacing: 16,
+        spacing: 18,
         children: [
           Row(
-            spacing: 16,
+            spacing: 18,
             children: [
-              Opacity(opacity: available ? 1 : 0.4, child: const PackVisual(type: PackType.standard, width: 64)),
+              available
+                  ? Floating(
+                      child: ShineSweep(
+                        borderRadius: BorderRadius.circular(_packWidth * 0.12),
+                        child: const PackVisual(type: PackType.standard, width: _packWidth),
+                      ),
+                    )
+                  : const Opacity(opacity: 0.35, child: PackVisual(type: PackType.standard, width: _packWidth)),
               Expanded(
                 child: Column(
                   crossAxisAlignment: .start,
-                  spacing: 4,
+                  spacing: 8,
                   children: [
-                    const Text('Daily pack', style: TextStyle(fontSize: 18, fontWeight: .w800)),
+                    Row(
+                      spacing: 8,
+                      children: [
+                        const Text('Daily pack', style: TextStyle(fontSize: 20, fontWeight: .w900)),
+                        if (available)
+                          const _Chip(label: 'FREE'),
+                      ],
+                    ),
                     Text(
-                      available ? 'Your free pack is ready!' : 'Next pack in ${_format(_remaining())}',
+                      available ? 'Your free pack is ready to claim!' : 'Next free pack in',
                       style: const TextStyle(color: AppColors.muted),
                     ),
+                    if (!available)
+                      Row(
+                        spacing: 6,
+                        children: [
+                          _TimeBlock(value: remaining.inHours, unit: 'h'),
+                          _TimeBlock(value: remaining.inMinutes % 60, unit: 'min'),
+                          _TimeBlock(value: remaining.inSeconds % 60, unit: 's'),
+                        ],
+                      ),
                   ],
                 ),
               ),
             ],
           ),
           if (available)
-            FilledButton(
+            FilledButton.icon(
               onPressed: _claiming ? null : _claim,
-              child: _claiming
-                  ? const SizedBox.square(dimension: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Claim'),
+              icon: _claiming
+                  ? const SizedBox.square(dimension: 20, child: CircularProgressIndicator(strokeWidth: 2.5))
+                  : const Icon(Icons.redeem),
+              label: const Text('Claim'),
             ),
         ],
       ),
     );
   }
+}
 
-  static String _format(Duration duration) {
-    String twoDigits(int value) => value.toString().padLeft(2, '0');
-    return '${twoDigits(duration.inHours)}:${twoDigits(duration.inMinutes % 60)}:${twoDigits(duration.inSeconds % 60)}';
+class _Chip extends StatelessWidget {
+  final String label;
+
+  const _Chip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(color: AppColors.positive, borderRadius: BorderRadius.circular(999)),
+      child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: .w900, letterSpacing: 1)),
+    );
+  }
+}
+
+class _TimeBlock extends StatelessWidget {
+  final int value;
+  final String unit;
+
+  const _TimeBlock({required this.value, required this.unit});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.indigo.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: value.toString().padLeft(2, '0'),
+              style: const TextStyle(color: AppColors.indigo, fontSize: 18, fontWeight: .w900),
+            ),
+            TextSpan(text: ' $unit', style: const TextStyle(color: AppColors.muted, fontSize: 12)),
+          ],
+        ),
+      ),
+    );
   }
 }

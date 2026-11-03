@@ -17,3 +17,10 @@ PlayerProfile _$PlayerProfileFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['nextDailyPackAt'] as String),
     );
+
+OwnedCard _$OwnedCardFromJson(Map<String, dynamic> json) => OwnedCard(
+  card: AssetCardModel.fromJson(json['card'] as Map<String, dynamic>),
+  favorite: json['favorite'] as bool,
+  firstObtainedAt: DateTime.parse(json['firstObtainedAt'] as String),
+  lastObtainedAt: DateTime.parse(json['lastObtainedAt'] as String),
+);
