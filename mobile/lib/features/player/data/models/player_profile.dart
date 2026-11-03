@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile/features/player/data/models/user_pack.dart';
+import 'package:mobile/features/cards/data/models/asset.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 
 part 'player_profile.g.dart';
 
@@ -18,4 +19,21 @@ class PlayerProfile {
   });
 
   factory PlayerProfile.fromJson(Map<String, dynamic> json) => _$PlayerProfileFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class OwnedAsset {
+  final Asset asset;
+  final bool favorite;
+  final DateTime firstObtainedAt;
+  final DateTime lastObtainedAt;
+
+  const OwnedAsset({
+    required this.asset,
+    required this.favorite,
+    required this.firstObtainedAt,
+    required this.lastObtainedAt,
+  });
+
+  factory OwnedAsset.fromJson(Map<String, dynamic> json) => _$OwnedAssetFromJson(json);
 }

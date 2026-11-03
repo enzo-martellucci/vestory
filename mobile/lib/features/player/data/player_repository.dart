@@ -2,12 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/network/api_exception.dart';
 import 'package:mobile/core/network/dio_provider.dart';
-import 'package:mobile/features/player/data/models/buy_pack_request.dart';
-import 'package:mobile/features/player/data/models/owned_asset.dart';
-import 'package:mobile/features/player/data/models/pack_opening_result.dart';
-import 'package:mobile/features/player/data/models/pack_type.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 import 'package:mobile/features/player/data/models/player_profile.dart';
-import 'package:mobile/features/player/data/models/user_pack.dart';
 
 final playerRepositoryProvider = Provider<PlayerRepository>((ref) => PlayerRepository(dio: ref.watch(dioProvider)));
 
@@ -33,7 +29,7 @@ class PlayerRepository {
   });
 
   Future<UserPack> buyPack(PackType type) => _call(() async {
-    final response = await dio.post('/api/me/packs/buy', data: BuyPackRequest(type: type).toJson());
+    final response = await dio.post('/api/me/packs/buy', data: {'type': type.name.toUpperCase()});
     return UserPack.fromJson(response.data);
   });
 

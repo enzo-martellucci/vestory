@@ -2,9 +2,10 @@ import 'dart:math' as math;
 
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/shine_sweep.dart';
 import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/widgets/asset_card.dart';
-import 'package:mobile/features/cards/presentation/widgets/recto/asset_card_front.dart';
+import 'package:mobile/features/cards/presentation/widgets/card_front.dart';
 import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.dart';
 
 class CardReveal extends StatefulWidget {
@@ -24,7 +25,7 @@ class _CardRevealState extends State<CardReveal> with TickerProviderStateMixin {
   late final _controller = AnimationController(vsync: this, duration: widget.card.rarity.revealDuration);
   late final _pulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 900))
     ..repeat(reverse: true);
-  late final _appear = CurvedAnimation(parent: _controller, curve: const Interval(0, 0.3, curve: Curves.easeOutBack));
+  late final _appear = CurvedAnimation(parent: _controller, curve: const Interval(0, 0.35, curve: Curves.easeOutCubic));
   late final _flip = CurvedAnimation(parent: _controller, curve: const Interval(0.4, 1, curve: Curves.easeInOutCubic));
   bool _revealed = false;
 
@@ -52,25 +53,55 @@ class _CardRevealState extends State<CardReveal> with TickerProviderStateMixin {
       animation: Listenable.merge([_controller, _pulse]),
       builder: (context, child) {
         final rarity = widget.card.rarity;
+        final appear = _appear.value.clamp(0.0, 1.0);
         final glow = rarity.glowStrength * (0.6 + 0.4 * _pulse.value) * (_flip.value > 0.5 ? 0.6 : 1);
+        final beam = appear * (1 - _flip.value * 0.7);
 
-        return Container(
-          width: CardReveal.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              if (glow > 0)
-                BoxShadow(
-                  color: rarity.color.withValues(alpha: glow * _appear.value.clamp(0, 1)),
-                  blurRadius: 24 + 32 * glow,
-                  spreadRadius: 2 + 10 * glow,
+        return Stack(
+          alignment: .center,
+          clipBehavior: .none,
+          children: [
+            Positioned(
+              top: -360,
+              bottom: -360,
+              left: CardReveal.width * 0.05,
+              right: CardReveal.width * 0.05,
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Color.lerp(rarity.color, Colors.white, 0.3)!.withValues(alpha: 0.5 * beam),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
                 ),
-            ],
-          ),
-          child: _revealed ? child : _buildFlip(),
+              ),
+            ),
+            Container(
+              width: CardReveal.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  if (glow > 0)
+                    BoxShadow(
+                      color: rarity.color.withValues(alpha: glow * appear),
+                      blurRadius: 24 + 32 * glow,
+                      spreadRadius: 2 + 10 * glow,
+                    ),
+                ],
+              ),
+              child: _revealed ? child : _buildFlip(),
+            ),
+          ],
         );
       },
-      child: AssetCard(card: widget.card, totalCards: widget.totalCards),
+      child: ShineSweep(
+        borderRadius: BorderRadius.circular(30),
+        child: AssetCard(card: widget.card, totalCards: widget.totalCards),
+      ),
     );
   }
 
@@ -78,8 +109,8 @@ class _CardRevealState extends State<CardReveal> with TickerProviderStateMixin {
     final angle = _flip.value * math.pi;
     final showFront = angle > math.pi / 2;
 
-    return Transform.scale(
-      scale: 0.6 + 0.4 * _appear.value,
+    return Transform.translate(
+      offset: Offset(0, (1 - _appear.value) * 240),
       child: Opacity(
         opacity: _appear.value.clamp(0, 1),
         child: Transform(

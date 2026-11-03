@@ -3,17 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/fade_slide_in.dart';
 import 'package:mobile/features/cards/presentation/cards_provider.dart';
-import 'package:mobile/features/player/data/models/pack_opening_result.dart';
-import 'package:mobile/features/player/data/models/user_pack.dart';
+import 'package:mobile/features/cards/presentation/widgets/asset_card.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 import 'package:mobile/features/player/data/player_repository.dart';
-import 'package:mobile/features/player/presentation/pack_opening/opening_phase.dart';
 import 'package:mobile/features/player/presentation/pack_opening/rarity_effects.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/card_reveal.dart';
-import 'package:mobile/features/player/presentation/pack_opening/widgets/legendary_effects.dart';
+import 'package:mobile/features/player/presentation/pack_opening/widgets/effects.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/opening_pack.dart';
-import 'package:mobile/features/player/presentation/pack_opening/widgets/opening_summary.dart';
-import 'package:mobile/features/player/presentation/pack_opening/widgets/particle_burst.dart';
 import 'package:mobile/features/player/presentation/pack_opening/widgets/walkout_sequence.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
 
@@ -129,10 +127,33 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
     final result = _result;
     final showBurst = result != null && _phase.index >= OpeningPhase.burst.index && _phase != OpeningPhase.summary;
     final showRays = _isLegendaryMoment && _phase.index >= OpeningPhase.walkout.index;
+    final showSpotlight = _phase.index <= OpeningPhase.burst.index;
 
     return Stack(
       alignment: .center,
       children: [
+        const Positioned.fill(child: IgnorePointer(child: AmbientParticles())),
+        Positioned(
+          top: -160,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              opacity: showSpotlight ? 1 : 0,
+              duration: const Duration(milliseconds: 500),
+              child: Container(
+                width: 520,
+                height: 620,
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: Alignment.topCenter,
+                    radius: 1,
+                    colors: [Colors.white.withValues(alpha: 0.22), Colors.white.withValues(alpha: 0.06), Colors.transparent],
+                    stops: const [0, 0.5, 1],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
         if (showRays)
           const IgnorePointer(child: LegendaryRays()),
         stage,
@@ -159,18 +180,13 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
   }
 
   Widget _buildStage(int totalCards) => switch (_phase) {
-    OpeningPhase.ready || OpeningPhase.shaking || OpeningPhase.charging || OpeningPhase.burst => GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _open,
-      child: Center(
-        child: OpeningPack(
-          key: ValueKey(_index),
-          type: _pack.type,
-          rarity: _result?.asset.rarity,
-          phase: _phase,
-          onBurstComplete: () => setState(() => _phase = OpeningPhase.walkout),
-        ),
-      ),
+    OpeningPhase.ready || OpeningPhase.shaking || OpeningPhase.charging || OpeningPhase.burst => OpeningPack(
+      key: ValueKey(_index),
+      type: _pack.type,
+      rarity: _result?.asset.rarity,
+      phase: _phase,
+      onHoldComplete: _open,
+      onBurstComplete: () => setState(() => _phase = OpeningPhase.walkout),
     ),
     OpeningPhase.walkout => WalkoutSequence(
       key: ValueKey(_index),
@@ -189,13 +205,13 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
           totalCards: totalCards,
           onRevealed: _onRevealed,
         ),
-        Opacity(
-          opacity: _phase == OpeningPhase.revealed ? 1 : 0,
-          child: _ResultBadge(result: _results.last),
+        SizedBox(
+          height: 40,
+          child: _phase == OpeningPhase.revealed ? _ResultBadge(result: _results.last) : null,
         ),
       ],
     ),
-    OpeningPhase.summary => OpeningSummary(results: _results, totalCards: totalCards),
+    OpeningPhase.summary => _Summary(results: _results, totalCards: totalCards),
   };
 
   Widget? _buildAction() {
@@ -204,7 +220,7 @@ class _PackOpeningScreenState extends ConsumerState<PackOpeningScreen> {
     return switch (_phase) {
       OpeningPhase.ready || OpeningPhase.walkout => Center(
         child: Text(
-          _phase == OpeningPhase.ready ? 'Tap the pack to open it' : 'Tap to skip',
+          _phase == OpeningPhase.ready ? 'Hold the pack to open it' : 'Tap to skip',
           style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontWeight: .w600),
         ),
       ),
@@ -283,21 +299,101 @@ class _ResultBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = result.newAsset ? AppColors.positive : AppColors.rare;
+    const textStyle = TextStyle(color: Colors.white, fontWeight: .w800);
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(999)),
-      child: Row(
-        mainAxisSize: .min,
-        spacing: 6,
-        children: [
-          Icon(result.newAsset ? Icons.fiber_new : Icons.diamond, color: Colors.white, size: 20),
-          Text(
-            result.newAsset ? 'New card!' : 'Duplicate · +${result.gemsEarned} gems',
-            style: const TextStyle(color: Colors.white, fontWeight: .w800),
-          ),
-        ],
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.elasticOut,
+      builder: (context, scale, child) => Transform.scale(scale: scale, child: child),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(999),
+          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 16)],
+        ),
+        child: Row(
+          mainAxisSize: .min,
+          spacing: 6,
+          children: [
+            Icon(result.newAsset ? Icons.fiber_new : Icons.diamond, color: Colors.white, size: 20),
+            if (result.newAsset)
+              const Text('New card!', style: textStyle)
+            else
+              TweenAnimationBuilder<int>(
+                tween: IntTween(begin: 0, end: result.gemsEarned),
+                duration: const Duration(milliseconds: 1200),
+                curve: Curves.easeOutCubic,
+                builder: (context, gems, _) => Text('Duplicate · +$gems gems', style: textStyle),
+              ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+enum OpeningPhase {
+  ready,
+  shaking,
+  charging,
+  burst,
+  walkout,
+  reveal,
+  revealed,
+  summary;
+
+  bool get isAnimating =>
+      this == shaking || this == charging || this == burst || this == walkout || this == reveal;
+}
+
+class _Summary extends StatelessWidget {
+  final List<PackOpeningResult> results;
+  final int totalCards;
+
+  const _Summary({required this.results, required this.totalCards});
+
+  @override
+  Widget build(BuildContext context) {
+    final newCards = results.where((result) => result.newAsset).length;
+    final gemsEarned = results.fold(0, (sum, result) => sum + result.gemsEarned);
+
+    return Column(
+      spacing: 8,
+      children: [
+        const Text('Your pulls', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: .w900)),
+        Text(
+          '$newCards new ${newCards == 1 ? 'card' : 'cards'} · +$gemsEarned gems',
+          style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
+        ),
+        Expanded(
+          child: results.length == 1
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 300),
+                      child: FadeSlideIn(child: AssetCard(card: results.single.asset, totalCards: totalCards)),
+                    ),
+                  ),
+                )
+              : GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: AssetCard.aspectRatio,
+                  ),
+                  itemCount: results.length,
+                  itemBuilder: (context, index) => FadeSlideIn(
+                    index: index * 2,
+                    child: AssetCard(card: results[index].asset, totalCards: totalCards),
+                  ),
+                ),
+        ),
+      ],
     );
   }
 }

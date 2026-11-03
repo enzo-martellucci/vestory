@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/widgets/flip_card.dart';
 import 'package:mobile/features/cards/data/models/asset.dart';
-import 'package:mobile/features/cards/presentation/widgets/recto/asset_card_front.dart';
-import 'package:mobile/features/cards/presentation/widgets/verso/asset_card_back.dart';
+import 'package:mobile/features/cards/presentation/widgets/card_back.dart';
+import 'package:mobile/features/cards/presentation/widgets/card_front.dart';
 import 'package:mobile/features/market/presentation/market_providers.dart';
 
 class AssetCard extends ConsumerStatefulWidget {

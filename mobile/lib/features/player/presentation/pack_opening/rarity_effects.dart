@@ -7,8 +7,8 @@ extension RarityEffects on Rarity {
 
   Duration get chargeDuration => switch (this) {
     Rarity.common || Rarity.rare => Duration.zero,
-    Rarity.epic => const Duration(milliseconds: 400),
-    Rarity.legendary => const Duration(seconds: 1),
+    Rarity.epic => const Duration(milliseconds: 800),
+    Rarity.legendary => const Duration(milliseconds: 1800),
   };
 
   int get particleCount => switch (this) {
@@ -19,9 +19,9 @@ extension RarityEffects on Rarity {
   };
 
   Duration get revealDuration => switch (this) {
-    Rarity.common || Rarity.rare => const Duration(milliseconds: 1200),
-    Rarity.epic => const Duration(milliseconds: 1400),
-    Rarity.legendary => const Duration(seconds: 2),
+    Rarity.common || Rarity.rare => const Duration(milliseconds: 1800),
+    Rarity.epic => const Duration(milliseconds: 2100),
+    Rarity.legendary => const Duration(seconds: 3),
   };
 
   Duration get walkoutStepDuration => switch (this) {

@@ -67,6 +67,30 @@ abstract final class AppTheme {
           textStyle: GoogleFonts.dmSans(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: AppColors.muted,
+          selectedBackgroundColor: AppColors.indigo,
+          selectedForegroundColor: Colors.white,
+          side: const BorderSide(color: AppColors.cardBorder),
+          textStyle: GoogleFonts.dmSans(fontSize: 14, fontWeight: FontWeight.w700),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: AppColors.ink,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: Colors.white,
+        showDragHandle: true,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
+      ),
     );
   }
 

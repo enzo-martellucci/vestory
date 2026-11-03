@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
+import 'package:mobile/core/widgets/app_screen.dart';
 import 'package:mobile/core/widgets/error_view.dart';
 import 'package:mobile/features/cards/data/models/asset.dart';
 import 'package:mobile/features/cards/presentation/card_query.dart';
@@ -29,8 +30,8 @@ class CardsScreen extends ConsumerWidget {
 
     Future<void> refresh() => Future.wait([ref.refresh(assetsProvider.future), ref.refresh(collectionProvider.future)]);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Collection', style: TextStyle(fontWeight: .w800))),
+    return AppScreen(
+      title: 'Collection',
       body: Column(
         children: [
           Padding(

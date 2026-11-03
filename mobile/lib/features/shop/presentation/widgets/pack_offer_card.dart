@@ -4,9 +4,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/network/api_error_message.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/app_panel.dart';
-import 'package:mobile/features/player/data/models/pack_type.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 import 'package:mobile/features/player/data/player_repository.dart';
 import 'package:mobile/features/player/presentation/player_providers.dart';
+import 'package:mobile/features/player/presentation/widgets/open_packs_sheet.dart';
 import 'package:mobile/features/player/presentation/widgets/pack_visual.dart';
 import 'package:mobile/features/shop/presentation/widgets/pack_odds_bar.dart';
 
@@ -43,7 +44,18 @@ class _PackOfferCardState extends ConsumerState<PackOfferCard> {
     try {
       final pack = await ref.read(playerRepositoryProvider).buyPack(type);
       ref.invalidate(playerProfileProvider);
-      if (mounted)
+      if (!mounted)
+        return;
+      setState(() => _buying = false);
+
+      final openNow = await confirmOpenPacks(
+        context,
+        [pack],
+        title: '${type.label} pack purchased!',
+        confirmLabel: 'Open now',
+        cancelLabel: 'Later',
+      );
+      if (openNow && mounted)
         context.push('/packs/open', extra: [pack]);
     } catch (error) {
       if (mounted)

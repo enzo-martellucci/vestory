@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/features/cards/data/models/rarity.dart';
-import 'package:mobile/features/player/data/models/pack_type.dart';
+import 'package:mobile/features/player/data/models/pack.dart';
 
 class PackOddsBar extends StatelessWidget {
   final PackType type;
