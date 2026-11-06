@@ -3,21 +3,15 @@ import 'package:material_ui/material_ui.dart';
 class ShineSweep extends StatefulWidget {
   final Widget child;
   final BorderRadius borderRadius;
-  final Duration period;
 
-  const ShineSweep({
-    super.key,
-    required this.child,
-    this.borderRadius = BorderRadius.zero,
-    this.period = const Duration(milliseconds: 2800),
-  });
+  const ShineSweep({super.key, required this.child, this.borderRadius = BorderRadius.zero});
 
   @override
   State<ShineSweep> createState() => _ShineSweepState();
 }
 
 class _ShineSweepState extends State<ShineSweep> with SingleTickerProviderStateMixin {
-  late final _controller = AnimationController(vsync: this, duration: widget.period)..repeat();
+  late final _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 2800))..repeat();
 
   @override
   void dispose() {

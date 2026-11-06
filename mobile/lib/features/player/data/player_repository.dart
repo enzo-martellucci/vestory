@@ -1,48 +1,35 @@
-import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile/core/network/api_exception.dart';
-import 'package:mobile/core/network/dio_provider.dart';
-import 'package:mobile/features/player/data/models/pack.dart';
-import 'package:mobile/features/player/data/models/player_profile.dart';
+import 'package:mobile/core/database/app_database.dart';
+import 'package:mobile/features/player/domain/player_rules.dart';
 
-final playerRepositoryProvider = Provider<PlayerRepository>((ref) => PlayerRepository(dio: ref.watch(dioProvider)));
+final playerRepositoryProvider = Provider<PlayerRepository>((ref) => PlayerRepository(ref.watch(appDatabaseProvider)));
 
 class PlayerRepository {
-  final Dio dio;
+  final AppDatabase database;
 
-  PlayerRepository({required this.dio});
+  PlayerRepository(this.database);
 
-  Future<PlayerProfile> getProfile() => _call(() async {
-    final response = await dio.get('/api/me/profile');
-    return PlayerProfile.fromJson(response.data);
+  Stream<Player?> watch() => database.select(database.playerTable).watchSingleOrNull();
+
+  Future<void> create(String username) => database.into(database.playerTable).insert(
+    PlayerTableCompanion.insert(username: username.trim(), gems: startingGems),
+  );
+
+  Future<void> addGems(int amount) => database.transaction(() async {
+    final player = await database.select(database.playerTable).getSingle();
+    await database.update(database.playerTable).write(PlayerTableCompanion(gems: Value(player.gems + amount)));
   });
 
-  Future<List<OwnedAsset>> getCollection() => _call(() async {
-    final response = await dio.get('/api/me/assets');
-    final assets = response.data as List<dynamic>;
-    return assets.map((json) => OwnedAsset.fromJson(json as Map<String, dynamic>)).toList();
-  });
+  Future<void> resetDailyPack() =>
+      database.update(database.playerTable).write(const PlayerTableCompanion(lastDailyPackAt: Value(null)));
 
-  Future<UserPack> claimDailyPack() => _call(() async {
-    final response = await dio.post('/api/me/packs/daily');
-    return UserPack.fromJson(response.data);
+  Future<void> reset() => database.transaction(() async {
+    await database.delete(database.tradeTable).go();
+    await database.delete(database.gameTable).go();
+    await database.delete(database.playerTable).go();
+    await database.update(database.assetTable).write(
+      const AssetTableCompanion(quantity: Value(0), lastObtainedAt: Value(null)),
+    );
   });
-
-  Future<UserPack> buyPack(PackType type) => _call(() async {
-    final response = await dio.post('/api/me/packs/buy', data: {'type': type.name.toUpperCase()});
-    return UserPack.fromJson(response.data);
-  });
-
-  Future<PackOpeningResult> openPack(String packId) => _call(() async {
-    final response = await dio.post('/api/me/packs/$packId/open');
-    return PackOpeningResult.fromJson(response.data);
-  });
-
-  Future<T> _call<T>(Future<T> Function() request) async {
-    try {
-      return await request();
-    } on DioException catch (exception) {
-      throw exception.toApiException();
-    }
-  }
 }

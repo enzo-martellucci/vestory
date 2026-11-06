@@ -1,11 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile/features/player/data/models/player_profile.dart';
+import 'package:mobile/core/database/app_database.dart';
 import 'package:mobile/features/player/data/player_repository.dart';
 
-final playerProfileProvider = FutureProvider.autoDispose<PlayerProfile>(
-  (ref) => ref.watch(playerRepositoryProvider).getProfile(),
-);
-
-final collectionProvider = FutureProvider.autoDispose<List<OwnedAsset>>(
-  (ref) => ref.watch(playerRepositoryProvider).getCollection(),
-);
+final playerProvider = StreamProvider<Player?>((ref) => ref.watch(playerRepositoryProvider).watch());
