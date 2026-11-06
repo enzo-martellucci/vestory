@@ -1,48 +1,62 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile/core/cache/json_cache.dart';
-import 'package:mobile/core/formatting/freshness.dart';
-import 'package:mobile/core/network/api_exception.dart';
-import 'package:mobile/core/network/dio_provider.dart';
-import 'package:mobile/features/market/data/models/financial_history.dart';
-import 'package:mobile/features/market/data/models/financial_quote.dart';
+import 'package:mobile/core/database/app_database.dart';
+import 'package:mobile/core/network/market_client.dart';
+import 'package:mobile/core/time/year_month.dart';
+import 'package:mobile/features/market/domain/price_history.dart';
+import 'package:mobile/features/market/domain/quote.dart';
 
-final marketRepositoryProvider = Provider<MarketRepository>(
-  (ref) => MarketRepository(dio: ref.watch(dioProvider), cache: ref.watch(jsonCacheProvider)),
-);
+final marketRepositoryProvider = Provider<MarketRepository>((ref) => MarketRepository(ref.watch(marketClientProvider)));
 
 class MarketRepository {
-  final Dio dio;
-  final JsonCache cache;
-  final DateTime Function() now;
+  final MarketClient client;
+  final Duration quoteFreshness;
 
-  MarketRepository({required this.dio, required this.cache, this.now = DateTime.now});
+  MarketRepository(this.client, {this.quoteFreshness = const Duration(hours: 12)});
 
-  Future<FinancialQuote> getQuote(int financialAssetId) async {
-    final entry = await _load('quote:$financialAssetId', '/api/market/assets/$financialAssetId/quote');
-    return FinancialQuote.fromJson(entry.json, fetchedAt: entry.fetchedAt);
-  }
+  Future<PriceHistory> history(Asset asset) => _get(
+    '/time_series',
+    {
+      ..._symbolOf(asset),
+      'interval': '1month',
+      'start_date': '${historyStartMonth.year}-01-01',
+      'outputsize': 5000,
+      'order': 'ASC',
+    },
+    client.cacheOptions,
+    (body) => PriceHistory({
+      for (final value in (body['values'] as List<dynamic>).cast<Map<String, dynamic>>())
+        YearMonth.parse(value['datetime'] as String): double.parse(value['close'] as String),
+    }),
+  );
 
-  Future<FinancialHistory> getHistory(int financialAssetId) async {
-    final entry = await _load('history:$financialAssetId', '/api/market/assets/$financialAssetId/history');
-    return FinancialHistory.fromJson(entry.json, fetchedAt: entry.fetchedAt);
-  }
+  Future<Quote> quote(Asset asset) => _get(
+    '/quote',
+    _symbolOf(asset),
+    client.cacheOptions.copyWith(maxStale: quoteFreshness),
+    (body) => Quote(
+      price: double.parse(body['close'] as String),
+      change: double.tryParse(body['change'] as String? ?? '') ?? 0,
+      changePercent: (double.tryParse(body['percent_change'] as String? ?? '') ?? 0) / 100,
+      isMarketOpen: body['is_market_open'] as bool? ?? false,
+    ),
+  );
 
-  Future<CachedJson> _load(String key, String path) async {
-    final cached = await cache.read(key);
-    if (cached != null && isSameDay(cached.fetchedAt.toLocal(), now().toLocal()))
-      return cached;
+  Map<String, String> _symbolOf(Asset asset) => {
+    'symbol': asset.marketSymbol ?? asset.symbol,
+    if (asset.micCode != null) 'mic_code': asset.micCode!,
+  };
 
+  Future<T> _get<T>(String path, Map<String, Object> parameters, CacheOptions options, T Function(Map<String, dynamic>) parse) async {
     try {
-      final response = await dio.get(path);
-      final json = response.data as Map<String, dynamic>;
-      final fetchedAt = now();
-      await cache.write(key, json, fetchedAt);
-      return CachedJson(json, fetchedAt);
+      final response = await client.dio.get<Map<String, dynamic>>(path, queryParameters: parameters, options: options.toOptions());
+      final body = response.data!;
+      if (body['status'] == 'error')
+        throw MarketException(body['message'] as String? ?? 'Market data is unavailable for this asset.');
+      return parse(body);
     } on DioException catch (exception) {
-      if (cached != null)
-        return cached;
-      throw exception.toApiException();
+      throw MarketException.from(exception);
     }
   }
 }

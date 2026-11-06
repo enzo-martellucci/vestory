@@ -3,99 +3,69 @@ import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 abstract final class AppTheme {
-  static ThemeData get light {
-    final textTheme = GoogleFonts.dmSansTextTheme().apply(bodyColor: AppColors.ink, displayColor: AppColors.ink);
-    final buttonTextStyle = GoogleFonts.dmSans(fontSize: 16, fontWeight: FontWeight.w700);
-    final buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
+  static TextStyle display(double size, {FontWeight weight = FontWeight.w700, Color color = AppColors.ink}) =>
+      GoogleFonts.spaceGrotesk(fontSize: size, fontWeight: weight, color: color, height: 1.1);
 
-    return ThemeData(
+  static ThemeData get light {
+    final radius = BorderRadius.circular(16);
+    final base = ThemeData(
+      useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.indigo,
-        primary: AppColors.indigo,
-        surface: AppColors.vanilla,
-        onSurface: AppColors.ink,
-        error: AppColors.error,
+        seedColor: AppColors.primary,
+        primary: AppColors.primary,
+        surface: AppColors.surface,
+        error: AppColors.negative,
       ),
-      scaffoldBackgroundColor: AppColors.vanilla,
-      textTheme: textTheme.copyWith(
-        displaySmall: GoogleFonts.bricolageGrotesque(
-          fontSize: 40,
-          fontWeight: FontWeight.w800,
-          letterSpacing: -1,
-          color: AppColors.indigo,
-        ),
-        headlineMedium: GoogleFonts.bricolageGrotesque(
-          fontSize: 32,
-          fontWeight: FontWeight.w800,
-          letterSpacing: -0.8,
-          color: AppColors.indigo,
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        hintStyle: const TextStyle(color: AppColors.muted),
-        errorStyle: const TextStyle(color: AppColors.error, fontSize: 13, fontWeight: FontWeight.w600),
-        enabledBorder: _fieldBorder(AppColors.fieldBorder),
-        focusedBorder: _fieldBorder(AppColors.indigo),
-        errorBorder: _fieldBorder(AppColors.error),
-        focusedErrorBorder: _fieldBorder(AppColors.error),
+      scaffoldBackgroundColor: AppColors.background,
+    );
+
+    return base.copyWith(
+      textTheme: GoogleFonts.interTextTheme(base.textTheme).apply(bodyColor: AppColors.ink, displayColor: AppColors.ink),
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.background,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle: display(24),
+        foregroundColor: AppColors.ink,
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(54),
-          backgroundColor: AppColors.indigo,
-          foregroundColor: Colors.white,
-          textStyle: buttonTextStyle,
-          shape: buttonShape,
+          minimumSize: const Size(0, 52),
+          shape: RoundedRectangleBorder(borderRadius: radius),
+          textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(54),
-          backgroundColor: Colors.white,
+          minimumSize: const Size(0, 52),
+          shape: RoundedRectangleBorder(borderRadius: radius),
+          side: const BorderSide(color: AppColors.border, width: 1.5),
           foregroundColor: AppColors.ink,
-          side: const BorderSide(color: AppColors.fieldBorder, width: 1.5),
-          textStyle: buttonTextStyle,
-          shape: buttonShape,
+          textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700),
         ),
       ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: AppColors.indigo,
-          textStyle: GoogleFonts.dmSans(fontSize: 15, fontWeight: FontWeight.w700),
-        ),
-      ),
-      segmentedButtonTheme: SegmentedButtonThemeData(
-        style: SegmentedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: AppColors.muted,
-          selectedBackgroundColor: AppColors.indigo,
-          selectedForegroundColor: Colors.white,
-          side: const BorderSide(color: AppColors.cardBorder),
-          textStyle: GoogleFonts.dmSans(fontSize: 14, fontWeight: FontWeight.w700),
-        ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.surface,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        border: OutlineInputBorder(borderRadius: radius, borderSide: const BorderSide(color: AppColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: radius, borderSide: const BorderSide(color: AppColors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: radius, borderSide: const BorderSide(color: AppColors.primary, width: 2)),
+        errorBorder: OutlineInputBorder(borderRadius: radius, borderSide: const BorderSide(color: AppColors.negative)),
+        focusedErrorBorder: OutlineInputBorder(borderRadius: radius, borderSide: const BorderSide(color: AppColors.negative, width: 2)),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         backgroundColor: AppColors.ink,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      ),
-      dialogTheme: DialogThemeData(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: radius),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
+        surfaceTintColor: Colors.transparent,
         showDragHandle: true,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
       ),
+      dialogTheme: DialogThemeData(backgroundColor: AppColors.surface, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
     );
   }
-
-  static OutlineInputBorder _fieldBorder(Color color) => OutlineInputBorder(
-    borderRadius: BorderRadius.circular(14),
-    borderSide: BorderSide(color: color, width: 1.5),
-  );
 }

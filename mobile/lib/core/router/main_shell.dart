@@ -3,12 +3,12 @@ import 'package:material_ui/material_ui.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 
 class MainShell extends StatelessWidget {
-  static const _tabs = [
-    (icon: Icons.home_outlined, label: 'Home'),
-    (icon: Icons.style_outlined, label: 'Collection'),
-    (icon: Icons.shopping_bag_outlined, label: 'Shop'),
-    (icon: Icons.trending_up, label: 'Invest'),
-    (icon: Icons.person_outline, label: 'Profile'),
+  static const _icons = [
+    Icons.home_rounded,
+    Icons.style_rounded,
+    Icons.storefront_rounded,
+    Icons.show_chart_rounded,
+    Icons.person_rounded,
   ];
 
   final StatefulNavigationShell navigationShell;
@@ -18,33 +18,57 @@ class MainShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: navigationShell,
       bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+        minimum: const EdgeInsets.fromLTRB(24, 0, 24, 16),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          height: 64,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.ink,
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: AppColors.cardBorder),
-            boxShadow: [BoxShadow(color: AppColors.ink.withValues(alpha: 0.14), blurRadius: 32, offset: const Offset(0, 12))],
+            boxShadow: [BoxShadow(color: AppColors.ink.withValues(alpha: 0.3), blurRadius: 24, offset: const Offset(0, 10))],
           ),
           child: Row(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              for (final (index, tab) in _tabs.indexed)
-                IconButton(
-                  onPressed: () => navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex),
-                  tooltip: tab.label,
-                  icon: Icon(tab.icon),
-                  style: IconButton.styleFrom(
-                    fixedSize: const Size.square(52),
-                    backgroundColor: index == navigationShell.currentIndex ? AppColors.indigo : Colors.transparent,
-                    foregroundColor: index == navigationShell.currentIndex ? Colors.white : AppColors.muted,
-                  ),
+              for (final (index, icon) in _icons.indexed)
+                _NavItem(
+                  icon: icon,
+                  selected: navigationShell.currentIndex == index,
+                  onTap: () => navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex),
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavItem extends StatelessWidget {
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _NavItem({required this.icon, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(color: selected ? AppColors.primary : Colors.transparent, shape: BoxShape.circle),
+        child: AnimatedScale(
+          scale: selected ? 1.1 : 1,
+          duration: const Duration(milliseconds: 250),
+          child: Icon(icon, color: selected ? Colors.white : Colors.white54),
         ),
       ),
     );
